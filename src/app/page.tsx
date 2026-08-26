@@ -16,7 +16,7 @@ export default function HomePage() {
     <>
       <CustomCursor />
       <Header />
-      <main>
+      <main id="main">
         <Hero />
         <Approach />
         <Solutions />

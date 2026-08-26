@@ -182,13 +182,13 @@ export function Hero() {
         style={{ background: glow }}
       />
 
-      <div className="container-wide relative grid min-h-[calc(100svh-72px)] items-center gap-10 py-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8 lg:py-16">
+      <div className="container-wide relative grid min-h-[calc(100svh-72px)] items-center gap-8 py-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8 lg:py-12">
         <div className="relative z-10 max-w-3xl">
           <motion.p
             initial={reduce ? false : { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="eyebrow mb-6"
+            className="eyebrow mb-5"
           >
             Studio digital indépendant
           </motion.p>
@@ -209,7 +209,7 @@ export function Hero() {
             initial={reduce ? false : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="lede mt-7"
+            className="lede mt-6"
           >
             Sites web, applications mobiles, plateformes et outils métiers —
             conçus et développés entièrement sur mesure, de la première idée
@@ -220,7 +220,7 @@ export function Hero() {
             initial={reduce ? false : { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-9 flex flex-wrap items-center gap-3"
+            className="mt-8 flex flex-wrap items-center gap-3"
           >
             <a href="#contact" className="btn btn-primary" data-cursor="interactive">
               Parler de mon projet
@@ -235,7 +235,7 @@ export function Hero() {
             initial={reduce ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-12 flex flex-wrap gap-2"
+            className="mt-8 flex flex-wrap gap-2"
             aria-label="Capacités"
           >
             {capabilities.map((cap) => (
