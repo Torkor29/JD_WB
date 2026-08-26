@@ -129,7 +129,6 @@ function ProjectBlock({ project, index }: { project: Project; index: number }) {
   const rotate = useTransform(scrollYProgress, [0, 1], index % 2 === 0 ? [-1.2, 1.2] : [1.2, -1.2]);
 
   const isFull = project.layout === "full";
-  const isSplitLeft = project.layout === "split-left";
   const isSplitRight = project.layout === "split-right";
 
   return (
