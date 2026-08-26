@@ -33,82 +33,115 @@ function DeviceStack({
 
   return (
     <motion.div
-      className="relative mx-auto aspect-[4/5] w-full max-w-[480px] [perspective:1200px]"
+      className="relative mx-auto aspect-[4/5] w-full max-w-[520px] [perspective:1200px]"
       style={{ rotateX, rotateY, x: tx, y: ty }}
     >
       <motion.div
-        className="absolute inset-[8%_4%_18%_18%] rounded-2xl border border-line bg-surface-raised/90 p-4 shadow-2xl"
+        className="absolute inset-[4%_2%_22%_14%] overflow-hidden rounded-[1.35rem] border border-accent/20 bg-surface-raised shadow-[0_40px_100px_rgba(0,0,0,0.55)]"
         style={{ x: backX, y: backY }}
       >
-        <div className="mb-3 flex items-center justify-between">
-          <span className="text-[0.65rem] uppercase tracking-[0.16em] text-mist">
+        <div className="flex items-center justify-between border-b border-line bg-ink/40 px-4 py-3">
+          <span className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-accent">
             Plateforme
           </span>
-          <span className="h-2 w-2 rounded-full bg-accent" />
+          <span className="flex items-center gap-2 text-[0.65rem] text-mist">
+            <span className="h-2 w-2 animate-pulse rounded-full bg-accent" />
+            Live
+          </span>
         </div>
-        <div className="grid gap-2">
-          {[72, 54, 66, 40].map((w, i) => (
-            <div
-              key={i}
-              className="h-2.5 rounded-full bg-ivory/10"
-              style={{ width: `${w}%` }}
-            />
-          ))}
-          <div className="mt-2 grid grid-cols-3 gap-2">
-            {[1, 2, 3].map((i) => (
+        <div className="grid gap-3 p-4">
+          <div className="rounded-xl bg-gradient-to-r from-forest/40 via-accent/10 to-transparent p-3">
+            <p className="font-display text-lg tracking-tight">Tableau de bord</p>
+            <p className="mt-1 text-xs text-mist">Suivi · Modules · Automatisations</p>
+          </div>
+          <div className="grid grid-cols-3 gap-2">
+            {["Web", "Data", "Ops"].map((label) => (
               <div
-                key={i}
-                className="aspect-square rounded-lg bg-accent/10 ring-1 ring-accent/20"
-              />
+                key={label}
+                className="rounded-lg border border-line bg-ink/50 px-2 py-3 text-center"
+              >
+                <div className="mx-auto mb-2 h-8 w-8 rounded-md bg-accent/20 ring-1 ring-accent/30" />
+                <span className="text-[0.65rem] text-mist">{label}</span>
+              </div>
+            ))}
+          </div>
+          <div className="space-y-2">
+            {[78, 52, 64].map((w, i) => (
+              <div key={i} className="h-2 rounded-full bg-ivory/10">
+                <div
+                  className="h-2 rounded-full bg-accent/70"
+                  style={{ width: `${w}%` }}
+                />
+              </div>
             ))}
           </div>
         </div>
       </motion.div>
 
       <motion.div
-        className="absolute left-[6%] top-[16%] h-[58%] w-[38%] rounded-[1.4rem] border border-line bg-ink p-2 shadow-2xl"
+        className="absolute left-[2%] top-[12%] h-[62%] w-[40%] rounded-[1.55rem] border border-ivory/15 bg-ink p-2 shadow-[0_25px_60px_rgba(0,0,0,0.5)]"
         style={{ x: midX, y: midY }}
       >
-        <div className="h-full rounded-[1.05rem] bg-surface p-3">
-          <div className="mb-3 h-1.5 w-10 rounded-full bg-ivory/20" />
-          <div className="space-y-2">
-            <div className="h-16 rounded-xl bg-gradient-to-br from-forest/50 to-accent/20" />
-            <div className="h-2 w-[75%] rounded-full bg-ivory/15" />
-            <div className="h-2 w-1/2 rounded-full bg-ivory/10" />
-            <div className="mt-4 rounded-full bg-accent px-3 py-2 text-center text-[0.55rem] font-semibold text-cta-fg">
-              Ouvrir
+        <div className="relative h-full overflow-hidden rounded-[1.15rem] bg-surface">
+          <div className="absolute left-1/2 top-2 h-1.5 w-12 -translate-x-1/2 rounded-full bg-ivory/15" />
+          <div className="flex h-full flex-col p-3 pt-6">
+            <p className="text-[0.6rem] uppercase tracking-[0.14em] text-accent">Mobile</p>
+            <div className="mt-3 flex-1 rounded-xl bg-gradient-to-br from-accent/25 via-forest/30 to-ink p-3">
+              <div className="h-2 w-16 rounded-full bg-ivory/30" />
+              <div className="mt-3 space-y-1.5">
+                <div className="h-1.5 w-full rounded-full bg-ivory/20" />
+                <div className="h-1.5 w-2/3 rounded-full bg-ivory/15" />
+              </div>
+            </div>
+            <div className="mt-3 rounded-full bg-accent px-3 py-2 text-center text-[0.6rem] font-bold text-cta-fg">
+              Ouvrir l’app
             </div>
           </div>
         </div>
       </motion.div>
 
       <motion.div
-        className="absolute bottom-[6%] right-[2%] h-[48%] w-[68%] overflow-hidden rounded-2xl border border-line bg-[#0e1311] shadow-[0_30px_80px_rgba(0,0,0,0.45)]"
+        className="absolute bottom-[4%] right-0 h-[50%] w-[72%] overflow-hidden rounded-2xl border border-line bg-[#0c110f] shadow-[0_35px_90px_rgba(0,0,0,0.55)]"
         style={{ x: frontX, y: frontY }}
       >
-        <div className="flex items-center gap-1.5 border-b border-line px-3 py-2">
-          <span className="h-2 w-2 rounded-full bg-ivory/20" />
-          <span className="h-2 w-2 rounded-full bg-ivory/20" />
-          <span className="h-2 w-2 rounded-full bg-ivory/20" />
-          <span className="ml-2 h-2 flex-1 rounded-full bg-ivory/10" />
+        <div className="flex items-center gap-1.5 border-b border-line px-3 py-2.5">
+          <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]/40" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]/40" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]/40" />
+          <span className="ml-2 h-2.5 flex-1 rounded-full bg-ivory/10" />
+          <span className="text-[0.6rem] uppercase tracking-[0.12em] text-mist">Web</span>
         </div>
-        <div className="grid h-[calc(100%-2rem)] grid-cols-[0.35fr_1fr] gap-2 p-3">
-          <div className="space-y-2 rounded-lg bg-surface p-2">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-2 rounded-full bg-ivory/10" />
+        <div className="grid h-[calc(100%-2.4rem)] grid-cols-[0.32fr_1fr] gap-2 p-3">
+          <div className="space-y-2 rounded-lg bg-surface p-2.5">
+            {["Accueil", "Produit", "Clients", "Réglages"].map((item) => (
+              <div
+                key={item}
+                className={`rounded-md px-2 py-1.5 text-[0.58rem] ${
+                  item === "Produit"
+                    ? "bg-accent/20 text-accent"
+                    : "bg-ivory/5 text-mist"
+                }`}
+              >
+                {item}
+              </div>
             ))}
           </div>
           <div className="rounded-lg bg-gradient-to-br from-surface-raised to-ink-mute p-3">
-            <div className="mb-3 font-display text-sm tracking-tight">Produit</div>
+            <div className="mb-3 flex items-center justify-between">
+              <span className="font-display text-sm tracking-tight">Produit</span>
+              <span className="rounded-full bg-accent px-2 py-0.5 text-[0.55rem] font-semibold text-cta-fg">
+                Sur mesure
+              </span>
+            </div>
             <div className="grid grid-cols-2 gap-2">
-              <div className="h-14 rounded-md bg-accent/15 ring-1 ring-accent/25" />
-              <div className="h-14 rounded-md bg-forest/30 ring-1 ring-forest/40" />
+              <div className="h-16 rounded-md bg-accent/20 ring-1 ring-accent/30" />
+              <div className="h-16 rounded-md bg-forest/40 ring-1 ring-forest/50" />
             </div>
           </div>
         </div>
       </motion.div>
 
-      <div className="pointer-events-none absolute -inset-8 -z-10 rounded-full bg-[radial-gradient(circle,rgba(212,243,74,0.14),transparent_65%)] blur-2xl" />
+      <div className="pointer-events-none absolute -inset-10 -z-10 rounded-full bg-[radial-gradient(circle,rgba(212,243,74,0.18),transparent_60%)] blur-2xl" />
     </motion.div>
   );
 }
