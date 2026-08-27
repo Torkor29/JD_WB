@@ -1,14 +1,14 @@
 export const siteConfig = {
   name: "Julien DOLOU",
   title:
-    "Julien DOLOU | Création de site web sur mesure, apps & logiciels métiers",
+    "Julien DOLOU | Studio digital — sites, apps & outils métiers | Bretagne",
   description:
-    "Vous avez une idée ? Je la transforme en produit numérique. Création de site web sur mesure, développement d’applications mobiles iOS/Android, applications web, plateformes et outils métiers. Devis clair, accompagnement de A à Z — Brest & France.",
+    "Breton, bord de mer. Je transforme vos idées en produits numériques sur mesure : sites web, applications, prise de RDV, fidélisation et outils métiers.",
   url: "https://juliendolou.fr",
   locale: "fr_FR",
   contactEmail:
     process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "contact@wenbot.club",
-  location: "Brest, France",
+  location: "Brest, Bretagne",
   legal: {
     status: "Entrepreneur individuel",
     siren: "981241417",
@@ -18,17 +18,10 @@ export const siteConfig = {
     activity: "Programmation informatique (6201Z)",
   },
   nav: [
-    { label: "Solutions", href: "#solutions" },
+    { label: "Histoire", href: "#histoire" },
+    { label: "Services", href: "#services" },
     { label: "Réalisations", href: "#realisations" },
-    { label: "Métiers", href: "#metiers" },
-    { label: "Devis", href: "#devis" },
+    { label: "Méthode", href: "#methode" },
     { label: "Contact", href: "#contact" },
   ],
 } as const;
-
-export const capabilities = [
-  "Site web",
-  "Application mobile",
-  "Application web",
-  "Outil métier",
-] as const;

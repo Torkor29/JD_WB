@@ -1,29 +1,21 @@
-import { Header } from "@/components/Header";
-import { Hero } from "@/components/Hero";
-import { Solutions } from "@/components/Solutions";
-import { Portfolio } from "@/components/Portfolio";
-import { Method } from "@/components/Method";
-import { Professions } from "@/components/Professions";
-import { QuoteEstimator } from "@/components/QuoteEstimator";
-import { FinalCTA } from "@/components/FinalCTA";
-import { Footer } from "@/components/Footer";
-import { CustomCursor } from "@/components/CustomCursor";
+import { CinematicHero } from "@/components/CinematicHero";
+import { AboutJulien } from "@/components/AboutJulien";
+import { StudioFeatures } from "@/components/StudioFeatures";
+import { RealisationsStrip } from "@/components/RealisationsStrip";
+import { MethodCinematic } from "@/components/MethodCinematic";
+import { ContactCinematic } from "@/components/ContactCinematic";
+import { FooterCinematic } from "@/components/FooterCinematic";
 
 export default function HomePage() {
   return (
-    <>
-      <CustomCursor />
-      <Header />
-      <main id="main">
-        <Hero />
-        <Solutions />
-        <Portfolio />
-        <Method />
-        <Professions />
-        <QuoteEstimator />
-        <FinalCTA />
-      </main>
-      <Footer />
-    </>
+    <main id="main">
+      <CinematicHero />
+      <AboutJulien />
+      <StudioFeatures />
+      <RealisationsStrip />
+      <MethodCinematic />
+      <ContactCinematic />
+      <FooterCinematic />
+    </main>
   );
 }
