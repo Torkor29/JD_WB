@@ -1,170 +1,117 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion, useInView } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-import { useRef } from "react";
-import { WordsPullUpMultiStyle } from "./WordsPullUpMultiStyle";
-import { FeatureMotion } from "./FeatureMotion";
-import type { FeatureMotionId } from "@/lib/capabilities";
-
-const services: {
-  n: string;
-  title: string;
-  text: string;
-  motion: FeatureMotionId | null;
-}[] = [
-  {
-    n: "01",
-    title: "Sites web",
-    text: "Vitrines et plateformes pensées pour convertir — jamais un template.",
-    motion: null,
-  },
-  {
-    n: "02",
-    title: "Applications",
-    text: "Mobile ou web : l’outil que vos clients et équipes utilisent vraiment.",
-    motion: "dashboard",
-  },
-  {
-    n: "03",
-    title: "Prise de RDV",
-    text: "Agenda en ligne, confirmations, rappels — sans friction.",
-    motion: "rdv",
-  },
-  {
-    n: "04",
-    title: "Outils métiers",
-    text: "Fidélisation, automatisation, suivi : votre process digitalisé.",
-    motion: "suivi",
-  },
-];
+import { AnimatePresence, motion } from "framer-motion";
+import { FeatureMotion } from "@/components/FeatureMotion";
+import { productCapabilities } from "@/lib/capabilities";
+import { siteConfig } from "@/lib/site";
 
 export function StudioFeatures() {
-  const [active, setActive] = useState(2);
-  const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-  const current = services[active];
+  const [active, setActive] = useState(0);
+  const current = productCapabilities[active];
 
   return (
-    <section id="services" ref={ref} className="relative section-pad bg-paper-soft">
-      <div className="container-site relative">
-        <div className="mx-auto max-w-3xl text-center">
-          <WordsPullUpMultiStyle
-            className="justify-center text-2xl font-normal sm:text-3xl md:text-4xl"
-            segments={[
-              {
-                text: "Des produits vivants.",
-                className: "text-ink",
-              },
-            ]}
-          />
-          <div className="mt-2">
-            <WordsPullUpMultiStyle
-              className="justify-center text-2xl font-normal sm:text-3xl md:text-4xl"
-              delay={0.2}
-              segments={[
-                {
-                  text: "Pas des pages figées.",
-                  className: "text-accent",
-                },
-              ]}
-            />
-          </div>
-          <p className="mx-auto mt-4 max-w-xl text-sm text-muted md:text-base">
-            Chaque service s’anime pour montrer concrètement ce que TiCode peut
-            construire pour vous.
+    <section id="services" className="border-t border-line bg-paper">
+      <div className="container-site section-pad">
+        <div className="max-w-2xl">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">
+            Ce que {siteConfig.name} construit
+          </p>
+          <h2 className="mt-4 font-display text-[clamp(1.75rem,4vw,3rem)] leading-[1.1] tracking-tight text-ink">
+            Sites, apps et outils métiers — paiement, RDV, fidélité inclus.
+          </h2>
+          <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-ink-soft sm:text-base">
+            Chaque aperçu ci-dessous montre une capacité produit réelle : ce que
+            vos clients utilisent, pas une démo décorative.
           </p>
         </div>
 
-        <div className="mt-12 grid items-stretch gap-6 lg:grid-cols-[1fr_1fr] lg:gap-10">
-          <div className="space-y-3">
-            {services.map((item, i) => {
-              const selected = active === i;
+        <div className="mt-12 grid min-w-0 gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-start lg:gap-10">
+          <div className="min-w-0 space-y-2">
+            {productCapabilities.map((item, index) => {
+              const isActive = index === active;
               return (
-                <motion.button
-                  key={item.n}
+                <button
+                  key={item.id}
                   type="button"
-                  initial={{ opacity: 0, x: -16 }}
-                  animate={inView ? { opacity: 1, x: 0 } : undefined}
-                  transition={{ delay: i * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                  onClick={() => setActive(i)}
-                  onMouseEnter={() => setActive(i)}
-                  className={`flex w-full items-start gap-4 rounded-2xl border px-5 py-4 text-left transition ${
-                    selected
-                      ? "border-accent/30 bg-white shadow-lift"
-                      : "border-line bg-white/70 hover:shadow-soft"
+                  onClick={() => setActive(index)}
+                  className={`w-full min-w-0 rounded-2xl border px-4 py-4 text-left transition sm:px-5 ${
+                    isActive
+                      ? "border-line bg-white shadow-soft"
+                      : "border-transparent bg-transparent hover:border-line hover:bg-white/70"
                   }`}
                 >
-                  <span className={`mt-0.5 text-sm font-bold ${selected ? "text-accent" : "text-muted"}`}>
-                    {item.n}
-                  </span>
-                  <span>
-                    <span className="block text-lg font-medium tracking-tight text-ink md:text-xl">
-                      {item.title}
+                  <div className="flex min-w-0 items-start gap-3 sm:gap-4">
+                    <span
+                      className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold ${
+                        isActive
+                          ? "bg-ink text-paper"
+                          : "bg-ink/[0.06] text-muted"
+                      }`}
+                    >
+                      {String(index + 1).padStart(2, "0")}
                     </span>
-                    <span className="mt-1 block text-sm text-muted">{item.text}</span>
-                  </span>
-                </motion.button>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex min-w-0 flex-wrap items-center gap-2">
+                        <h3 className="text-[15px] font-semibold tracking-tight text-ink sm:text-base">
+                          {item.title}
+                        </h3>
+                        <span className="rounded-full bg-ink/[0.05] px-2 py-0.5 text-[10px] font-medium text-muted">
+                          {item.tag}
+                        </span>
+                      </div>
+                      <AnimatePresence initial={false}>
+                        {isActive ? (
+                          <motion.div
+                            key="desc"
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.25 }}
+                            className="overflow-hidden"
+                          >
+                            <p className="mt-2 text-[13px] leading-relaxed text-ink-soft sm:text-sm">
+                              {item.description}
+                            </p>
+                          </motion.div>
+                        ) : null}
+                      </AnimatePresence>
+                    </div>
+                  </div>
+                </button>
               );
             })}
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : undefined}
-            transition={{ delay: 0.2, duration: 0.6 }}
-            className="relative flex min-h-[320px] flex-col justify-between overflow-hidden rounded-[1.5rem] border border-line bg-white p-5 shadow-card md:p-7"
-          >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={current.n}
-                initial={{ opacity: 0, y: 14, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <p className="text-xs font-bold uppercase tracking-[0.14em] text-accent">
-                  Aperçu motion
+          <div className="min-w-0 lg:sticky lg:top-24">
+            <div className="overflow-hidden rounded-[1.5rem] border border-line bg-white p-4 shadow-soft sm:p-5">
+              <div className="mb-3 flex min-w-0 items-center justify-between gap-3">
+                <p className="min-w-0 truncate text-[11px] font-medium uppercase tracking-[0.14em] text-muted">
+                  {current.previewLabel}
                 </p>
-                <h3 className="mt-2 text-2xl font-medium tracking-tight text-ink">
-                  {current.title}
-                </h3>
-                <div className="mt-5 max-w-md">
-                  {current.motion ? (
-                    <FeatureMotion id={current.motion} compact />
-                  ) : (
-                    <div className="rounded-2xl border border-line bg-paper-soft p-5">
-                      <div className="grid grid-cols-3 gap-2">
-                        {["Hero", "Offre", "Contact"].map((label, i) => (
-                          <motion.div
-                            key={label}
-                            initial={{ opacity: 0, y: 8 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.1 + i * 0.08 }}
-                            className="rounded-xl bg-white px-2 py-4 text-center text-xs font-semibold text-ink shadow-soft"
-                          >
-                            {label}
-                          </motion.div>
-                        ))}
-                      </div>
-                      <p className="mt-4 text-sm text-muted">
-                        Structure claire, CTA, design adapté à votre métier.
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </motion.div>
-            </AnimatePresence>
-
-            <a
-              href="#contact"
-              className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-accent transition hover:gap-3"
-            >
-              En parler
-              <ArrowRight size={14} className="-rotate-45" />
-            </a>
-          </motion.div>
+                <span className="shrink-0 rounded-full bg-ink/[0.05] px-2.5 py-1 text-[10px] font-medium text-ink-soft">
+                  Aperçu produit
+                </span>
+              </div>
+              <div className="overflow-hidden rounded-2xl border border-line bg-paper-soft p-3 sm:p-4">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={current.id}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                    className="min-w-0"
+                  >
+                    <FeatureMotion id={current.demo} />
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+              <p className="mt-3 text-[12px] leading-relaxed text-muted sm:text-[13px]">
+                {current.result}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </section>

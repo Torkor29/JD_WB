@@ -26,7 +26,10 @@ export function ContactCinematic() {
   };
 
   return (
-    <section id="contact" className="section-pad relative overflow-hidden bg-white">
+    <section
+      id="contact"
+      className="section-pad relative overflow-hidden bg-white"
+    >
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(700px_circle_at_50%_0%,rgba(31,94,255,0.08),transparent_55%)]"
@@ -35,16 +38,17 @@ export function ContactCinematic() {
         <p className="text-[10px] uppercase tracking-[0.18em] text-accent sm:text-xs">
           Contact
         </p>
-        <h2 className="mt-4 max-w-3xl text-4xl font-medium tracking-tight text-ink sm:text-5xl md:text-6xl">
+        <h2 className="mt-4 max-w-3xl text-[clamp(2rem,5vw,3.75rem)] font-medium leading-[1.08] tracking-tight text-ink">
           <WordsPullUp text="Alors, on construit ?" />
         </h2>
         <p className="mt-5 max-w-xl text-sm text-muted md:text-base">
-          Parlez-nous de votre idée — même floue. Réponse humaine, devis clair.
+          Site, app, paiement, RDV… Décrivez le besoin. Réponse humaine, devis
+          clair.
         </p>
 
         <form
           onSubmit={onSubmit}
-          className="mt-10 grid gap-4 rounded-[1.5rem] border border-line bg-paper-soft p-5 shadow-card sm:p-8 md:grid-cols-2"
+          className="mt-10 grid min-w-0 gap-4 overflow-hidden rounded-[1.5rem] border border-line bg-paper-soft p-5 shadow-card sm:p-8 md:grid-cols-2"
         >
           <label className="block">
             <span className="mb-2 block text-[10px] uppercase tracking-[0.14em] text-muted">

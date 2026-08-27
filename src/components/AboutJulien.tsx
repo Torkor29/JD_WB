@@ -6,14 +6,14 @@ import { siteConfig } from "@/lib/site";
 
 export function AboutJulien() {
   return (
-    <section id="histoire" className="section-pad bg-white">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="rounded-[1.5rem] border border-line bg-paper-soft px-5 py-12 text-center shadow-soft sm:rounded-[2rem] sm:px-10 sm:py-16 md:px-16 md:py-20">
+    <section id="histoire" className="section-pad overflow-hidden bg-white">
+      <div className="container-site">
+        <div className="overflow-hidden rounded-[1.5rem] border border-line bg-paper-soft px-5 py-12 text-center shadow-soft sm:rounded-[2rem] sm:px-10 sm:py-16 md:px-14 md:py-20">
           <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-accent sm:text-xs">
             {siteConfig.name} · Bretagne
           </p>
 
-          <div className="mx-auto mt-8 max-w-3xl text-3xl leading-[0.95] sm:text-4xl sm:leading-[0.9] md:text-5xl lg:text-6xl">
+          <div className="mx-auto mt-8 max-w-3xl text-[clamp(1.6rem,4.2vw,3.25rem)] leading-[1.05]">
             <WordsPullUpMultiStyle
               segments={[
                 {
@@ -33,8 +33,8 @@ export function AboutJulien() {
           </div>
 
           <ScrollRevealText
-            className="mx-auto mt-10 max-w-2xl text-xs leading-relaxed sm:text-sm md:text-base"
-            text="Depuis Brest, au bord de l’Atlantique, TiCode accompagne entrepreneurs, commerces et structures qui veulent un vrai outil — site, app ou logiciel métier — pas un template. Un seul interlocuteur, du cadrage au lancement, avec du motion design soigné."
+            className="mx-auto mt-8 max-w-2xl text-sm leading-relaxed text-muted sm:mt-10 sm:text-base"
+            text="Depuis Brest, au bord de l’Atlantique, TiCode accompagne entrepreneurs, commerces et structures qui veulent un vrai outil — site, app ou logiciel métier — pas un template. Un seul interlocuteur, du cadrage au lancement."
           />
         </div>
       </div>

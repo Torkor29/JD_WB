@@ -1,78 +1,96 @@
-export type FeatureMotionId =
+export type FeatureDemoId =
+  | "paiement"
+  | "app"
+  | "webapp"
   | "rdv"
-  | "fidelite"
-  | "dashboard"
-  | "reservation"
-  | "suivi";
+  | "fidelite";
+
+export type ProductCapability = {
+  id: string;
+  title: string;
+  tag: string;
+  description: string;
+  previewLabel: string;
+  result: string;
+  demo: FeatureDemoId;
+  /** @deprecated alias */
+  text?: string;
+};
+
+export const productCapabilities: ProductCapability[] = [
+  {
+    id: "sites",
+    title: "Sites & paiements",
+    tag: "E-commerce / devis",
+    description:
+      "Vitrine claire, parcours d’achat ou devis en ligne, encaissement sécurisé — du clic au paiement confirmé.",
+    previewLabel: "Checkout client",
+    result: "Vos clients paient en ligne. Vous recevez le reçu automatiquement.",
+    demo: "paiement",
+  },
+  {
+    id: "apps",
+    title: "Applications mobiles",
+    tag: "iOS / Android",
+    description:
+      "Une app pour vos clients ou vos équipes : réservation, suivi, notifications — usage réel, pas gadget.",
+    previewLabel: "App native",
+    result: "Un parcours mobile fluide, du premier écran à la confirmation.",
+    demo: "app",
+  },
+  {
+    id: "webapps",
+    title: "Web apps & dashboards",
+    tag: "Outil métier",
+    description:
+      "Espaces privés, tableaux de bord et outils internes qui font gagner du temps au quotidien.",
+    previewLabel: "Espace pro",
+    result: "Vos indicateurs et actions métier, accessibles depuis le navigateur.",
+    demo: "webapp",
+  },
+  {
+    id: "rdv",
+    title: "Prise de rendez-vous",
+    tag: "Agenda",
+    description:
+      "Agenda en ligne, créneaux disponibles, confirmation et rappels automatiques pour vous et vos clients.",
+    previewLabel: "Réservation",
+    result: "Moins d’appels, moins de no-show — le créneau est réservé et rappelé.",
+    demo: "rdv",
+  },
+  {
+    id: "fidelite",
+    title: "Fidélisation",
+    tag: "Wallet / points",
+    description:
+      "Cartes Wallet, points de passage et avantages pour faire revenir vos clients sans effort.",
+    previewLabel: "Carte fidélité",
+    result: "Chaque visite compte. La récompense se débloque toute seule.",
+    demo: "fidelite",
+  },
+];
+
+/** @deprecated kept for leftover imports */
+export type FeatureMotionId = FeatureDemoId;
+
+export const capabilityCards = productCapabilities.map((c) => ({
+  id: c.id,
+  title: c.title,
+  text: c.description,
+  motion: c.demo as FeatureMotionId | null,
+}));
 
 export const professions = [
   {
     id: "sante",
     label: "Santé & paramédical",
     need: "Prise de RDV, dossiers, suivi patient",
-    motion: "rdv" as FeatureMotionId,
+    motion: "rdv" as FeatureDemoId,
   },
   {
     id: "commerce",
     label: "Commerces & artisans",
     need: "Vitrine, devis, fidélité client",
-    motion: "fidelite" as FeatureMotionId,
-  },
-  {
-    id: "services",
-    label: "Professions libérales",
-    need: "Image claire, contact, organisation",
-    motion: "rdv" as FeatureMotionId,
-  },
-  {
-    id: "startup",
-    label: "Startups & produits",
-    need: "MVP, dashboard, parcours utilisateurs",
-    motion: "dashboard" as FeatureMotionId,
-  },
-  {
-    id: "asso",
-    label: "Associations",
-    need: "Adhésions, événements, communication",
-    motion: "reservation" as FeatureMotionId,
-  },
-  {
-    id: "metier",
-    label: "Besoins métiers spécifiques",
-    need: "Outil sur mesure pour votre process",
-    motion: "suivi" as FeatureMotionId,
-  },
-];
-
-export const capabilityCards = [
-  {
-    id: "web",
-    title: "Sites web",
-    text: "Vitrines et plateformes pensées pour convertir — jamais un template recyclé.",
-    motion: null as FeatureMotionId | null,
-  },
-  {
-    id: "app",
-    title: "Applications",
-    text: "Mobile ou web : l’outil que vos clients ou équipes utilisent vraiment.",
-    motion: "dashboard" as FeatureMotionId | null,
-  },
-  {
-    id: "rdv",
-    title: "Prise de RDV",
-    text: "Agenda en ligne, confirmations, rappels — sans friction.",
-    motion: "rdv" as FeatureMotionId | null,
-  },
-  {
-    id: "fidelite",
-    title: "Fidélisation",
-    text: "Programmes clients, Wallet, notifications utiles.",
-    motion: "fidelite" as FeatureMotionId | null,
-  },
-  {
-    id: "metier",
-    title: "Outils métiers",
-    text: "Automatiser, suivre, calculer : votre process digitalisé.",
-    motion: "suivi" as FeatureMotionId | null,
+    motion: "fidelite" as FeatureDemoId,
   },
 ];

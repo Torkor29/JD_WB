@@ -1,3 +1,5 @@
+import type { FeatureDemoId } from "@/lib/capabilities";
+
 export type QuoteProjectType =
   | "site-vitrine"
   | "site-complexe"
@@ -82,7 +84,7 @@ export const quoteExtras: {
   id: string;
   label: string;
   add: [number, number];
-  motion?: "rdv" | "fidelite" | "dashboard" | "reservation" | "suivi";
+  motion?: FeatureDemoId;
 }[] = [
   { id: "design", label: "Design UI/UX poussé", add: [800, 2500] },
   { id: "seo", label: "SEO & contenu de lancement", add: [400, 1200] },
@@ -98,7 +100,12 @@ export const quoteExtras: {
     add: [1200, 4500],
     motion: "fidelite",
   },
-  { id: "cms", label: "Espace d’administration", add: [600, 2000], motion: "dashboard" },
+  {
+    id: "cms",
+    label: "Espace d’administration",
+    add: [600, 2000],
+    motion: "webapp",
+  },
   { id: "maintenance", label: "Maintenance 3 mois incluse", add: [450, 1500] },
   { id: "mobile-extra", label: "Version mobile complémentaire", add: [2500, 8000] },
 ];

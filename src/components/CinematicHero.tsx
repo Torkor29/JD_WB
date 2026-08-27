@@ -88,7 +88,7 @@ export function CinematicHero() {
             >
               Agence digitale · Bretagne
             </motion.p>
-            <h1 className="font-medium leading-[0.88] tracking-[-0.06em] text-[18vw] text-ink sm:text-[14vw] md:text-[11vw] lg:text-[9vw] xl:text-[8vw]">
+            <h1 className="max-w-full overflow-hidden font-medium leading-[0.9] tracking-[-0.06em] text-[clamp(3.5rem,14vw,9rem)] text-ink">
               <WordsPullUp text="TiCode" showAsterisk />
             </h1>
           </div>
@@ -100,8 +100,8 @@ export function CinematicHero() {
               transition={{ duration: 0.75, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
               className="max-w-md text-sm leading-relaxed text-ink/70 sm:text-base"
             >
-              Sites, apps et outils métiers sur mesure — conçus avec soin, animés
-              avec intention. Depuis la côte, pour toute la France.
+              Sites, apps, paiements, prise de RDV et outils métiers — construits
+              pour votre activité. Depuis la côte, pour toute la France.
             </motion.p>
 
             <motion.a
