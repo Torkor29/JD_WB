@@ -61,13 +61,25 @@ video {
 }
 
 .container-site {
-  width: min(100% - 2rem, 1180px);
+  width: min(100% - 1.5rem, 1180px);
   margin-inline: auto;
 }
 
+@media (min-width: 640px) {
+  .container-site {
+    width: min(100% - 2rem, 1180px);
+  }
+}
+
 .container-wide {
-  width: min(100% - 2rem, 1400px);
+  width: min(100% - 1.5rem, 1400px);
   margin-inline: auto;
+}
+
+@media (min-width: 640px) {
+  .container-wide {
+    width: min(100% - 2rem, 1400px);
+  }
 }
 
 .eyebrow {
@@ -93,14 +105,20 @@ video {
   font-family: var(--font-display);
   font-weight: 700;
   letter-spacing: -0.04em;
-  line-height: 0.95;
+  line-height: 1.05;
   color: var(--color-ink);
+}
+
+@media (min-width: 768px) {
+  .headline {
+    line-height: 0.95;
+  }
 }
 
 .lede {
   color: var(--color-muted);
-  font-size: clamp(1rem, 1.4vw, 1.15rem);
-  line-height: 1.65;
+  font-size: clamp(0.98rem, 1.4vw, 1.15rem);
+  line-height: 1.6;
   max-width: 38rem;
 }
 
@@ -136,9 +154,9 @@ video {
   justify-content: center;
   gap: 0.55rem;
   border-radius: 999px;
-  padding: 0.95rem 1.45rem;
+  padding: 0.9rem 1.35rem;
   font-family: var(--font-sans);
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 600;
   letter-spacing: -0.01em;
   transition:
@@ -147,6 +165,13 @@ video {
     color 0.35s var(--ease-out),
     border-color 0.35s var(--ease-out),
     box-shadow 0.35s var(--ease-out);
+}
+
+@media (min-width: 640px) {
+  .btn {
+    padding: 0.95rem 1.45rem;
+    font-size: 0.95rem;
+  }
 }
 
 .btn:active {
@@ -178,15 +203,21 @@ video {
 }
 
 .section-pad {
-  padding-block: clamp(4.5rem, 10vw, 8.5rem);
+  padding-block: clamp(3.25rem, 8vw, 8.5rem);
 }
 
 .browser-frame {
   overflow: hidden;
-  border-radius: 1.1rem;
+  border-radius: 0.9rem;
   border: 1px solid var(--color-line);
   background: #fff;
   box-shadow: var(--shadow-card, 0 12px 40px rgba(11, 31, 58, 0.08));
+}
+
+@media (min-width: 640px) {
+  .browser-frame {
+    border-radius: 1.1rem;
+  }
 }
 
 .browser-chrome {
@@ -195,7 +226,13 @@ video {
   gap: 0.4rem;
   border-bottom: 1px solid var(--color-line);
   background: #f3f6fb;
-  padding: 0.7rem 0.9rem;
+  padding: 0.55rem 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .browser-chrome {
+    padding: 0.7rem 0.9rem;
+  }
 }
 
 .browser-chrome span {
@@ -233,5 +270,31 @@ video {
 @media (max-width: 768px) {
   .grain {
     display: none;
+  }
+
+  .btn-primary:hover,
+  .btn-secondary:hover {
+    transform: none;
+  }
+}
+
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* Safe areas (iPhone notch / home bar) */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  header .mx-auto {
+    padding-top: max(0.5rem, env(safe-area-inset-top));
   }
 }

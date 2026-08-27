@@ -19,7 +19,7 @@ export function Professions() {
       />
       <div className="container-site relative">
         <Reveal>
-          <div className="mb-6 flex items-center gap-3 sm:mb-8">
+          <div className="mb-5 flex items-center gap-3 sm:mb-8">
             <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-ink text-[11px] font-semibold text-white sm:h-7 sm:w-7 sm:text-[12px]">
               3
             </span>
@@ -31,13 +31,64 @@ export function Professions() {
             Je m’adapte à
             <span className="text-accent"> votre profession.</span>
           </h2>
-          <p className="lede mt-5">
+          <p className="lede mt-4 sm:mt-5">
             Santé, commerce, libéral, startup, association… le produit suit
             votre quotidien — pas l’inverse.
           </p>
         </Reveal>
 
-        <div className="mt-12 grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12">
+        {/* Mobile */}
+        <div className="mt-8 lg:hidden">
+          <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-2">
+            {professions.map((item, i) => {
+              const selected = active === i;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setActive(i)}
+                  className={`shrink-0 rounded-full border px-4 py-2.5 text-sm font-semibold transition ${
+                    selected
+                      ? "border-accent bg-accent text-white shadow-soft"
+                      : "border-line bg-white text-ink"
+                  }`}
+                  aria-pressed={selected}
+                >
+                  {item.label}
+                </button>
+              );
+            })}
+          </div>
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current.id}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.35 }}
+              className="mt-4 rounded-[1.35rem] border border-line bg-white p-4 shadow-card"
+            >
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-accent">
+                Exemple
+              </p>
+              <h3 className="mt-2 font-display text-2xl tracking-tight">
+                {current.need}
+              </h3>
+              <div className="mt-4">
+                <FeatureMotion id={current.motion} compact />
+              </div>
+              <div className="mt-5">
+                <TextRollButton href="#contact" variant="ink" className="w-full justify-between">
+                  Parler de mon métier
+                </TextRollButton>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Desktop */}
+        <div className="mt-12 hidden gap-12 lg:grid lg:grid-cols-[0.95fr_1.05fr]">
           <Reveal>
             <ul className="space-y-2">
               {professions.map((item, i) => {
@@ -84,7 +135,7 @@ export function Professions() {
           </Reveal>
 
           <Reveal delay={0.08}>
-            <div className="relative overflow-hidden rounded-[1.7rem] border border-line bg-white p-5 shadow-card md:p-8">
+            <div className="relative overflow-hidden rounded-[1.7rem] border border-line bg-white p-8 shadow-card">
               <div
                 aria-hidden
                 className="pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full bg-accent/15 blur-3xl"

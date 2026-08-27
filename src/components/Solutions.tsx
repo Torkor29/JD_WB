@@ -15,11 +15,11 @@ export function Solutions() {
     <section id="solutions" className="section-pad relative overflow-hidden bg-white">
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-24 top-24 h-72 w-72 rounded-full bg-accent/10 blur-3xl"
+        className="pointer-events-none absolute -right-24 top-24 hidden h-72 w-72 rounded-full bg-accent/10 blur-3xl md:block"
       />
       <div className="container-site relative">
         <Reveal>
-          <div className="mb-6 flex items-center gap-3 sm:mb-8">
+          <div className="mb-5 flex items-center gap-3 sm:mb-8">
             <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-ink text-[11px] font-semibold text-white sm:h-7 sm:w-7 sm:text-[12px]">
               1
             </span>
@@ -31,13 +31,73 @@ export function Solutions() {
             Des produits vivants.
             <span className="block text-accent">Pas des pages figées.</span>
           </h2>
-          <p className="lede mt-5">
+          <p className="lede mt-4 sm:mt-5">
             Sites, apps, prise de RDV, fidélité, outils métiers — chaque option
             peut s’animer pour montrer concrètement ce que ça donne.
           </p>
         </Reveal>
 
-        <div className="mt-12 grid items-stretch gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10">
+        {/* Mobile: chips + preview */}
+        <div className="mt-8 lg:hidden">
+          <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-2 scrollbar-none">
+            {capabilityCards.map((item, i) => {
+              const selected = active === i;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setActive(i)}
+                  className={`shrink-0 rounded-full border px-4 py-2.5 text-sm font-semibold transition ${
+                    selected
+                      ? "border-accent bg-accent text-white shadow-soft"
+                      : "border-line bg-white text-ink"
+                  }`}
+                  aria-pressed={selected}
+                >
+                  {item.title}
+                </button>
+              );
+            })}
+          </div>
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current.id}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.35 }}
+              className="mt-4"
+            >
+              <p className="mb-3 text-sm leading-relaxed text-muted">{current.text}</p>
+              <div className="rounded-[1.25rem] border border-line bg-gradient-to-br from-paper-soft via-white to-accent-soft/40 p-3 shadow-card">
+                {current.motion ? (
+                  <FeatureMotion id={current.motion} compact />
+                ) : (
+                  <div className="rounded-2xl border border-line bg-white p-4 shadow-soft">
+                    <p className="text-xs font-bold uppercase tracking-[0.14em] text-accent">
+                      Aperçu
+                    </p>
+                    <p className="mt-2 font-display text-xl tracking-tight">
+                      Une vitrine qui convertit
+                    </p>
+                    <p className="mt-2 text-sm text-muted">
+                      Structure claire, CTA, design adapté à votre métier.
+                    </p>
+                  </div>
+                )}
+              </div>
+              <div className="mt-5">
+                <TextRollButton href="#devis" variant="accent" className="w-full justify-between">
+                  Estimer ce besoin
+                </TextRollButton>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Desktop: list + preview */}
+        <div className="mt-12 hidden items-stretch gap-10 lg:grid lg:grid-cols-[1.05fr_0.95fr]">
           <Reveal>
             <div className="space-y-3">
               {capabilityCards.map((item, i) => {
@@ -78,7 +138,7 @@ export function Solutions() {
           </Reveal>
 
           <Reveal delay={0.08}>
-            <div className="relative flex h-full min-h-[340px] flex-col justify-between overflow-hidden rounded-[1.6rem] border border-line bg-gradient-to-br from-paper-soft via-white to-accent-soft/50 p-5 shadow-card md:p-7">
+            <div className="relative flex h-full min-h-[340px] flex-col justify-between overflow-hidden rounded-[1.6rem] border border-line bg-gradient-to-br from-paper-soft via-white to-accent-soft/50 p-7 shadow-card">
               <div
                 aria-hidden
                 className="pointer-events-none absolute -bottom-16 -left-10 h-40 w-40 rounded-full bg-accent/15 blur-3xl"

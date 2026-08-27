@@ -47,16 +47,16 @@ const config: Config = {
       },
       fontSize: {
         "display-xl": [
-          "clamp(3rem, 8.5vw, 6.75rem)",
-          { lineHeight: "0.94", letterSpacing: "-0.045em", fontWeight: "700" },
+          "clamp(2.35rem, 8.5vw, 6.75rem)",
+          { lineHeight: "1.02", letterSpacing: "-0.045em", fontWeight: "700" },
         ],
         "display-lg": [
-          "clamp(2.25rem, 5vw, 4.25rem)",
-          { lineHeight: "0.98", letterSpacing: "-0.035em", fontWeight: "700" },
+          "clamp(1.85rem, 5vw, 4.25rem)",
+          { lineHeight: "1.06", letterSpacing: "-0.035em", fontWeight: "700" },
         ],
         "display-md": [
-          "clamp(1.7rem, 3vw, 2.6rem)",
-          { lineHeight: "1.05", letterSpacing: "-0.03em", fontWeight: "650" },
+          "clamp(1.45rem, 3vw, 2.6rem)",
+          { lineHeight: "1.1", letterSpacing: "-0.03em", fontWeight: "650" },
         ],
       },
       maxWidth: {

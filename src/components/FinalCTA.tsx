@@ -38,16 +38,16 @@ export function FinalCTA() {
             Alors, qu’est-ce qu’on
             <span className="text-accent"> construit&nbsp;?</span>
           </h2>
-          <p className="mt-6 max-w-2xl text-xl leading-relaxed text-muted">
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted sm:mt-6 sm:text-xl">
             Parlez-moi de votre projet, même s’il n’est encore qu’une idée.
             Réponse humaine, devis clair, prochaines étapes concrètes.
           </p>
         </Reveal>
 
-        <Reveal delay={0.1} className="mt-12">
+        <Reveal delay={0.1} className="mt-8 sm:mt-12">
           <form
             onSubmit={onSubmit}
-            className="grid gap-4 rounded-[1.6rem] border border-line bg-white p-6 shadow-card md:grid-cols-2 md:p-8"
+            className="grid gap-4 rounded-[1.35rem] border border-line bg-white p-4 shadow-card sm:rounded-[1.6rem] sm:p-6 md:grid-cols-2 md:p-8"
           >
             <label className="block md:col-span-1">
               <span className="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-muted">
@@ -86,8 +86,8 @@ export function FinalCTA() {
                 placeholder="L’idée, le besoin, le contexte, le délai souhaité…"
               />
             </label>
-            <div className="flex flex-wrap items-center gap-4 pt-2 md:col-span-2">
-              <button type="submit" className="btn btn-primary" data-cursor="interactive">
+            <div className="flex flex-wrap items-center gap-3 pt-2 md:col-span-2 sm:gap-4">
+              <button type="submit" className="btn btn-primary w-full sm:w-auto" data-cursor="interactive">
                 Envoyer mon projet
                 <span aria-hidden>→</span>
               </button>

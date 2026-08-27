@@ -25,22 +25,63 @@ export function Method() {
             Simple. Claire.
             <span className="block text-accent">Sans mauvaise surprise.</span>
           </h2>
-          <p className="lede mt-5">
+          <p className="lede mt-4 sm:mt-5">
             Une seule façon de travailler — de l’échange au lancement — pour
             avancer vite sans perdre le fil.
           </p>
         </Reveal>
 
-        <div className="mt-14 overflow-hidden rounded-[1.6rem] border border-line bg-white shadow-card">
-          <div className="grid lg:grid-cols-[1fr_1.1fr]">
-            <div className="border-b border-line p-2 lg:border-b-0 lg:border-r">
+        <div className="mt-8 overflow-hidden rounded-[1.35rem] border border-line bg-white shadow-card sm:mt-14 sm:rounded-[1.6rem]">
+          {/* Mobile steps */}
+          <div className="border-b border-line p-3 lg:hidden">
+            <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
+              {phases.map((phase, i) => (
+                <button
+                  key={phase.n}
+                  type="button"
+                  onClick={() => setActive(i)}
+                  className={`shrink-0 rounded-full px-3.5 py-2 text-sm font-semibold transition ${
+                    active === i
+                      ? "bg-accent text-white"
+                      : "bg-paper-soft text-muted"
+                  }`}
+                >
+                  {phase.n} {phase.title.replace("On ", "")}
+                </button>
+              ))}
+            </div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={active}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.3 }}
+                className="mt-4 px-1 pb-2"
+              >
+                <h3 className="font-display text-2xl tracking-tight">
+                  {phases[active].title}
+                </h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-muted">
+                  {phases[active].text}
+                </p>
+                <a href="#contact" className="btn btn-primary mt-5 w-full" data-cursor="interactive">
+                  Démarrer l’échange
+                </a>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Desktop */}
+          <div className="hidden lg:grid lg:grid-cols-[1fr_1.1fr]">
+            <div className="border-r border-line p-2">
               {phases.map((phase, i) => (
                 <button
                   key={phase.n}
                   type="button"
                   onClick={() => setActive(i)}
                   onMouseEnter={() => setActive(i)}
-                  className={`flex w-full items-center gap-4 rounded-xl px-4 py-4 text-left transition md:px-5 ${
+                  className={`flex w-full items-center gap-4 rounded-xl px-5 py-4 text-left transition ${
                     active === i ? "bg-accent-soft" : "hover:bg-paper-soft"
                   }`}
                   data-cursor="interactive"
@@ -48,14 +89,14 @@ export function Method() {
                   <span className={`font-display text-sm ${active === i ? "text-accent" : "text-muted"}`}>
                     {phase.n}
                   </span>
-                  <span className={`font-display text-lg tracking-tight md:text-xl ${active === i ? "text-ink" : "text-muted"}`}>
+                  <span className={`font-display text-xl tracking-tight ${active === i ? "text-ink" : "text-muted"}`}>
                     {phase.title}
                   </span>
                 </button>
               ))}
             </div>
 
-            <div className="relative min-h-[280px] p-8 md:p-12">
+            <div className="relative min-h-[280px] p-12">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={active}
@@ -64,7 +105,7 @@ export function Method() {
                   exit={{ opacity: 0, x: -12 }}
                   transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  <p className="font-display text-[6rem] leading-none text-accent/20 md:text-[7.5rem]">
+                  <p className="font-display text-[7.5rem] leading-none text-accent/20">
                     {phases[active].n}
                   </p>
                   <h3 className="mt-2 font-display text-display-md">{phases[active].title}</h3>
