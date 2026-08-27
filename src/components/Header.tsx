@@ -69,6 +69,13 @@ export function Header() {
                   <a
                     key={item.href}
                     href={item.href}
+                    onClick={(e) => {
+                      const el = document.querySelector(item.href);
+                      if (!el) return;
+                      e.preventDefault();
+                      el.scrollIntoView({ behavior: "smooth", block: "start" });
+                      window.history.replaceState(null, "", item.href);
+                    }}
                     className="text-[14px] text-ink transition-colors duration-300 hover:text-muted"
                     data-cursor="interactive"
                   >
@@ -137,7 +144,16 @@ export function Header() {
                     <a
                       href={item.href}
                       className="block text-[28px] font-medium leading-[32px] text-ink"
-                      onClick={() => setOpen(false)}
+                      onClick={(e) => {
+                        const el = document.querySelector(item.href);
+                        setOpen(false);
+                        if (!el) return;
+                        e.preventDefault();
+                        window.setTimeout(() => {
+                          el.scrollIntoView({ behavior: "smooth", block: "start" });
+                          window.history.replaceState(null, "", item.href);
+                        }, 50);
+                      }}
                     >
                       {item.label}
                     </a>

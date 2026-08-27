@@ -64,22 +64,19 @@ export function Portfolio() {
 
   const variants = {
     enter: (dir: number) => ({
-      x: dir > 0 ? 80 : -80,
+      x: dir > 0 ? 72 : -72,
       opacity: 0,
-      scale: 0.96,
-      rotateY: dir > 0 ? -6 : 6,
+      scale: 0.985,
     }),
     center: {
       x: 0,
       opacity: 1,
       scale: 1,
-      rotateY: 0,
     },
     exit: (dir: number) => ({
-      x: dir > 0 ? -60 : 60,
+      x: dir > 0 ? -48 : 48,
       opacity: 0,
-      scale: 0.96,
-      rotateY: dir > 0 ? 6 : -6,
+      scale: 0.985,
     }),
   };
 
@@ -136,7 +133,7 @@ export function Portfolio() {
           </div>
         </Reveal>
 
-        <div className="mt-12 perspective-[1400px]">
+        <div className="mt-12">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.article
               key={project.id}
@@ -146,9 +143,8 @@ export function Portfolio() {
               initial="enter"
               animate="center"
               exit="exit"
-              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
               className="grid items-center gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-12"
-              style={{ transformStyle: "preserve-3d" }}
             >
               <motion.div
                 animate={
