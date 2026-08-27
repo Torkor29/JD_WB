@@ -7,6 +7,7 @@ import { Method } from "@/components/Method";
 import { Audience } from "@/components/Audience";
 import { Differentiation } from "@/components/Differentiation";
 import { IntentPicker } from "@/components/IntentPicker";
+import { QuoteEstimator } from "@/components/QuoteEstimator";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { CustomCursor } from "@/components/CustomCursor";
@@ -21,6 +22,7 @@ export default function HomePage() {
         <Approach />
         <Solutions />
         <Portfolio />
+        <QuoteEstimator />
         <Method />
         <Audience />
         <Differentiation />

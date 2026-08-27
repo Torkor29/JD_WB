@@ -29,38 +29,40 @@ export function FinalCTA() {
     <section id="contact" className="section-pad relative overflow-hidden">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(900px_circle_at_50%_0%,rgba(212,243,74,0.12),transparent_55%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(900px_circle_at_50%_0%,rgba(31,94,255,0.12),transparent_55%)]"
       />
       <div className="container-site relative">
         <Reveal>
           <p className="eyebrow">Contact</p>
           <h2 className="headline mt-4 max-w-4xl text-display-xl">
-            Alors, qu’est-ce qu’on construit&nbsp;?
+            Alors, qu’est-ce qu’on
+            <span className="text-accent"> construit&nbsp;?</span>
           </h2>
-          <p className="mt-6 max-w-2xl text-xl leading-relaxed text-mist">
+          <p className="mt-6 max-w-2xl text-xl leading-relaxed text-muted">
             Parlez-moi de votre projet, même s’il n’est encore qu’une idée.
+            Réponse humaine, devis clair, prochaines étapes concrètes.
           </p>
         </Reveal>
 
         <Reveal delay={0.1} className="mt-12">
           <form
             onSubmit={onSubmit}
-            className="grid gap-4 rounded-[1.6rem] border border-line bg-surface/80 p-6 md:grid-cols-2 md:p-8"
+            className="grid gap-4 rounded-[1.6rem] border border-line bg-white p-6 shadow-card md:grid-cols-2 md:p-8"
           >
             <label className="block md:col-span-1">
-              <span className="mb-2 block text-xs uppercase tracking-[0.14em] text-mist">
+              <span className="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-muted">
                 Nom
               </span>
               <input
                 name="name"
                 required
                 autoComplete="name"
-                className="w-full rounded-xl border border-line bg-ink px-4 py-3 outline-none transition focus:border-accent/50"
+                className="w-full rounded-xl border border-line bg-paper-soft px-4 py-3 outline-none transition focus:border-accent/50"
                 placeholder="Votre nom"
               />
             </label>
             <label className="block md:col-span-1">
-              <span className="mb-2 block text-xs uppercase tracking-[0.14em] text-mist">
+              <span className="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-muted">
                 Email
               </span>
               <input
@@ -68,30 +70,30 @@ export function FinalCTA() {
                 type="email"
                 required
                 autoComplete="email"
-                className="w-full rounded-xl border border-line bg-ink px-4 py-3 outline-none transition focus:border-accent/50"
+                className="w-full rounded-xl border border-line bg-paper-soft px-4 py-3 outline-none transition focus:border-accent/50"
                 placeholder="vous@email.fr"
               />
             </label>
             <label className="block md:col-span-2">
-              <span className="mb-2 block text-xs uppercase tracking-[0.14em] text-mist">
+              <span className="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-muted">
                 Votre projet
               </span>
               <textarea
                 name="project"
                 required
                 rows={5}
-                className="w-full resize-y rounded-xl border border-line bg-ink px-4 py-3 outline-none transition focus:border-accent/50"
-                placeholder="Décrivez l’idée, le besoin, le contexte…"
+                className="w-full resize-y rounded-xl border border-line bg-paper-soft px-4 py-3 outline-none transition focus:border-accent/50"
+                placeholder="L’idée, le besoin, le contexte, le délai souhaité…"
               />
             </label>
-            <div className="md:col-span-2 flex flex-wrap items-center gap-4 pt-2">
+            <div className="flex flex-wrap items-center gap-4 pt-2 md:col-span-2">
               <button type="submit" className="btn btn-primary" data-cursor="interactive">
-                Parler de mon projet
+                Envoyer mon projet
                 <span aria-hidden>→</span>
               </button>
               <a
                 href={`mailto:${siteConfig.contactEmail}`}
-                className="link-underline text-sm text-mist hover:text-ivory"
+                className="link-underline text-sm font-semibold text-accent"
                 data-cursor="interactive"
               >
                 {siteConfig.contactEmail}

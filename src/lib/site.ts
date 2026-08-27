@@ -1,8 +1,9 @@
 export const siteConfig = {
   name: "Julien DOLOU",
-  title: "Julien DOLOU — Développement & produits numériques sur mesure",
+  title:
+    "Julien DOLOU | Création de site web sur mesure, apps & logiciels métiers",
   description:
-    "Studio digital indépendant : création de sites web sur mesure, applications mobiles iOS et Android, applications web, plateformes et logiciels métiers. De l'idée au produit.",
+    "Vous avez une idée ? Je la transforme en produit numérique. Création de site web sur mesure, développement d’applications mobiles iOS/Android, applications web, plateformes et outils métiers. Devis clair, accompagnement de A à Z — Brest & France.",
   url: "https://juliendolou.fr",
   locale: "fr_FR",
   contactEmail:
@@ -20,9 +21,14 @@ export const siteConfig = {
     { label: "Accueil", href: "#top" },
     { label: "Solutions", href: "#solutions" },
     { label: "Réalisations", href: "#realisations" },
-    { label: "Méthode", href: "#methode" },
+    { label: "Devis", href: "#devis" },
     { label: "Contact", href: "#contact" },
   ],
 } as const;
 
-export const capabilities = ["WEB", "MOBILE", "PLATEFORME", "OUTIL MÉTIER"] as const;
+export const capabilities = [
+  "Site web",
+  "Application mobile",
+  "Application web",
+  "Outil métier",
+] as const;

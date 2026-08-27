@@ -8,32 +8,32 @@ const intents = [
   {
     id: "site",
     label: "créer un site",
-    title: "Créer un site web sur mesure",
-    text: "Vitrine, plateforme ou expérience plus ambitieuse : on construit un site qui sert vraiment votre activité — pas une page générique.",
+    title: "Créer un site web qui convertit",
+    text: "Vitrine, plateforme ou expérience ambitieuse : un site pensé pour votre activité, pas un modèle recyclé.",
   },
   {
     id: "app",
     label: "créer une application",
-    title: "Créer une application",
-    text: "Mobile iOS/Android ou application web : on part de l’usage réel pour définir le bon format, puis on développe le produit.",
+    title: "Créer une application utile",
+    text: "Mobile ou web : on part de l’usage réel pour définir le bon format, puis on développe le produit.",
   },
   {
     id: "auto",
     label: "automatiser quelque chose",
     title: "Automatiser un process",
-    text: "Vous perdez du temps sur des tâches répétitives ? On conçoit l’outil ou le flux qui les prend en charge.",
+    text: "Vous perdez du temps sur des tâches répétitives ? On conçoit l’outil qui les prend en charge.",
   },
   {
     id: "metier",
     label: "créer un outil métier",
     title: "Créer un outil métier",
-    text: "Gestion, suivi, calcul, réservation, organisation… Un logiciel pensé pour votre façon de travailler.",
+    text: "Gestion, suivi, calcul, réservation… Un logiciel pensé pour votre façon de travailler.",
   },
   {
     id: "idee",
     label: "transformer une idée en produit",
     title: "Transformer une idée en produit",
-    text: "Vous avez une intuition, pas encore un cahier des charges. C’est exactement le bon moment pour en parler.",
+    text: "Vous avez une intuition, pas encore un brief. C’est exactement le bon moment pour en parler.",
   },
   {
     id: "exist",
@@ -48,11 +48,14 @@ export function IntentPicker() {
   const current = intents.find((i) => i.id === active) ?? intents[0];
 
   return (
-    <section id="projet" className="section-pad relative">
+    <section id="projet" className="section-pad relative bg-paper-soft/70">
       <div className="container-site">
         <Reveal>
           <p className="eyebrow">Votre projet</p>
-          <h2 className="headline mt-4 text-display-lg">Vous voulez…</h2>
+          <h2 className="headline mt-4 text-display-lg">
+            Vous voulez…
+            <span className="text-accent"> concrètement ?</span>
+          </h2>
         </Reveal>
 
         <div className="mt-12 grid gap-8 lg:grid-cols-[1fr_0.95fr] lg:gap-12">
@@ -67,8 +70,8 @@ export function IntentPicker() {
                     onClick={() => setActive(intent.id)}
                     className={`rounded-full border px-4 py-2.5 text-sm font-semibold transition ${
                       selected
-                        ? "border-accent bg-accent text-cta-fg"
-                        : "border-line text-mist hover:border-ivory/30 hover:text-ivory"
+                        ? "border-accent bg-accent text-white"
+                        : "border-line bg-white text-muted hover:border-accent/40 hover:text-ink"
                     }`}
                     data-cursor="interactive"
                     aria-pressed={selected}
@@ -81,7 +84,7 @@ export function IntentPicker() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <div className="relative min-h-[240px] overflow-hidden rounded-[1.5rem] border border-line bg-surface p-8 md:p-10">
+            <div className="relative min-h-[240px] overflow-hidden rounded-[1.5rem] border border-line bg-white p-8 shadow-card md:p-10">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={current.id}
@@ -93,17 +96,18 @@ export function IntentPicker() {
                   <h3 className="font-display text-2xl tracking-tight md:text-3xl">
                     {current.title}
                   </h3>
-                  <p className="mt-4 text-lg leading-relaxed text-mist">
+                  <p className="mt-4 text-lg leading-relaxed text-muted">
                     {current.text}
                   </p>
-                  <a
-                    href="#contact"
-                    className="btn btn-primary mt-8"
-                    data-cursor="interactive"
-                  >
-                    Parler de mon projet
-                    <span aria-hidden>→</span>
-                  </a>
+                  <div className="mt-8 flex flex-wrap gap-3">
+                    <a href="#devis" className="btn btn-secondary" data-cursor="interactive">
+                      Estimer
+                    </a>
+                    <a href="#contact" className="btn btn-primary" data-cursor="interactive">
+                      Parler de mon projet
+                      <span aria-hidden>→</span>
+                    </a>
+                  </div>
                 </motion.div>
               </AnimatePresence>
             </div>

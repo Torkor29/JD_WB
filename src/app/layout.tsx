@@ -30,16 +30,18 @@ export const metadata: Metadata = {
   keywords: [
     "création de site web sur mesure",
     "développement web",
+    "création site internet",
+    "développeur web freelance",
     "développement application mobile",
+    "application iOS Android",
     "application métier",
     "développement logiciel sur mesure",
     "plateforme web",
-    "développement informatique",
-    "création application",
-    "développeur freelance",
+    "outil métier digital",
     "studio digital",
+    "devis site internet",
     "Julien DOLOU",
-    "Brest",
+    "développeur Brest",
   ],
   authors: [{ name: siteConfig.name }],
   creator: siteConfig.name,
@@ -75,7 +77,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#070908",
+  themeColor: "#1F5EFF",
   width: "device-width",
   initialScale: 1,
 };
@@ -87,24 +89,50 @@ export default function RootLayout({
 }>) {
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    name: siteConfig.name,
-    description: siteConfig.description,
-    url: siteConfig.url,
-    email: siteConfig.contactEmail,
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "12 rue de la Fontaine Margot",
-      addressLocality: "Brest",
-      postalCode: "29200",
-      addressCountry: "FR",
-    },
-    areaServed: "FR",
-    serviceType: [
-      "Développement web sur mesure",
-      "Applications mobiles",
-      "Logiciels métiers",
-      "Plateformes web",
+    "@graph": [
+      {
+        "@type": "ProfessionalService",
+        "@id": `${siteConfig.url}/#business`,
+        name: siteConfig.name,
+        description: siteConfig.description,
+        url: siteConfig.url,
+        email: siteConfig.contactEmail,
+        image: `${siteConfig.url}/og.png`,
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "12 rue de la Fontaine Margot",
+          addressLocality: "Brest",
+          postalCode: "29200",
+          addressCountry: "FR",
+        },
+        areaServed: "FR",
+        priceRange: "€€",
+        serviceType: [
+          "Création de site web sur mesure",
+          "Développement d'applications mobiles",
+          "Développement d'applications web",
+          "Logiciels et outils métiers",
+        ],
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${siteConfig.url}/#website`,
+        url: siteConfig.url,
+        name: siteConfig.name,
+        description: siteConfig.description,
+        publisher: { "@id": `${siteConfig.url}/#business` },
+        inLanguage: "fr-FR",
+      },
+      {
+        "@type": "WebPage",
+        "@id": `${siteConfig.url}/#webpage`,
+        url: siteConfig.url,
+        name: siteConfig.title,
+        isPartOf: { "@id": `${siteConfig.url}/#website` },
+        about: { "@id": `${siteConfig.url}/#business` },
+        description: siteConfig.description,
+        inLanguage: "fr-FR",
+      },
     ],
   };
 
@@ -113,7 +141,7 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[110] focus:rounded-full focus:bg-accent focus:px-4 focus:py-2 focus:text-cta-fg"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[110] focus:rounded-full focus:bg-accent focus:px-4 focus:py-2 focus:text-white"
         >
           Aller au contenu
         </a>

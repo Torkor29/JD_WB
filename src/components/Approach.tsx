@@ -46,16 +46,17 @@ export function Approach() {
         <Reveal>
           <p className="eyebrow">Approche</p>
           <h2 className="headline mt-4 max-w-3xl text-display-lg">
-            Un projet numérique ne commence pas par du code.
+            Un projet numérique
+            <span className="text-accent"> ne commence pas par du code.</span>
           </h2>
           <p className="lede mt-5">
-            Il commence par une conversation. Ensuite seulement vient la
-            conception, le développement, le lancement — et ce qui suit.
+            Il commence par une conversation. Ensuite seulement viennent la
+            conception, le développement et le lancement.
           </p>
         </Reveal>
 
         <div className="mt-14 grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
-          <Reveal delay={0.1} className="relative">
+          <Reveal delay={0.1}>
             <ol className="relative space-y-0 border-l border-line pl-6">
               {steps.map((step, i) => {
                 const isActive = i === active;
@@ -72,22 +73,18 @@ export function Approach() {
                       <span
                         className={`mt-1.5 inline-flex h-3 w-3 shrink-0 -translate-x-[1.4rem] rounded-full border transition ${
                           isActive
-                            ? "border-accent bg-accent shadow-[0_0_0_6px_rgba(212,243,74,0.15)]"
-                            : "border-mist/40 bg-ink"
+                            ? "border-accent bg-accent shadow-[0_0_0_6px_rgba(31,94,255,0.15)]"
+                            : "border-muted/40 bg-white"
                         }`}
                       />
                       <span className="min-w-0">
                         <span className="flex items-baseline gap-3">
-                          <span
-                            className={`font-display text-sm ${
-                              isActive ? "text-accent" : "text-mist"
-                            }`}
-                          >
+                          <span className={`font-display text-sm ${isActive ? "text-accent" : "text-muted"}`}>
                             {step.n}
                           </span>
                           <span
                             className={`font-display text-xl tracking-tight transition ${
-                              isActive ? "text-ivory" : "text-mist group-hover:text-ivory"
+                              isActive ? "text-ink" : "text-muted group-hover:text-ink"
                             }`}
                           >
                             {step.title}
@@ -102,11 +99,8 @@ export function Approach() {
           </Reveal>
 
           <Reveal delay={0.15}>
-            <div className="relative min-h-[280px] overflow-hidden rounded-[1.5rem] border border-line bg-surface p-8 md:p-10">
-              <div
-                aria-hidden
-                className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-accent/10 blur-3xl"
-              />
+            <div className="relative min-h-[280px] overflow-hidden rounded-[1.5rem] border border-line bg-white p-8 shadow-card md:p-10">
+              <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-accent/10 blur-3xl" />
               <AnimatePresence mode="wait">
                 <motion.div
                   key={active}
@@ -115,31 +109,15 @@ export function Approach() {
                   exit={{ opacity: 0, y: -12 }}
                   transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  <p className="font-display text-6xl text-accent/30 md:text-7xl">
+                  <p className="font-display text-6xl text-accent/25 md:text-7xl">
                     {steps[active].n}
                   </p>
-                  <h3 className="mt-4 font-display text-display-md">
-                    {steps[active].title}
-                  </h3>
-                  <p className="mt-4 max-w-md text-lg leading-relaxed text-mist">
+                  <h3 className="mt-4 font-display text-display-md">{steps[active].title}</h3>
+                  <p className="mt-4 max-w-md text-lg leading-relaxed text-muted">
                     {steps[active].text}
                   </p>
                 </motion.div>
               </AnimatePresence>
-
-              <div className="mt-10 flex gap-2">
-                {steps.map((s, i) => (
-                  <button
-                    key={s.n}
-                    type="button"
-                    aria-label={`Étape ${s.n}`}
-                    onClick={() => setActive(i)}
-                    className={`h-1 flex-1 rounded-full transition ${
-                      i === active ? "bg-accent" : "bg-ivory/10 hover:bg-ivory/20"
-                    }`}
-                  />
-                ))}
-              </div>
             </div>
           </Reveal>
         </div>

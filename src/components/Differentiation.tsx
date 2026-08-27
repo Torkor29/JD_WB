@@ -4,44 +4,48 @@ import { Reveal } from "./Reveal";
 
 const points = [
   {
-    title: "Sur mesure",
-    text: "Pas de solution copiée-collée. Chaque produit est pensé pour un besoin précis.",
+    title: "Sur mesure, vraiment",
+    text: "Pas de solution copiée-collée. Chaque produit est pensé pour un besoin précis — le vôtre.",
   },
   {
     title: "Un seul interlocuteur",
-    text: "Une personne qui comprend réellement le projet — de la réflexion jusqu’au code.",
+    text: "Une personne qui comprend le projet de bout en bout : réflexion, design, développement, lancement.",
   },
   {
     title: "Web + mobile + outils",
-    text: "Un projet peut naître sur le web et évoluer vers d’autres supports si le besoin l’exige.",
+    text: "Votre idée peut naître en site, devenir une app, puis un outil métier. On construit ce qu’il faut.",
   },
   {
     title: "De l’idée au produit",
-    text: "Accompagnement complet : réflexion, conception, développement, mise en ligne.",
+    text: "Vous n’avez pas besoin d’un cahier des charges parfait. On clarifie ensemble, puis on livre.",
   },
   {
-    title: "Évolutif",
-    text: "Le produit peut continuer à grandir après son lancement. Ce n’est pas une livraison jetable.",
+    title: "Évolutif après le lancement",
+    text: "Le produit peut continuer à grandir. Ce n’est pas une livraison jetable.",
   },
 ];
 
 export function Differentiation() {
   return (
-    <section id="pourquoi" className="section-pad relative overflow-hidden">
+    <section id="pourquoi" className="section-pad relative">
       <div className="container-site">
         <Reveal>
-          <p className="eyebrow">Différenciation</p>
+          <p className="eyebrow">Pourquoi travailler ensemble</p>
           <h2 className="headline mt-4 max-w-3xl text-display-lg">
             Pas de template.
-            <span className="block">Pas de solution générique.</span>
+            <span className="block text-accent">Pas de solution générique.</span>
           </h2>
+          <p className="lede mt-5">
+            Ce que vous achetez, ce n’est pas une page. C’est un produit qui
+            sert votre activité.
+          </p>
         </Reveal>
 
-        <div className="mt-16 space-y-0">
+        <div className="mt-14 space-y-0">
           {points.map((point, i) => (
-            <Reveal key={point.title} delay={i * 0.05}>
+            <Reveal key={point.title} delay={i * 0.04}>
               <article
-                className={`grid gap-4 border-t border-line py-8 md:grid-cols-[0.35fr_0.2fr_1fr] md:gap-8 md:py-10 ${
+                className={`grid gap-4 border-t border-line py-8 md:grid-cols-[0.4fr_0.15fr_1fr] md:gap-8 md:py-10 ${
                   i === points.length - 1 ? "border-b" : ""
                 }`}
               >
@@ -51,13 +55,20 @@ export function Differentiation() {
                 <p className="font-display text-accent md:text-right">
                   {String(i + 1).padStart(2, "0")}
                 </p>
-                <p className="max-w-xl text-lg leading-relaxed text-mist">
+                <p className="max-w-xl text-lg leading-relaxed text-muted">
                   {point.text}
                 </p>
               </article>
             </Reveal>
           ))}
         </div>
+
+        <Reveal className="mt-12 text-center">
+          <a href="#contact" className="btn btn-primary" data-cursor="interactive">
+            Je veux un produit sur mesure
+            <span aria-hidden>→</span>
+          </a>
+        </Reveal>
       </div>
     </section>
   );

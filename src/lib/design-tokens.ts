@@ -1,31 +1,26 @@
 /**
- * Design system — Obsidian Signal
- * --------------------------------
- * Principal   : #D4F34A  (accent / CTA)
- * Secondaire  : #2F5D4B  (forest)
- * Accent soft : rgba(212,243,74,0.12)
- * Fond        : #070908  (ink)
- * Surface     : #121714
- * Surface +   : #1A201C
- * Texte       : #F3F1EA  (ivory)
- * Texte sec.  : #9BA29B  (mist)
- * Ligne       : rgba(243,241,234,0.1)
- * CTA fg      : #0A0C0A
- * CTA hover   : #E4FF6A
+ * Design system — Atelier Blanc & Bleu
+ * ------------------------------------
+ * Fond        : #FFFFFF / #F5F8FC
+ * Texte       : #0B1F3A
+ * Texte sec.  : #5B6B80
+ * Accent      : #1F5EFF
+ * Accent soft : #E8F0FF
+ * Accent deep : #0A3FCC
+ * CTA         : #1F5EFF sur blanc
+ * CTA hover   : #3B73FF
  *
  * Display : Syne
  * Body    : Instrument Sans
  */
 export const designTokens = {
   colors: {
-    ink: "#070908",
-    surface: "#121714",
-    surfaceRaised: "#1A201C",
-    ivory: "#F3F1EA",
-    mist: "#9BA29B",
-    accent: "#D4F34A",
-    forest: "#2F5D4B",
-    ctaHover: "#E4FF6A",
-    ctaFg: "#0A0C0A",
+    paper: "#FFFFFF",
+    paperSoft: "#F5F8FC",
+    ink: "#0B1F3A",
+    muted: "#5B6B80",
+    accent: "#1F5EFF",
+    accentSoft: "#E8F0FF",
+    accentDeep: "#0A3FCC",
   },
 } as const;

@@ -5,36 +5,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Reveal } from "./Reveal";
 
 const phases = [
-  {
-    n: "01",
-    title: "On échange",
-    text: "Comprendre le projet, le besoin et les objectifs. Sans jargon, sans brief interminable.",
-  },
-  {
-    n: "02",
-    title: "On imagine",
-    text: "Définir la meilleure expérience et les fonctionnalités vraiment utiles.",
-  },
-  {
-    n: "03",
-    title: "On conçoit",
-    text: "UX, UI, architecture et parcours utilisateurs — avant d’écrire la moindre ligne inutile.",
-  },
-  {
-    n: "04",
-    title: "On développe",
-    text: "Construction du produit numérique, itération après itération.",
-  },
-  {
-    n: "05",
-    title: "On lance",
-    text: "Mise en ligne, publication ou déploiement. Le produit rencontre ses utilisateurs.",
-  },
-  {
-    n: "06",
-    title: "On fait évoluer",
-    text: "Maintenance, améliorations et nouvelles fonctionnalités au fil du réel.",
-  },
+  { n: "01", title: "On échange", text: "Comprendre le projet, le besoin et les objectifs. Sans jargon." },
+  { n: "02", title: "On imagine", text: "Définir la meilleure expérience et les fonctionnalités vraiment utiles." },
+  { n: "03", title: "On conçoit", text: "UX, UI, architecture et parcours — avant d’écrire la moindre ligne inutile." },
+  { n: "04", title: "On développe", text: "Construction du produit, itération après itération." },
+  { n: "05", title: "On lance", text: "Mise en ligne, publication ou déploiement." },
+  { n: "06", title: "On fait évoluer", text: "Maintenance, améliorations et nouvelles fonctionnalités." },
 ];
 
 export function Method() {
@@ -47,11 +23,11 @@ export function Method() {
           <p className="eyebrow">La méthode</p>
           <h2 className="headline mt-4 max-w-3xl text-display-lg">
             Simple. Claire.
-            <span className="block">Sans mauvaise surprise.</span>
+            <span className="block text-accent">Sans mauvaise surprise.</span>
           </h2>
         </Reveal>
 
-        <div className="mt-14 overflow-hidden rounded-[1.6rem] border border-line bg-surface">
+        <div className="mt-14 overflow-hidden rounded-[1.6rem] border border-line bg-white shadow-card">
           <div className="grid lg:grid-cols-[1fr_1.1fr]">
             <div className="border-b border-line p-2 lg:border-b-0 lg:border-r">
               {phases.map((phase, i) => (
@@ -61,22 +37,14 @@ export function Method() {
                   onClick={() => setActive(i)}
                   onMouseEnter={() => setActive(i)}
                   className={`flex w-full items-center gap-4 rounded-xl px-4 py-4 text-left transition md:px-5 ${
-                    active === i ? "bg-accent/10" : "hover:bg-white/[0.03]"
+                    active === i ? "bg-accent-soft" : "hover:bg-paper-soft"
                   }`}
                   data-cursor="interactive"
                 >
-                  <span
-                    className={`font-display text-sm ${
-                      active === i ? "text-accent" : "text-mist"
-                    }`}
-                  >
+                  <span className={`font-display text-sm ${active === i ? "text-accent" : "text-muted"}`}>
                     {phase.n}
                   </span>
-                  <span
-                    className={`font-display text-lg tracking-tight md:text-xl ${
-                      active === i ? "text-ivory" : "text-mist"
-                    }`}
-                  >
+                  <span className={`font-display text-lg tracking-tight md:text-xl ${active === i ? "text-ink" : "text-muted"}`}>
                     {phase.title}
                   </span>
                 </button>
@@ -84,10 +52,6 @@ export function Method() {
             </div>
 
             <div className="relative min-h-[280px] p-8 md:p-12">
-              <div
-                aria-hidden
-                className="pointer-events-none absolute bottom-0 right-0 h-48 w-48 rounded-full bg-accent/10 blur-3xl"
-              />
               <AnimatePresence mode="wait">
                 <motion.div
                   key={active}
@@ -95,17 +59,17 @@ export function Method() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -12 }}
                   transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                  className="relative"
                 >
                   <p className="font-display text-[6rem] leading-none text-accent/20 md:text-[7.5rem]">
                     {phases[active].n}
                   </p>
-                  <h3 className="mt-2 font-display text-display-md">
-                    {phases[active].title}
-                  </h3>
-                  <p className="mt-5 max-w-md text-lg leading-relaxed text-mist">
+                  <h3 className="mt-2 font-display text-display-md">{phases[active].title}</h3>
+                  <p className="mt-5 max-w-md text-lg leading-relaxed text-muted">
                     {phases[active].text}
                   </p>
+                  <a href="#contact" className="btn btn-primary mt-8" data-cursor="interactive">
+                    Démarrer l’échange
+                  </a>
                 </motion.div>
               </AnimatePresence>
             </div>

@@ -9,30 +9,37 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        paper: {
+          DEFAULT: "var(--color-paper)",
+          soft: "var(--color-paper-soft)",
+          mute: "var(--color-paper-mute)",
+        },
         ink: {
           DEFAULT: "var(--color-ink)",
           soft: "var(--color-ink-soft)",
-          mute: "var(--color-ink-mute)",
         },
-        surface: {
-          DEFAULT: "var(--color-surface)",
-          raised: "var(--color-surface-raised)",
-          hover: "var(--color-surface-hover)",
-        },
+        muted: "var(--color-muted)",
         line: "var(--color-line)",
         accent: {
           DEFAULT: "var(--color-accent)",
           soft: "var(--color-accent-soft)",
           deep: "var(--color-accent-deep)",
+          mist: "var(--color-accent-mist)",
         },
-        forest: "var(--color-forest)",
-        ivory: "var(--color-ivory)",
-        mist: "var(--color-mist)",
         cta: {
           DEFAULT: "var(--color-cta)",
           fg: "var(--color-cta-fg)",
           hover: "var(--color-cta-hover)",
         },
+        // legacy aliases mapped for gradual migration
+        surface: {
+          DEFAULT: "var(--color-paper)",
+          raised: "var(--color-paper-soft)",
+          hover: "var(--color-paper-mute)",
+        },
+        ivory: "var(--color-ink)",
+        mist: "var(--color-muted)",
+        forest: "var(--color-accent-deep)",
       },
       fontFamily: {
         display: ["var(--font-display)", "system-ui", "sans-serif"],
@@ -40,15 +47,15 @@ const config: Config = {
       },
       fontSize: {
         "display-xl": [
-          "clamp(3.2rem, 9vw, 7.5rem)",
-          { lineHeight: "0.92", letterSpacing: "-0.04em", fontWeight: "700" },
+          "clamp(3rem, 8.5vw, 6.75rem)",
+          { lineHeight: "0.94", letterSpacing: "-0.045em", fontWeight: "700" },
         ],
         "display-lg": [
-          "clamp(2.4rem, 5.5vw, 4.5rem)",
+          "clamp(2.25rem, 5vw, 4.25rem)",
           { lineHeight: "0.98", letterSpacing: "-0.035em", fontWeight: "700" },
         ],
         "display-md": [
-          "clamp(1.75rem, 3.2vw, 2.75rem)",
+          "clamp(1.7rem, 3vw, 2.6rem)",
           { lineHeight: "1.05", letterSpacing: "-0.03em", fontWeight: "650" },
         ],
       },
@@ -59,10 +66,15 @@ const config: Config = {
       transitionTimingFunction: {
         outback: "cubic-bezier(0.22, 1, 0.36, 1)",
       },
+      boxShadow: {
+        soft: "0 20px 50px rgba(15, 40, 90, 0.08)",
+        lift: "0 28px 60px rgba(31, 94, 255, 0.16)",
+        card: "0 12px 40px rgba(11, 31, 58, 0.08)",
+      },
       keyframes: {
         floaty: {
           "0%, 100%": { transform: "translateY(0px)" },
-          "50%": { transform: "translateY(-8px)" },
+          "50%": { transform: "translateY(-10px)" },
         },
         shimmer: {
           "0%": { backgroundPosition: "200% 0" },
@@ -70,7 +82,7 @@ const config: Config = {
         },
       },
       animation: {
-        floaty: "floaty 7s ease-in-out infinite",
+        floaty: "floaty 6.5s ease-in-out infinite",
         shimmer: "shimmer 8s linear infinite",
       },
     },
