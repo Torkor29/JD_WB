@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Almarai, Instrument_Serif } from "next/font/google";
+import { Almarai, Instrument_Serif, Syne } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/lib/site";
 
@@ -7,6 +7,13 @@ const sans = Almarai({
   subsets: ["latin"],
   variable: "--font-sans",
   weight: ["300", "400", "700", "800"],
+  display: "swap",
+});
+
+const display = Syne({
+  subsets: ["latin"],
+  variable: "--font-display",
+  weight: ["500", "600", "700", "800"],
   display: "swap",
 });
 
@@ -60,7 +67,10 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="fr" className={`${sans.variable} ${serif.variable}`}>
+    <html
+      lang="fr"
+      className={`${sans.variable} ${display.variable} ${serif.variable}`}
+    >
       <body className="font-sans antialiased">{children}</body>
     </html>
   );

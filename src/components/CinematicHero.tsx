@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Menu, X } from "lucide-react";
-import { WordsPullUp } from "./WordsPullUp";
 import { BeachWorkspaceScene } from "./BeachWorkspaceScene";
 import { siteConfig } from "@/lib/site";
 
@@ -19,23 +18,20 @@ export function CinematicHero() {
 
   return (
     <section id="top" className="relative min-h-[100svh] overflow-hidden bg-white">
-      {/* Scène qui fond doucement dans le blanc */}
       <div className="absolute inset-0">
         <BeachWorkspaceScene />
-        {/* Fallback soft edge fade (browsers without mask-composite) */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0"
           style={{
             background: `
               linear-gradient(to right, #fff 0%, transparent 12%, transparent 88%, #fff 100%),
-              linear-gradient(to bottom, #fff 0%, transparent 10%, transparent 72%, #fff 100%)
+              linear-gradient(to bottom, #fff 0%, transparent 10%, transparent 68%, #fff 100%)
             `,
           }}
         />
       </div>
 
-      {/* Nav pill claire */}
       <div className="absolute inset-x-0 top-0 z-30 flex justify-center pt-3 sm:pt-4">
         <nav
           className="flex items-center gap-1 rounded-full border border-line bg-white/85 px-3 py-2 shadow-soft backdrop-blur-md sm:gap-4 sm:px-5 md:gap-8 md:px-7 md:py-2.5 lg:gap-12"
@@ -43,7 +39,7 @@ export function CinematicHero() {
         >
           <a
             href="#top"
-            className="px-2 text-[12px] font-extrabold tracking-tight text-ink"
+            className="px-2 font-display text-[13px] font-bold tracking-tight text-ink"
           >
             TiCode
           </a>
@@ -76,29 +72,44 @@ export function CinematicHero() {
         </nav>
       </div>
 
-      {/* Contenu */}
       <div className="relative z-20 mx-auto flex min-h-[100svh] w-full max-w-[1400px] flex-col justify-end px-5 pb-10 pt-24 sm:px-8 sm:pb-14 lg:px-12 lg:pb-16">
-        <div className="grid items-end gap-6 lg:grid-cols-12 lg:gap-10">
-          <div className="lg:col-span-7">
+        <div className="grid max-w-full items-end gap-6 lg:grid-cols-12 lg:gap-10">
+          <div className="min-w-0 lg:col-span-7">
             <motion.p
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="mb-3 text-[11px] uppercase tracking-[0.2em] text-ink/55 sm:text-xs"
+              transition={{ duration: 0.55 }}
+              className="mb-4 text-[11px] font-medium uppercase tracking-[0.22em] text-ink/60 sm:text-xs"
             >
               Agence digitale · Bretagne
             </motion.p>
-            <h1 className="max-w-full overflow-hidden font-medium leading-[0.9] tracking-[-0.06em] text-[clamp(3.5rem,14vw,9rem)] text-ink">
-              <WordsPullUp text="TiCode" showAsterisk />
-            </h1>
-          </div>
 
-          <div className="flex flex-col gap-5 lg:col-span-5 lg:pb-3">
-            <motion.p
+            <motion.h1
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.75, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-              className="max-w-md text-sm leading-relaxed text-ink/70 sm:text-base"
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="font-display text-[clamp(2.75rem,8vw,5.75rem)] font-bold leading-[0.95] tracking-[-0.03em] text-ink"
+              style={{
+                textShadow:
+                  "0 1px 0 rgba(255,255,255,0.65), 0 12px 40px rgba(255,255,255,0.35)",
+              }}
+            >
+              TiCode
+              <span className="align-super text-[0.32em] font-semibold text-accent">
+                *
+              </span>
+            </motion.h1>
+          </div>
+
+          <div className="flex min-w-0 flex-col gap-5 lg:col-span-5 lg:pb-2">
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="max-w-md text-[15px] leading-relaxed text-ink/75 sm:text-base"
+              style={{
+                textShadow: "0 1px 12px rgba(255,255,255,0.8)",
+              }}
             >
               Sites, apps, paiements, prise de RDV et outils métiers — construits
               pour votre activité. Depuis la côte, pour toute la France.
@@ -106,10 +117,10 @@ export function CinematicHero() {
 
             <motion.a
               href="#contact"
-              initial={{ opacity: 0, y: 18 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.75, delay: 0.65, ease: [0.16, 1, 0.3, 1] }}
-              className="group inline-flex w-fit items-center gap-2 rounded-full bg-ink py-1.5 pl-5 pr-1.5 text-sm font-medium text-white transition-all hover:gap-3 sm:pl-6 sm:text-base"
+              transition={{ duration: 0.7, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="group inline-flex w-fit items-center gap-2 rounded-full bg-ink py-1.5 pl-5 pr-1.5 text-sm font-medium text-white transition-all hover:gap-3 sm:pl-6 sm:text-[15px]"
             >
               Démarrer un projet
               <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-accent transition-transform group-hover:scale-110 sm:h-10 sm:w-10">
@@ -142,8 +153,12 @@ export function CinematicHero() {
               className="absolute inset-x-3 bottom-3 rounded-2xl bg-white p-6 shadow-lift"
             >
               <div className="mb-4 flex items-center justify-between">
-                <span className="font-extrabold text-ink">TiCode</span>
-                <button type="button" onClick={() => setOpen(false)} aria-label="Fermer">
+                <span className="font-display font-bold text-ink">TiCode</span>
+                <button
+                  type="button"
+                  onClick={() => setOpen(false)}
+                  aria-label="Fermer"
+                >
                   <X size={18} className="text-ink" />
                 </button>
               </div>

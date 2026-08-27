@@ -43,7 +43,7 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-sans)", "Almarai", "system-ui", "sans-serif"],
         serif: ["var(--font-serif)", "Instrument Serif", "serif"],
-        display: ["var(--font-sans)", "Almarai", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "Syne", "system-ui", "sans-serif"],
       },
       transitionTimingFunction: {
         outback: "cubic-bezier(0.22, 1, 0.36, 1)",
