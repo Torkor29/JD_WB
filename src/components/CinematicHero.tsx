@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Menu, X } from "lucide-react";
 import { WordsPullUp } from "./WordsPullUp";
+import { BeachWorkspaceScene } from "./BeachWorkspaceScene";
 import { siteConfig } from "@/lib/site";
 
 export function CinematicHero() {
@@ -19,43 +20,26 @@ export function CinematicHero() {
   return (
     <section id="top" className="relative h-[100svh] bg-black p-3 sm:p-4 md:p-6">
       <div className="relative h-full overflow-hidden rounded-2xl md:rounded-[2rem]">
-        {/* Beach video / cinematic still */}
-        <video
-          className="absolute inset-0 h-full w-full object-cover animate-kenburns"
-          autoPlay
-          loop
-          muted
-          playsInline
-          poster="/beach/hero.jpg"
-        >
-          <source src="/videos/plage-hero.mp4" type="video/mp4" />
-        </video>
+        {/* Scène dessin animé — personnage sur la plage */}
+        <BeachWorkspaceScene />
 
         <div
           aria-hidden
-          className="noise-overlay pointer-events-none absolute inset-0 opacity-[0.75] mix-blend-overlay"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/55 via-black/25 to-black/80"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_70%_30%,rgba(222,219,200,0.08),transparent_45%)]"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/35 via-transparent to-black/75"
         />
 
-        {/* Hanging nav pill */}
+        {/* Nav pill suspendue — style Prisma */}
         <div className="absolute inset-x-0 top-0 z-30 flex justify-center">
           <nav
-            className="flex items-center gap-1 rounded-b-2xl bg-black px-3 py-2 sm:gap-4 sm:px-5 md:rounded-b-3xl md:px-8 md:py-2.5"
+            className="flex items-center gap-1 rounded-b-2xl bg-black px-3 py-2 sm:gap-4 sm:px-5 md:rounded-b-3xl md:gap-8 md:px-8 md:py-2.5 lg:gap-12"
             aria-label="Navigation"
           >
-            <div className="hidden items-center gap-3 sm:gap-6 md:flex md:gap-10 lg:gap-14">
+            <div className="hidden items-center gap-4 md:flex md:gap-8 lg:gap-12">
               {siteConfig.nav.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
-                  className="text-[10px] transition-colors sm:text-xs md:text-sm"
+                  className="text-[10px] tracking-wide transition-colors sm:text-xs md:text-sm"
                   style={{ color: "rgba(225, 224, 204, 0.8)" }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.color = "#E1E0CC";
@@ -94,30 +78,30 @@ export function CinematicHero() {
           </nav>
         </div>
 
-        {/* Hero content */}
+        {/* Contenu bas — grille type Prisma */}
         <div className="absolute inset-x-0 bottom-0 z-20 p-5 sm:p-8 md:p-10 lg:p-12">
-          <div className="grid items-end gap-6 lg:grid-cols-12 lg:gap-8">
-            <div className="lg:col-span-8">
-              <p className="mb-2 text-[10px] uppercase tracking-[0.2em] text-primary/70 sm:text-xs">
+          <div className="grid items-end gap-6 lg:grid-cols-12 lg:gap-10">
+            <div className="lg:col-span-7">
+              <p className="mb-2 text-[10px] uppercase tracking-[0.22em] text-primary/65 sm:text-xs">
                 Brest · Bretagne · Bord de mer
               </p>
               <h1
-                className="font-medium leading-[0.85] tracking-[-0.07em] text-[22vw] sm:text-[20vw] md:text-[18vw] lg:text-[14vw] xl:text-[12vw]"
+                className="font-medium leading-[0.82] tracking-[-0.07em] text-[24vw] sm:text-[20vw] md:text-[17vw] lg:text-[13vw] xl:text-[11.5vw]"
                 style={{ color: "#E1E0CC" }}
               >
                 <WordsPullUp text="Julien" showAsterisk />
               </h1>
             </div>
 
-            <div className="flex flex-col gap-5 lg:col-span-4 lg:pb-3">
+            <div className="flex flex-col gap-5 lg:col-span-5 lg:items-start lg:pb-4">
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="max-w-md text-xs leading-[1.35] text-primary/70 sm:text-sm md:text-base"
+                className="max-w-md text-xs leading-[1.3] text-primary/70 sm:text-sm md:text-base"
               >
-                Breton. Je conçois des sites, apps et outils métiers sur mesure
-                — depuis la côte, pour des professionnels partout en France.
+                Breton. Je conçois des sites, apps et outils métiers sur mesure —
+                depuis la côte, pour des professionnels partout en France.
               </motion.p>
 
               <motion.a
@@ -125,7 +109,7 @@ export function CinematicHero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                className="group inline-flex w-fit items-center gap-2 rounded-full bg-primary py-1.5 pl-5 pr-1.5 text-sm font-medium text-black transition-all hover:gap-3 sm:text-base sm:pl-6"
+                className="group inline-flex w-fit items-center gap-2 rounded-full bg-primary py-1.5 pl-5 pr-1.5 text-sm font-medium text-black transition-all hover:gap-3 sm:pl-6 sm:text-base"
               >
                 Démarrer un projet
                 <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-black transition-transform group-hover:scale-110 sm:h-10 sm:w-10">
