@@ -15,7 +15,7 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-[100svh] flex-col overflow-hidden bg-[#EFEFEF]"
+      className="relative flex min-h-[auto] flex-col overflow-hidden bg-[#EFEFEF] sm:min-h-[100svh]"
     >
       <LiquidHeroBackdrop />
 
@@ -26,7 +26,7 @@ export function Hero() {
 
       <div className="relative z-20 h-[72px] shrink-0 sm:h-[84px]" />
 
-      <div className="relative z-20 mx-auto flex w-full max-w-[1440px] flex-1 flex-col justify-center px-5 pb-10 pt-4 sm:justify-end sm:px-8 sm:pb-16 sm:pt-0 lg:px-12 lg:pb-20">
+      <div className="relative z-20 mx-auto flex w-full max-w-[1440px] flex-1 flex-col justify-start px-5 pb-12 pt-6 sm:justify-end sm:px-8 sm:pb-16 sm:pt-0 lg:px-12 lg:pb-20">
         <motion.p
           initial={reduce ? false : { opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
