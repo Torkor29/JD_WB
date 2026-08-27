@@ -38,26 +38,26 @@ export function BeachWorkspaceScene() {
         <>
           <motion.div
             aria-hidden
-            className="pointer-events-none absolute bottom-[18%] right-0 top-[32%] w-[55%]"
+            className="pointer-events-none absolute bottom-[22%] right-0 top-[26%] w-[58%]"
             style={{
               background:
-                "linear-gradient(100deg, transparent 0%, rgba(255,255,255,0) 35%, rgba(255,255,255,0.45) 50%, rgba(140,210,255,0.25) 58%, transparent 75%)",
+                "linear-gradient(100deg, transparent 0%, rgba(255,255,255,0) 30%, rgba(255,255,255,0.55) 48%, rgba(120,200,255,0.35) 58%, transparent 78%)",
               backgroundSize: "260% 100%",
               mixBlendMode: "soft-light",
             }}
             animate={{ backgroundPositionX: ["0%", "100%", "0%"] }}
-            transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }}
+            transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
             aria-hidden
-            className="pointer-events-none absolute bottom-[16%] right-[2%] h-[38%] w-[48%] rounded-[40%] opacity-50"
+            className="pointer-events-none absolute bottom-[20%] right-[2%] h-[42%] w-[50%] rounded-[40%] opacity-60"
             style={{
               background:
-                "radial-gradient(ellipse at 40% 60%, rgba(255,255,255,0.35), transparent 60%)",
+                "radial-gradient(ellipse at 40% 55%, rgba(255,255,255,0.4), transparent 62%)",
               mixBlendMode: "overlay",
             }}
-            animate={{ x: [0, 30, -10, 0], opacity: [0.25, 0.55, 0.3, 0.25] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            animate={{ x: [0, 36, -12, 0], opacity: [0.3, 0.65, 0.35, 0.3] }}
+            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
           />
         </>
       )}
@@ -97,29 +97,29 @@ export function BeachWorkspaceScene() {
 
         {/* Vagues océan — plus visibles */}
         <g>
-          <SeaBand reduce={!!reduce} y={600} amp={14} duration={5.5} opacity={0.38} />
+          <SeaBand reduce={!!reduce} y={540} amp={16} duration={5.2} opacity={0.42} />
           <SeaBand
             reduce={!!reduce}
-            y={635}
-            amp={18}
-            duration={7}
-            opacity={0.3}
+            y={580}
+            amp={20}
+            duration={6.6}
+            opacity={0.34}
             delay={0.35}
           />
           <SeaBand
             reduce={!!reduce}
-            y={675}
-            amp={22}
-            duration={8.2}
-            opacity={0.24}
+            y={625}
+            amp={24}
+            duration={7.8}
+            opacity={0.28}
             delay={0.9}
           />
           <SeaBand
             reduce={!!reduce}
-            y={720}
-            amp={16}
-            duration={6.4}
-            opacity={0.18}
+            y={670}
+            amp={18}
+            duration={6}
+            opacity={0.2}
             delay={0.55}
           />
         </g>

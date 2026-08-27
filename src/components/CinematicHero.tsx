@@ -26,7 +26,7 @@ export function CinematicHero() {
           style={{
             background: `
               linear-gradient(to right, #fff 0%, transparent 12%, transparent 88%, #fff 100%),
-              linear-gradient(to bottom, #fff 0%, transparent 10%, transparent 68%, #fff 100%)
+              linear-gradient(to bottom, #fff 0%, transparent 10%, transparent 75%, #fff 100%)
             `,
           }}
         />
