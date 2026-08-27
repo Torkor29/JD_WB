@@ -1,9 +1,9 @@
 export const siteConfig = {
-  name: "Julien DOLOU",
-  title:
-    "Julien DOLOU | Studio digital — sites, apps & outils métiers | Bretagne",
+  name: "TiCode",
+  founder: "Julien DOLOU",
+  title: "TiCode | Sites, apps & outils métiers sur mesure — Bretagne",
   description:
-    "Breton, bord de mer. Je transforme vos idées en produits numériques sur mesure : sites web, applications, prise de RDV, fidélisation et outils métiers.",
+    "TiCode, agence digitale en Bretagne. Sites web, applications, prise de RDV, fidélisation et outils métiers — conçus sur mesure, avec du motion design soigné.",
   url: "https://juliendolou.fr",
   locale: "fr_FR",
   contactEmail:

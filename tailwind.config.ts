@@ -10,35 +10,34 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: "#DEDBC8",
-          soft: "#E1E0CC",
+          DEFAULT: "#0B1F3A",
+          soft: "#16325A",
         },
         paper: {
-          DEFAULT: "#000000",
-          soft: "#101010",
-          mute: "#212121",
+          DEFAULT: "#FFFFFF",
+          soft: "#F7F8FA",
+          mute: "#EEF1F5",
         },
         ink: {
-          DEFAULT: "#E1E0CC",
-          soft: "#DEDBC8",
+          DEFAULT: "#0B1F3A",
+          soft: "#243B55",
         },
-        muted: "#9CA3AF",
-        line: "rgba(222, 219, 200, 0.12)",
+        muted: "#5B6B80",
+        line: "rgba(11, 31, 58, 0.1)",
         accent: {
-          DEFAULT: "#DEDBC8",
-          soft: "rgba(222, 219, 200, 0.12)",
-          deep: "#C8C4AB",
-          mist: "#E1E0CC",
+          DEFAULT: "#1F5EFF",
+          soft: "#E8F0FF",
+          deep: "#0A3FCC",
+          mist: "#C9DAFF",
         },
         cta: {
-          DEFAULT: "#DEDBC8",
-          fg: "#000000",
-          hover: "#E8E5D4",
+          DEFAULT: "#0B1F3A",
+          fg: "#FFFFFF",
+          hover: "#16325A",
         },
-        surface: {
-          DEFAULT: "#000000",
-          raised: "#101010",
-          hover: "#212121",
+        sand: {
+          DEFAULT: "#D9C4A5",
+          soft: "#F3EDE4",
         },
       },
       fontFamily: {
@@ -50,10 +49,15 @@ const config: Config = {
         outback: "cubic-bezier(0.22, 1, 0.36, 1)",
         expo: "cubic-bezier(0.16, 1, 0.3, 1)",
       },
+      boxShadow: {
+        soft: "0 16px 40px rgba(11, 31, 58, 0.08)",
+        lift: "0 24px 50px rgba(31, 94, 255, 0.14)",
+        card: "0 12px 36px rgba(11, 31, 58, 0.07)",
+      },
       keyframes: {
         kenburns: {
           "0%": { transform: "scale(1)" },
-          "100%": { transform: "scale(1.12)" },
+          "100%": { transform: "scale(1.05)" },
         },
         floaty: {
           "0%, 100%": { transform: "translateY(0px)" },
@@ -61,8 +65,8 @@ const config: Config = {
         },
       },
       animation: {
-        kenburns: "kenburns 18s ease-in-out infinite alternate",
-        floaty: "floaty 6.5s ease-in-out infinite",
+        kenburns: "kenburns 20s ease-in-out infinite alternate",
+        floaty: "floaty 6s ease-in-out infinite",
       },
     },
   },

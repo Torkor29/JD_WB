@@ -18,105 +18,104 @@ export function CinematicHero() {
   }, [open]);
 
   return (
-    <section id="top" className="relative h-[100svh] bg-black p-3 sm:p-4 md:p-6">
-      <div className="relative h-full overflow-hidden rounded-2xl md:rounded-[2rem]">
-        {/* Scène dessin animé — personnage sur la plage */}
+    <section id="top" className="relative min-h-[100svh] overflow-hidden bg-white">
+      {/* Scène qui fond doucement dans le blanc */}
+      <div className="absolute inset-0">
         <BeachWorkspaceScene />
-
+        {/* Fallback soft edge fade (browsers without mask-composite) */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/35 via-transparent to-black/75"
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background: `
+              linear-gradient(to right, #fff 0%, transparent 12%, transparent 88%, #fff 100%),
+              linear-gradient(to bottom, #fff 0%, transparent 10%, transparent 72%, #fff 100%)
+            `,
+          }}
         />
+      </div>
 
-        {/* Nav pill suspendue — style Prisma */}
-        <div className="absolute inset-x-0 top-0 z-30 flex justify-center">
-          <nav
-            className="flex items-center gap-1 rounded-b-2xl bg-black px-3 py-2 sm:gap-4 sm:px-5 md:rounded-b-3xl md:gap-8 md:px-8 md:py-2.5 lg:gap-12"
-            aria-label="Navigation"
+      {/* Nav pill claire */}
+      <div className="absolute inset-x-0 top-0 z-30 flex justify-center pt-3 sm:pt-4">
+        <nav
+          className="flex items-center gap-1 rounded-full border border-line bg-white/85 px-3 py-2 shadow-soft backdrop-blur-md sm:gap-4 sm:px-5 md:gap-8 md:px-7 md:py-2.5 lg:gap-12"
+          aria-label="Navigation"
+        >
+          <a
+            href="#top"
+            className="px-2 text-[12px] font-extrabold tracking-tight text-ink"
           >
-            <div className="hidden items-center gap-4 md:flex md:gap-8 lg:gap-12">
-              {siteConfig.nav.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="text-[10px] tracking-wide transition-colors sm:text-xs md:text-sm"
-                  style={{ color: "rgba(225, 224, 204, 0.8)" }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.color = "#E1E0CC";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.color = "rgba(225, 224, 204, 0.8)";
-                  }}
-                  onClick={(e) => {
-                    const el = document.querySelector(item.href);
-                    if (!el) return;
-                    e.preventDefault();
-                    el.scrollIntoView({ behavior: "smooth", block: "start" });
-                  }}
-                >
-                  {item.label}
-                </a>
-              ))}
-            </div>
+            TiCode
+          </a>
+          <div className="hidden items-center gap-4 md:flex md:gap-7 lg:gap-10">
+            {siteConfig.nav.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="text-[12px] text-ink/70 transition-colors hover:text-ink md:text-sm"
+                onClick={(e) => {
+                  const el = document.querySelector(item.href);
+                  if (!el) return;
+                  e.preventDefault();
+                  el.scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+          <button
+            type="button"
+            className="ml-1 inline-flex items-center gap-1.5 rounded-full bg-ink px-3 py-1.5 text-[11px] font-medium text-white md:hidden"
+            onClick={() => setOpen(true)}
+            aria-expanded={open}
+          >
+            <Menu size={14} />
+            Menu
+          </button>
+        </nav>
+      </div>
 
-            <a
-              href="#top"
-              className="px-2 text-[11px] font-extrabold tracking-tight text-primary md:hidden"
+      {/* Contenu */}
+      <div className="relative z-20 mx-auto flex min-h-[100svh] w-full max-w-[1400px] flex-col justify-end px-5 pb-10 pt-24 sm:px-8 sm:pb-14 lg:px-12 lg:pb-16">
+        <div className="grid items-end gap-6 lg:grid-cols-12 lg:gap-10">
+          <div className="lg:col-span-7">
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="mb-3 text-[11px] uppercase tracking-[0.2em] text-ink/55 sm:text-xs"
             >
-              JD
-            </a>
+              Agence digitale · Bretagne
+            </motion.p>
+            <h1 className="font-medium leading-[0.88] tracking-[-0.06em] text-[18vw] text-ink sm:text-[14vw] md:text-[11vw] lg:text-[9vw] xl:text-[8vw]">
+              <WordsPullUp text="TiCode" showAsterisk />
+            </h1>
+          </div>
 
-            <button
-              type="button"
-              className="ml-auto inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-[11px] text-primary/80 md:hidden"
-              onClick={() => setOpen(true)}
-              aria-expanded={open}
+          <div className="flex flex-col gap-5 lg:col-span-5 lg:pb-3">
+            <motion.p
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.75, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              className="max-w-md text-sm leading-relaxed text-ink/70 sm:text-base"
             >
-              <Menu size={14} />
-              Menu
-            </button>
-          </nav>
-        </div>
+              Sites, apps et outils métiers sur mesure — conçus avec soin, animés
+              avec intention. Depuis la côte, pour toute la France.
+            </motion.p>
 
-        {/* Contenu bas — grille type Prisma */}
-        <div className="absolute inset-x-0 bottom-0 z-20 p-5 sm:p-8 md:p-10 lg:p-12">
-          <div className="grid items-end gap-6 lg:grid-cols-12 lg:gap-10">
-            <div className="lg:col-span-7">
-              <p className="mb-2 text-[10px] uppercase tracking-[0.22em] text-primary/65 sm:text-xs">
-                Brest · Bretagne · Bord de mer
-              </p>
-              <h1
-                className="font-medium leading-[0.82] tracking-[-0.07em] text-[24vw] sm:text-[20vw] md:text-[17vw] lg:text-[13vw] xl:text-[11.5vw]"
-                style={{ color: "#E1E0CC" }}
-              >
-                <WordsPullUp text="Julien" showAsterisk />
-              </h1>
-            </div>
-
-            <div className="flex flex-col gap-5 lg:col-span-5 lg:items-start lg:pb-4">
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="max-w-md text-xs leading-[1.3] text-primary/70 sm:text-sm md:text-base"
-              >
-                Breton. Je conçois des sites, apps et outils métiers sur mesure —
-                depuis la côte, pour des professionnels partout en France.
-              </motion.p>
-
-              <motion.a
-                href="#contact"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                className="group inline-flex w-fit items-center gap-2 rounded-full bg-primary py-1.5 pl-5 pr-1.5 text-sm font-medium text-black transition-all hover:gap-3 sm:pl-6 sm:text-base"
-              >
-                Démarrer un projet
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-black transition-transform group-hover:scale-110 sm:h-10 sm:w-10">
-                  <ArrowRight size={16} className="text-primary" />
-                </span>
-              </motion.a>
-            </div>
+            <motion.a
+              href="#contact"
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.75, delay: 0.65, ease: [0.16, 1, 0.3, 1] }}
+              className="group inline-flex w-fit items-center gap-2 rounded-full bg-ink py-1.5 pl-5 pr-1.5 text-sm font-medium text-white transition-all hover:gap-3 sm:pl-6 sm:text-base"
+            >
+              Démarrer un projet
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-accent transition-transform group-hover:scale-110 sm:h-10 sm:w-10">
+                <ArrowRight size={16} className="text-white" />
+              </span>
+            </motion.a>
           </div>
         </div>
       </div>
@@ -131,7 +130,7 @@ export function CinematicHero() {
           >
             <button
               type="button"
-              className="absolute inset-0 bg-black/70"
+              className="absolute inset-0 bg-ink/40"
               aria-label="Fermer"
               onClick={() => setOpen(false)}
             />
@@ -140,11 +139,12 @@ export function CinematicHero() {
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
               transition={{ duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
-              className="absolute inset-x-3 bottom-3 rounded-2xl bg-[#101010] p-6"
+              className="absolute inset-x-3 bottom-3 rounded-2xl bg-white p-6 shadow-lift"
             >
-              <div className="mb-4 flex justify-end">
+              <div className="mb-4 flex items-center justify-between">
+                <span className="font-extrabold text-ink">TiCode</span>
                 <button type="button" onClick={() => setOpen(false)} aria-label="Fermer">
-                  <X size={18} className="text-primary" />
+                  <X size={18} className="text-ink" />
                 </button>
               </div>
               <ul className="space-y-4">
@@ -152,7 +152,7 @@ export function CinematicHero() {
                   <li key={item.href}>
                     <a
                       href={item.href}
-                      className="block text-2xl text-primary"
+                      className="block text-2xl text-ink"
                       onClick={() => setOpen(false)}
                     >
                       {item.label}

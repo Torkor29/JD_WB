@@ -43,7 +43,7 @@ export function ScrollRevealText({ text, className = "" }: Props) {
   const chars = Array.from(text);
 
   return (
-    <p ref={ref} className={className} style={{ color: "#DEDBC8" }}>
+    <p ref={ref} className={className} style={{ color: "#0B1F3A" }}>
       {chars.map((char, i) => (
         <AnimatedLetter
           key={`${char}-${i}`}
