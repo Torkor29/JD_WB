@@ -126,8 +126,15 @@ export function Portfolio() {
     <section id="realisations" className="section-pad relative">
       <div className="container-site">
         <Reveal>
-          <p className="eyebrow">Réalisations</p>
-          <h2 className="headline mt-4 max-w-3xl text-display-lg">
+          <div className="mb-6 flex items-center gap-3 sm:mb-8">
+            <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-ink text-[11px] font-semibold text-white sm:h-7 sm:w-7 sm:text-[12px]">
+              2
+            </span>
+            <span className="rounded-full border border-line px-3 py-1 text-[12px] font-medium text-ink sm:px-4 sm:py-1.5 sm:text-[13px]">
+              Réalisations
+            </span>
+          </div>
+          <h2 className="headline mt-0 max-w-3xl text-display-lg">
             Des produits livrés.
             <span className="block text-accent">Pas des maquettes génériques.</span>
           </h2>

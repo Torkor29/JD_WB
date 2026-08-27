@@ -1,84 +1,92 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { motion, useReducedMotion } from "framer-motion";
+import { TextRollButton } from "./TextRollButton";
 import { ProductMorph } from "./ProductMorph";
+
+const HeroShaderBackground = dynamic(
+  () =>
+    import("./HeroShaderBackground").then((m) => m.HeroShaderBackground),
+  { ssr: false },
+);
 
 export function Hero() {
   const reduce = useReducedMotion();
 
   return (
-    <section id="top" className="relative overflow-hidden pt-[72px]">
-      <div className="container-wide relative grid items-center gap-12 py-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10 lg:py-20">
-        <div className="relative z-10 max-w-3xl">
+    <section
+      id="top"
+      className="relative flex min-h-[100svh] flex-col overflow-hidden bg-[#F5F8FC]"
+    >
+      {!reduce && <HeroShaderBackground />}
+
+      {/* spacer under floating pill nav */}
+      <div className="relative z-20 h-[72px] shrink-0" />
+
+      <div className="relative z-20 mx-auto flex w-full max-w-[1440px] flex-1 flex-col justify-end px-5 pb-14 sm:px-8 sm:pb-16 lg:flex-row lg:items-end lg:justify-between lg:gap-10 lg:px-12 lg:pb-20">
+        <div className="max-w-3xl">
           <motion.p
-            initial={reduce ? false : { opacity: 0, y: 16 }}
+            initial={reduce ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="eyebrow mb-5"
+            transition={{ duration: 0.6 }}
+            className="mb-5 text-[13px] tracking-wide text-ink sm:mb-8 sm:text-[14px]"
           >
-            Studio digital · Brest & France
+            Julien DOLOU — Studio digital
           </motion.p>
 
           <motion.h1
-            initial={reduce ? false : { opacity: 0, y: 28 }}
+            initial={reduce ? false : { opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
-            className="headline text-display-xl"
+            transition={{ duration: 0.8, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+            className="font-display text-[clamp(1.75rem,7vw,4.2rem)] font-medium leading-[1.08] tracking-[-0.03em] text-ink sm:text-[clamp(2.5rem,5vw,4.2rem)]"
           >
             Vous avez une idée.
-            <br />
+            <br className="hidden sm:block" />
+            <span className="sm:hidden"> </span>
             <span className="text-accent">Je la transforme</span>
-            <br />
+            <br className="hidden sm:block" />
+            <span className="sm:hidden"> </span>
             en produit numérique.
           </motion.h1>
 
           <motion.p
-            initial={reduce ? false : { opacity: 0, y: 20 }}
+            initial={reduce ? false : { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="lede mt-6 max-w-xl text-lg"
+            transition={{ duration: 0.7, delay: 0.15 }}
+            className="mt-5 max-w-xl text-[15px] leading-[1.6] text-muted sm:text-[17px]"
           >
-            Création de site web sur mesure, applications mobiles, plateformes
-            et outils métiers. Pas de template. Un produit pensé pour votre
-            besoin — de la première idée jusqu’à la mise en ligne.
+            Sites web sur mesure, applications mobiles, plateformes et outils
+            métiers — conçus pour votre besoin, pas pour un template.
           </motion.p>
 
           <motion.div
             initial={reduce ? false : { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-8 flex flex-wrap items-center gap-3"
+            transition={{ duration: 0.7, delay: 0.25 }}
+            className="mt-8 flex flex-col gap-4 sm:mt-12 sm:flex-row sm:items-center sm:gap-5"
           >
-            <a href="#contact" className="btn btn-primary" data-cursor="interactive">
-              Parler de mon projet
-              <span aria-hidden>→</span>
-            </a>
-            <a href="#devis" className="btn btn-secondary" data-cursor="interactive">
+            <TextRollButton href="#contact" variant="accent">
+              Démarrer un projet
+            </TextRollButton>
+            <TextRollButton href="#devis" variant="ghost">
               Estimer mon devis
-            </a>
+            </TextRollButton>
             <a
               href="#realisations"
-              className="link-underline ml-1 text-sm font-semibold text-accent"
+              className="text-[13px] font-semibold text-accent underline-offset-4 hover:underline sm:text-[14px]"
               data-cursor="interactive"
             >
               Voir les réalisations
             </a>
           </motion.div>
-
-          <motion.p
-            initial={reduce ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.45 }}
-            className="mt-8 text-sm text-muted"
-          >
-            Un seul interlocuteur · Web + mobile + outils · Accompagnement A→Z
-          </motion.p>
         </div>
 
         <motion.div
-          initial={reduce ? false : { opacity: 0, scale: 0.96, y: 24 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+          initial={reduce ? false : { opacity: 0, y: 20, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.9, delay: 0.2 }}
+          className="mt-10 hidden w-full max-w-[420px] lg:mt-0 lg:block"
         >
           <ProductMorph />
         </motion.div>

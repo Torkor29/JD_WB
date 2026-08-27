@@ -1,6 +1,7 @@
 "use client";
 
 import { Reveal } from "./Reveal";
+import { TextRollButton } from "./TextRollButton";
 
 const items = [
   {
@@ -42,11 +43,18 @@ const items = [
 
 export function Solutions() {
   return (
-    <section id="solutions" className="section-pad relative bg-paper-soft/70">
+    <section id="solutions" className="section-pad relative overflow-hidden bg-white">
       <div className="container-site">
         <Reveal>
-          <p className="eyebrow">Ce que je construis</p>
-          <h2 className="headline mt-4 max-w-3xl text-display-lg">
+          <div className="mb-6 flex items-center gap-3 sm:mb-8">
+            <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-ink text-[11px] font-semibold text-white sm:h-7 sm:w-7 sm:text-[12px]">
+              1
+            </span>
+            <span className="rounded-full border border-line px-3 py-1 text-[12px] font-medium text-ink sm:px-4 sm:py-1.5 sm:text-[13px]">
+              Ce que je construis
+            </span>
+          </div>
+          <h2 className="headline max-w-3xl text-[clamp(1.5rem,4vw,3.2rem)] font-medium leading-[1.12] tracking-[-0.02em]">
             Pas de cases imposées.
             <span className="block text-accent">Le bon produit pour votre besoin.</span>
           </h2>
@@ -57,7 +65,7 @@ export function Solutions() {
             <Reveal
               key={item.id}
               delay={i * 0.05}
-              className={`${item.span} group relative overflow-hidden rounded-[1.4rem] border border-line bg-white p-7 shadow-card transition duration-500 hover:-translate-y-1 hover:border-accent/30 hover:shadow-lift md:p-8`}
+              className={`${item.span} group relative overflow-hidden rounded-[1.4rem] border border-line bg-paper-soft/50 p-7 transition duration-500 hover:-translate-y-1 hover:border-accent/30 hover:bg-white hover:shadow-lift md:p-8`}
             >
               <p className="text-xs font-bold uppercase tracking-[0.16em] text-accent">
                 {String(i + 1).padStart(2, "0")}
@@ -67,13 +75,11 @@ export function Solutions() {
               </h3>
               <p className="mt-2 text-sm font-semibold text-ink/70">{item.hook}</p>
               <p className="mt-3 max-w-md leading-relaxed text-muted">{item.text}</p>
-              <a
-                href="#devis"
-                className="link-underline mt-6 inline-flex text-sm font-semibold text-accent"
-                data-cursor="interactive"
-              >
-                Estimer ce type de projet
-              </a>
+              <div className="mt-6">
+                <TextRollButton href="#devis" variant="accent">
+                  Estimer ce projet
+                </TextRollButton>
+              </div>
             </Reveal>
           ))}
         </div>

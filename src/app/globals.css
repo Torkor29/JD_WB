@@ -36,11 +36,7 @@ html {
 
 body {
   color: var(--color-ink);
-  background:
-    radial-gradient(1000px 520px at 90% -5%, rgba(31, 94, 255, 0.12), transparent 55%),
-    radial-gradient(800px 480px at -5% 15%, rgba(10, 63, 204, 0.06), transparent 50%),
-    linear-gradient(180deg, #ffffff 0%, #f7faff 45%, #ffffff 100%);
-  background-attachment: fixed;
+  background: #ffffff;
   min-height: 100vh;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
