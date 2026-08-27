@@ -1,12 +1,9 @@
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
-import { Approach } from "@/components/Approach";
 import { Solutions } from "@/components/Solutions";
 import { Portfolio } from "@/components/Portfolio";
 import { Method } from "@/components/Method";
-import { Audience } from "@/components/Audience";
-import { Differentiation } from "@/components/Differentiation";
-import { IntentPicker } from "@/components/IntentPicker";
+import { Professions } from "@/components/Professions";
 import { QuoteEstimator } from "@/components/QuoteEstimator";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
@@ -19,14 +16,11 @@ export default function HomePage() {
       <Header />
       <main id="main">
         <Hero />
-        <Approach />
         <Solutions />
         <Portfolio />
-        <QuoteEstimator />
         <Method />
-        <Audience />
-        <Differentiation />
-        <IntentPicker />
+        <Professions />
+        <QuoteEstimator />
         <FinalCTA />
       </main>
       <Footer />

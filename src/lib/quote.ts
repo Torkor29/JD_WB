@@ -82,10 +82,23 @@ export const quoteExtras: {
   id: string;
   label: string;
   add: [number, number];
+  motion?: "rdv" | "fidelite" | "dashboard" | "reservation" | "suivi";
 }[] = [
   { id: "design", label: "Design UI/UX poussé", add: [800, 2500] },
   { id: "seo", label: "SEO & contenu de lancement", add: [400, 1200] },
-  { id: "cms", label: "Espace d’administration", add: [600, 2000] },
+  {
+    id: "rdv",
+    label: "Prise de RDV en ligne",
+    add: [900, 3200],
+    motion: "rdv",
+  },
+  {
+    id: "fidelite",
+    label: "Fidélisation / Wallet",
+    add: [1200, 4500],
+    motion: "fidelite",
+  },
+  { id: "cms", label: "Espace d’administration", add: [600, 2000], motion: "dashboard" },
   { id: "maintenance", label: "Maintenance 3 mois incluse", add: [450, 1500] },
   { id: "mobile-extra", label: "Version mobile complémentaire", add: [2500, 8000] },
 ];

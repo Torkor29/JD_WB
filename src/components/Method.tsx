@@ -25,6 +25,10 @@ export function Method() {
             Simple. Claire.
             <span className="block text-accent">Sans mauvaise surprise.</span>
           </h2>
+          <p className="lede mt-5">
+            Une seule façon de travailler — de l’échange au lancement — pour
+            avancer vite sans perdre le fil.
+          </p>
         </Reveal>
 
         <div className="mt-14 overflow-hidden rounded-[1.6rem] border border-line bg-white shadow-card">

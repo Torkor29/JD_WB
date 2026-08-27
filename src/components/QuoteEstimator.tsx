@@ -1,7 +1,9 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Reveal } from "./Reveal";
+import { FeatureMotion } from "./FeatureMotion";
 import {
   estimateQuote,
   formatEuro,
@@ -12,11 +14,13 @@ import {
   type QuoteScope,
 } from "@/lib/quote";
 import { siteConfig } from "@/lib/site";
+import type { FeatureMotionId } from "@/lib/capabilities";
 
 export function QuoteEstimator() {
   const [type, setType] = useState<QuoteProjectType>("site-vitrine");
   const [scope, setScope] = useState<QuoteScope>("complet");
-  const [extras, setExtras] = useState<string[]>(["design", "seo"]);
+  const [extras, setExtras] = useState<string[]>(["design", "rdv"]);
+  const [previewMotion, setPreviewMotion] = useState<FeatureMotionId | null>("rdv");
 
   const estimate = useMemo(
     () => estimateQuote(type, scope, extras),
@@ -24,9 +28,14 @@ export function QuoteEstimator() {
   );
 
   const toggleExtra = (id: string) => {
-    setExtras((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
-    );
+    const extra = quoteExtras.find((e) => e.id === id);
+    setExtras((prev) => {
+      const next = prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id];
+      return next;
+    });
+    if (extra?.motion) {
+      setPreviewMotion(extra.motion);
+    }
   };
 
   const mailBody = encodeURIComponent(
@@ -42,8 +51,12 @@ export function QuoteEstimator() {
   );
 
   return (
-    <section id="devis" className="section-pad relative">
-      <div className="container-site">
+    <section id="devis" className="section-pad relative overflow-hidden bg-paper-soft/50">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -left-20 bottom-0 h-64 w-64 rounded-full bg-accent/10 blur-3xl"
+      />
+      <div className="container-site relative">
         <Reveal>
           <p className="eyebrow">Estimation</p>
           <h2 className="headline mt-4 max-w-3xl text-display-lg">
@@ -51,8 +64,9 @@ export function QuoteEstimator() {
             <span className="block text-accent">Voyons ça clairement.</span>
           </h2>
           <p className="lede mt-5">
-            Une estimation indicative selon votre besoin. Le devis final se
-            construit ensemble — sans mauvaise surprise.
+            Une estimation indicative. Activez une option comme la prise de RDV
+            pour voir le motion associé — et comprendre concrètement ce que ça
+            change.
           </p>
         </Reveal>
 
@@ -119,9 +133,12 @@ export function QuoteEstimator() {
                     key={item.id}
                     type="button"
                     onClick={() => toggleExtra(item.id)}
+                    onMouseEnter={() => {
+                      if (item.motion) setPreviewMotion(item.motion);
+                    }}
                     className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
                       active
-                        ? "border-accent bg-accent text-white"
+                        ? "border-accent bg-accent text-white shadow-soft"
                         : "border-line text-muted hover:text-ink"
                     }`}
                     data-cursor="interactive"
@@ -133,6 +150,24 @@ export function QuoteEstimator() {
                 );
               })}
             </div>
+
+            <AnimatePresence mode="wait">
+              {previewMotion && (
+                <motion.div
+                  key={previewMotion}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.35 }}
+                  className="mt-8 max-w-sm"
+                >
+                  <p className="mb-3 text-xs font-bold uppercase tracking-[0.14em] text-accent">
+                    Aperçu motion — option sélectionnée
+                  </p>
+                  <FeatureMotion id={previewMotion} />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </Reveal>
 
           <Reveal delay={0.08}>

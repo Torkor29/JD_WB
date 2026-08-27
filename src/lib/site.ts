@@ -18,9 +18,9 @@ export const siteConfig = {
     activity: "Programmation informatique (6201Z)",
   },
   nav: [
-    { label: "Accueil", href: "#top" },
     { label: "Solutions", href: "#solutions" },
     { label: "Réalisations", href: "#realisations" },
+    { label: "Métiers", href: "#metiers" },
     { label: "Devis", href: "#devis" },
     { label: "Contact", href: "#contact" },
   ],
