@@ -102,18 +102,22 @@ export function CinematicHero() {
           </div>
 
           <div className="flex min-w-0 flex-col gap-5 lg:col-span-5 lg:pb-2">
-            <motion.p
+            <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="max-w-md text-[15px] leading-relaxed text-ink/75 sm:text-base"
-              style={{
-                textShadow: "0 1px 12px rgba(255,255,255,0.8)",
-              }}
+              className="relative max-w-md"
             >
-              Sites, apps, paiements, prise de RDV et outils métiers — construits
-              pour votre activité. Depuis la côte, pour toute la France.
-            </motion.p>
+              <div
+                aria-hidden
+                className="pointer-events-none absolute -inset-4 -z-10 bg-[radial-gradient(ellipse_at_left,rgba(255,255,255,0.88)_0%,rgba(255,255,255,0.45)_55%,transparent_75%)]"
+              />
+              <p className="text-[15px] font-medium leading-relaxed text-ink/85 sm:text-base">
+                Sites, apps, paiements, prise de RDV et outils métiers —
+                construits pour votre activité. Depuis la côte, pour toute la
+                France.
+              </p>
+            </motion.div>
 
             <motion.a
               href="#contact"

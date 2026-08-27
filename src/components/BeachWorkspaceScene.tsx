@@ -4,7 +4,7 @@ import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 
 /**
- * Scène hero TiCode — mer vivante, vent léger, mouettes en traversée plein écran.
+ * Scène hero TiCode — mer vivante, vent, mouettes en traversée plein écran.
  */
 export function BeachWorkspaceScene() {
   const reduce = useReducedMotion();
@@ -14,11 +14,9 @@ export function BeachWorkspaceScene() {
       <motion.div
         className="absolute inset-[-3%]"
         animate={
-          reduce
-            ? undefined
-            : { scale: [1, 1.03, 1], x: [0, 8, 0] }
+          reduce ? undefined : { scale: [1, 1.035, 1], x: [0, 10, -4, 0] }
         }
-        transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
+        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
       >
         <Image
           src="/beach/hero-scene-light.png"
@@ -30,25 +28,38 @@ export function BeachWorkspaceScene() {
         />
       </motion.div>
 
-      {/* Soft grade */}
       <div
         aria-hidden
-        className="absolute inset-0 bg-gradient-to-b from-white/15 via-transparent to-white/25"
+        className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-white/20"
       />
 
-      {/* Ocean shimmer — côté mer (droite) */}
+      {/* Mer — reflets qui glissent sur l’océan (droite) */}
       {!reduce && (
-        <motion.div
-          aria-hidden
-          className="pointer-events-none absolute inset-y-[28%] right-0 w-[58%] opacity-40 mix-blend-soft-light"
-          style={{
-            background:
-              "linear-gradient(105deg, transparent 0%, rgba(180,230,255,0.0) 30%, rgba(255,255,255,0.55) 48%, rgba(120,200,255,0.15) 62%, transparent 100%)",
-            backgroundSize: "220% 100%",
-          }}
-          animate={{ backgroundPosition: ["0% 0%", "100% 0%", "0% 0%"] }}
-          transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut" }}
-        />
+        <>
+          <motion.div
+            aria-hidden
+            className="pointer-events-none absolute bottom-[18%] right-0 top-[32%] w-[55%]"
+            style={{
+              background:
+                "linear-gradient(100deg, transparent 0%, rgba(255,255,255,0) 35%, rgba(255,255,255,0.45) 50%, rgba(140,210,255,0.25) 58%, transparent 75%)",
+              backgroundSize: "260% 100%",
+              mixBlendMode: "soft-light",
+            }}
+            animate={{ backgroundPositionX: ["0%", "100%", "0%"] }}
+            transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            aria-hidden
+            className="pointer-events-none absolute bottom-[16%] right-[2%] h-[38%] w-[48%] rounded-[40%] opacity-50"
+            style={{
+              background:
+                "radial-gradient(ellipse at 40% 60%, rgba(255,255,255,0.35), transparent 60%)",
+              mixBlendMode: "overlay",
+            }}
+            animate={{ x: [0, 30, -10, 0], opacity: [0.25, 0.55, 0.3, 0.25] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </>
       )}
 
       <svg
@@ -59,20 +70,20 @@ export function BeachWorkspaceScene() {
       >
         <defs>
           <radialGradient id="screenPulseLight" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.5" />
-            <stop offset="50%" stopColor="#9ec0ff" stopOpacity="0.18" />
+            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.55" />
+            <stop offset="50%" stopColor="#9ec0ff" stopOpacity="0.2" />
             <stop offset="100%" stopColor="#9ec0ff" stopOpacity="0" />
           </radialGradient>
           <linearGradient id="seaFoam" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.35" />
-            <stop offset="100%" stopColor="#7ec8ff" stopOpacity="0.05" />
+            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.55" />
+            <stop offset="55%" stopColor="#a8d8ff" stopOpacity="0.2" />
+            <stop offset="100%" stopColor="#7ec8ff" stopOpacity="0" />
           </linearGradient>
           <filter id="glowBlurLight">
             <feGaussianBlur stdDeviation="12" />
           </filter>
         </defs>
 
-        {/* Glow laptop */}
         <motion.ellipse
           cx="980"
           cy="500"
@@ -80,87 +91,51 @@ export function BeachWorkspaceScene() {
           ry="65"
           fill="url(#screenPulseLight)"
           filter="url(#glowBlurLight)"
-          animate={reduce ? undefined : { opacity: [0.18, 0.5, 0.18] }}
-          transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+          animate={reduce ? undefined : { opacity: [0.2, 0.55, 0.2] }}
+          transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
         />
 
-        {/* Mer qui bouge — bandes de vagues côté océan */}
-        <g opacity={0.55}>
+        {/* Vagues océan — plus visibles */}
+        <g>
+          <SeaBand reduce={!!reduce} y={600} amp={14} duration={5.5} opacity={0.38} />
           <SeaBand
             reduce={!!reduce}
-            y={610}
-            amp={10}
-            duration={6.5}
-            opacity={0.22}
-          />
-          <SeaBand
-            reduce={!!reduce}
-            y={640}
-            amp={14}
-            duration={8.2}
-            opacity={0.18}
-            delay={0.4}
+            y={635}
+            amp={18}
+            duration={7}
+            opacity={0.3}
+            delay={0.35}
           />
           <SeaBand
             reduce={!!reduce}
             y={675}
-            amp={18}
-            duration={9.5}
-            opacity={0.14}
-            delay={1.1}
+            amp={22}
+            duration={8.2}
+            opacity={0.24}
+            delay={0.9}
           />
           <SeaBand
             reduce={!!reduce}
-            y={715}
-            amp={12}
-            duration={7.4}
-            opacity={0.1}
-            delay={0.7}
+            y={720}
+            amp={16}
+            duration={6.4}
+            opacity={0.18}
+            delay={0.55}
           />
         </g>
 
-        {/* Vent — herbes au premier plan */}
         {!reduce && (
           <>
-            <GrassClump x={180} y={780} delay={0} />
-            <GrassClump x={260} y={800} delay={0.35} scale={0.85} />
-            <GrassClump x={420} y={820} delay={0.8} scale={1.1} />
-            <GrassClump x={540} y={790} delay={0.2} scale={0.7} />
+            <GrassClump x={160} y={775} delay={0} />
+            <GrassClump x={230} y={795} delay={0.3} scale={0.9} />
+            <GrassClump x={310} y={810} delay={0.7} scale={1.15} />
+            <GrassClump x={400} y={825} delay={0.15} scale={0.8} />
+            <GrassClump x={500} y={800} delay={0.5} scale={1} />
             <WindStreaks />
-          </>
-        )}
-
-        {/* Mouettes — traversée plein écran, formes propres */}
-        {!reduce && (
-          <>
-            <SeagullFlight
-              startY={120}
-              duration={22}
-              delay={0}
-              scale={1}
-              drift={18}
-            />
-            <SeagullFlight
-              startY={95}
-              duration={28}
-              delay={5}
-              scale={0.72}
-              drift={-12}
-            />
-            <SeagullFlight
-              startY={155}
-              duration={25}
-              delay={11}
-              scale={0.88}
-              drift={10}
-            />
-            <SeagullFlight
-              startY={78}
-              duration={32}
-              delay={17}
-              scale={0.55}
-              drift={-8}
-            />
+            <SeagullFlight startY={110} duration={18} delay={0} scale={1.15} drift={22} />
+            <SeagullFlight startY={85} duration={24} delay={3.5} scale={0.85} drift={-16} />
+            <SeagullFlight startY={145} duration={20} delay={8} scale={1} drift={14} />
+            <SeagullFlight startY={70} duration={27} delay={13} scale={0.65} drift={-10} />
           </>
         )}
       </svg>
@@ -183,9 +158,8 @@ function SeaBand({
   opacity: number;
   delay?: number;
 }) {
-  // Vague qui se décale horizontalement + ondulation verticale
-  const pathA = `M700 ${y} Q900 ${y - amp} 1100 ${y} T1500 ${y} T1900 ${y} V${y + 80} H700 Z`;
-  const pathB = `M700 ${y} Q900 ${y + amp} 1100 ${y} T1500 ${y} T1900 ${y} V${y + 80} H700 Z`;
+  const pathA = `M680 ${y} Q880 ${y - amp} 1080 ${y} T1480 ${y} T1880 ${y} V${y + 90} H680 Z`;
+  const pathB = `M680 ${y} Q880 ${y + amp} 1080 ${y} T1480 ${y} T1880 ${y} V${y + 90} H680 Z`;
 
   return (
     <motion.path
@@ -197,15 +171,10 @@ function SeaBand({
           ? undefined
           : {
               d: [pathA, pathB, pathA],
-              x: [0, -40, 0],
+              x: [0, -55, 0],
             }
       }
-      transition={{
-        duration,
-        repeat: Infinity,
-        ease: "easeInOut",
-        delay,
-      }}
+      transition={{ duration, repeat: Infinity, ease: "easeInOut", delay }}
     />
   );
 }
@@ -222,18 +191,20 @@ function GrassClump({
   scale?: number;
 }) {
   const blades = [
-    { dx: -10, h: 28, bend: 6 },
-    { dx: -3, h: 36, bend: 8 },
-    { dx: 4, h: 32, bend: 7 },
-    { dx: 11, h: 24, bend: 5 },
+    { dx: -12, h: 34, bend: 8 },
+    { dx: -4, h: 44, bend: 11 },
+    { dx: 5, h: 38, bend: 9 },
+    { dx: 13, h: 30, bend: 7 },
   ];
 
   return (
     <motion.g
       style={{ transformOrigin: `${x}px ${y}px` }}
-      animate={{ rotate: [-4 * scale, 6 * scale, -3 * scale, 5 * scale, -4 * scale] }}
+      animate={{
+        rotate: [-6 * scale, 9 * scale, -5 * scale, 8 * scale, -6 * scale],
+      }}
       transition={{
-        duration: 3.6 + delay,
+        duration: 2.8 + delay * 0.4,
         repeat: Infinity,
         ease: "easeInOut",
         delay,
@@ -242,10 +213,10 @@ function GrassClump({
       {blades.map((b, i) => (
         <path
           key={i}
-          d={`M${x + b.dx * scale} ${y} Q${x + b.dx * scale + b.bend * scale} ${y - b.h * scale * 0.55} ${x + b.dx * scale + 2} ${y - b.h * scale}`}
+          d={`M${x + b.dx * scale} ${y} Q${x + b.dx * scale + b.bend * scale} ${y - b.h * scale * 0.55} ${x + b.dx * scale + 3} ${y - b.h * scale}`}
           fill="none"
-          stroke="rgba(40,90,40,0.28)"
-          strokeWidth={1.4 * scale}
+          stroke="rgba(28,70,28,0.45)"
+          strokeWidth={1.8 * scale}
           strokeLinecap="round"
         />
       ))}
@@ -255,10 +226,11 @@ function GrassClump({
 
 function WindStreaks() {
   const streaks = [
-    { y: 200, dur: 4.5, delay: 0, len: 90 },
-    { y: 260, dur: 5.2, delay: 1.2, len: 70 },
-    { y: 330, dur: 4.8, delay: 2.4, len: 110 },
-    { y: 180, dur: 6, delay: 0.8, len: 60 },
+    { y: 190, dur: 3.8, delay: 0, len: 120 },
+    { y: 240, dur: 4.4, delay: 0.9, len: 90 },
+    { y: 300, dur: 4, delay: 1.8, len: 140 },
+    { y: 170, dur: 5, delay: 0.4, len: 70 },
+    { y: 350, dur: 4.6, delay: 2.6, len: 100 },
   ];
 
   return (
@@ -266,20 +238,20 @@ function WindStreaks() {
       {streaks.map((s, i) => (
         <motion.line
           key={i}
-          x1={-80}
+          x1={-100}
           y1={s.y}
-          x2={-80 + s.len}
-          y2={s.y - 6}
-          stroke="rgba(11,31,58,0.12)"
-          strokeWidth={1.2}
+          x2={-100 + s.len}
+          y2={s.y - 8}
+          stroke="rgba(11,31,58,0.18)"
+          strokeWidth={1.5}
           strokeLinecap="round"
-          animate={{ x: [-40, 1750], opacity: [0, 0.5, 0.5, 0] }}
+          animate={{ x: [-60, 1780], opacity: [0, 0.7, 0.7, 0] }}
           transition={{
             duration: s.dur,
             repeat: Infinity,
             ease: "linear",
             delay: s.delay,
-            repeatDelay: 2.5,
+            repeatDelay: 1.8,
           }}
         />
       ))}
@@ -287,7 +259,7 @@ function WindStreaks() {
   );
 }
 
-/** Mouette élégante — traversée plein écran, battement via scaleY (pas de morph glitchy) */
+/** Mouette — 2 ailes qui battent, traversée gauche → droite plein écran */
 function SeagullFlight({
   startY,
   duration,
@@ -301,19 +273,18 @@ function SeagullFlight({
   scale?: number;
   drift?: number;
 }) {
-  const w = 20 * scale;
-  const h = 11 * scale;
+  const wing = 22 * scale;
 
   return (
     <motion.g
-      initial={{ x: -100, y: startY }}
+      initial={{ x: -120, y: startY }}
       animate={{
-        x: [-100, 1700],
+        x: [-120, 1720],
         y: [
           startY,
-          startY + drift * 0.35,
+          startY + drift * 0.4,
           startY + drift,
-          startY + drift * 0.15,
+          startY + drift * 0.2,
         ],
       }}
       transition={{
@@ -321,28 +292,31 @@ function SeagullFlight({
         repeat: Infinity,
         ease: "linear",
         delay,
-        repeatDelay: 2,
+        repeatDelay: 1.2,
       }}
     >
-      <motion.g
+      {/* Aile gauche */}
+      <motion.path
+        d={`M 0 0 Q ${-wing * 0.55} ${-wing * 0.55} ${-wing} ${-wing * 0.08}`}
+        fill="none"
+        stroke="rgba(11, 31, 58, 0.5)"
+        strokeWidth={Math.max(1.6, 2 * scale)}
+        strokeLinecap="round"
         style={{ transformOrigin: "0px 0px" }}
-        animate={{ scaleY: [1, 0.28, 1] }}
-        transition={{
-          duration: 0.7,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      >
-        {/* Aile gauche + droite en un seul V net */}
-        <path
-          d={`M ${-w} 0 C ${-w * 0.45} ${-h} ${-w * 0.2} ${-h} 0 0 C ${w * 0.2} ${-h} ${w * 0.45} ${-h} ${w} 0`}
-          fill="none"
-          stroke="rgba(11, 31, 58, 0.4)"
-          strokeWidth={Math.max(1.4, 1.7 * scale)}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </motion.g>
+        animate={{ rotate: [-8, 22, -8] }}
+        transition={{ duration: 0.55, repeat: Infinity, ease: "easeInOut" }}
+      />
+      {/* Aile droite */}
+      <motion.path
+        d={`M 0 0 Q ${wing * 0.55} ${-wing * 0.55} ${wing} ${-wing * 0.08}`}
+        fill="none"
+        stroke="rgba(11, 31, 58, 0.5)"
+        strokeWidth={Math.max(1.6, 2 * scale)}
+        strokeLinecap="round"
+        style={{ transformOrigin: "0px 0px" }}
+        animate={{ rotate: [8, -22, 8] }}
+        transition={{ duration: 0.55, repeat: Infinity, ease: "easeInOut" }}
+      />
     </motion.g>
   );
 }
