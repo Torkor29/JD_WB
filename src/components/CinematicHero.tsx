@@ -33,15 +33,15 @@ export function CinematicHero() {
 
         <div
           aria-hidden
-          className="noise-overlay pointer-events-none absolute inset-0 opacity-[0.7] mix-blend-overlay"
+          className="noise-overlay pointer-events-none absolute inset-0 opacity-[0.75] mix-blend-overlay"
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/70"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/55 via-black/25 to-black/80"
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(222,219,200,0.12),transparent_50%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_70%_30%,rgba(222,219,200,0.08),transparent_45%)]"
         />
 
         {/* Hanging nav pill */}
