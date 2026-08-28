@@ -38,7 +38,8 @@ export const metadata: Metadata = {
   keywords: [
     "création de site web sur mesure",
     "développement web Brest",
-    "Julien DOLOU",
+    "Julien",
+    "TiCode",
     "studio digital Bretagne",
     "application mobile",
     "outil métier",

@@ -55,14 +55,14 @@ export function StudioFeatures() {
   return (
     <section id="services" className="border-t border-line bg-paper">
       <div className="container-site section-pad">
-        <div className="max-w-2xl">
+        <div className="max-w-2xl min-w-0">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">
             Ce que {siteConfig.name} construit
           </p>
-          <h2 className="mt-4 font-display text-[clamp(1.65rem,5.5vw,3rem)] leading-[1.12] tracking-tight text-ink">
+          <h2 className="mt-4 max-w-full break-words font-display text-[clamp(1.55rem,5vw,3rem)] leading-[1.12] tracking-tight text-ink text-pretty">
             Sites, apps et outils métiers — paiement, RDV, fidélité inclus.
           </h2>
-          <p className="mt-4 max-w-xl text-[14px] leading-relaxed text-ink-soft sm:mt-5 sm:text-base">
+          <p className="mt-4 max-w-xl text-[14px] leading-relaxed text-ink-soft text-pretty sm:mt-5 sm:text-base">
             Chaque aperçu montre une capacité produit réelle : ce que vos
             clients utilisent.
           </p>

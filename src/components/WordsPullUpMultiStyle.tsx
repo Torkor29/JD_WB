@@ -31,7 +31,7 @@ export function WordsPullUpMultiStyle({
   return (
     <div
       ref={ref}
-      className={`inline-flex flex-wrap justify-center gap-x-[0.28em] ${className}`}
+      className={`flex max-w-full flex-wrap justify-center gap-x-[0.28em] gap-y-1 ${className}`}
     >
       {words.map((item, i) => {
         const d = delay + wordIndex * 0.08;

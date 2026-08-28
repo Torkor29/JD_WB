@@ -45,7 +45,7 @@ export function MethodCinematic() {
         <p className="text-[10px] uppercase tracking-[0.18em] text-accent sm:text-xs">
           Méthode
         </p>
-        <h2 className="mt-4 max-w-2xl text-[clamp(1.75rem,4vw,3rem)] font-medium leading-[1.1] tracking-tight text-ink">
+        <h2 className="mt-4 max-w-2xl break-words text-[clamp(1.65rem,4vw,3rem)] font-medium leading-[1.1] tracking-tight text-ink text-pretty">
           Simple. Claire. Sans mauvaise surprise.
         </h2>
 

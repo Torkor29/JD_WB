@@ -20,10 +20,10 @@ export function RealisationsStrip() {
         <p className="text-[10px] uppercase tracking-[0.18em] text-accent sm:text-xs">
           Réalisations
         </p>
-        <h2 className="mt-4 max-w-2xl text-[clamp(1.75rem,4vw,3rem)] font-medium leading-[1.1] tracking-tight text-ink">
+        <h2 className="mt-4 max-w-2xl break-words text-[clamp(1.65rem,4vw,3rem)] font-medium leading-[1.1] tracking-tight text-ink text-pretty">
           <WordsPullUp text="Des produits livrés." />
         </h2>
-        <p className="mt-4 max-w-xl text-sm text-muted md:text-base">
+        <p className="mt-4 max-w-xl text-sm text-muted text-pretty md:text-base">
           Sites, apps et logiciels métiers — livrés et utilisés.
         </p>
 

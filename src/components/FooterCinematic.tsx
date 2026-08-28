@@ -10,8 +10,8 @@ export function FooterCinematic() {
               Ti<span className="text-accent">Code</span>
             </p>
             <p className="mt-2 max-w-sm text-sm text-muted">
-              Agence digitale — sites, apps & outils métiers. Fondée par{" "}
-              {siteConfig.founder}. Depuis Brest, bord de mer.
+              Agence digitale — sites, apps & outils métiers. Fondée par Julien.
+              Depuis Brest, bord de mer.
             </p>
           </div>
           <nav className="flex flex-wrap gap-4 text-sm text-muted">
@@ -26,7 +26,7 @@ export function FooterCinematic() {
           </nav>
         </div>
         <p className="mt-10 border-t border-line pt-6 text-xs text-muted">
-          © {new Date().getFullYear()} {siteConfig.name} — {siteConfig.founder} —{" "}
+          © {new Date().getFullYear()} {siteConfig.name} — Julien —{" "}
           {siteConfig.location}
         </p>
       </div>

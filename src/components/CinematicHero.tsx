@@ -126,12 +126,12 @@ export function CinematicHero() {
                 strokeWidth={2.25}
               />
             </a>
-            <a
-              href="#services"
-              className="text-[13px] font-medium tracking-tight text-ink/50 underline decoration-ink/15 underline-offset-[6px] transition hover:text-ink hover:decoration-ink/40 sm:text-[14px]"
-            >
-              Voir ce qu’on construit
-            </a>
+              <a
+                href="#services"
+                className="text-[13px] font-medium tracking-tight text-ink/50 underline decoration-ink/15 underline-offset-[6px] transition hover:text-ink hover:decoration-ink/40 sm:text-[14px]"
+              >
+                Voir les capacités
+              </a>
           </motion.div>
         </div>
       </div>

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default function MentionsLegalesPage() {
-  const { legal, name, founder, contactEmail } = siteConfig;
+  const { legal, name, founderLegal, contactEmail } = siteConfig;
 
   return (
     <main className="min-h-screen bg-white px-4 py-16 text-ink md:py-24">
@@ -25,7 +25,7 @@ export default function MentionsLegalesPage() {
           <section>
             <h2 className="text-xl text-ink">Éditeur</h2>
             <p className="mt-3">
-              {name} — {founder}
+              {name} — {founderLegal}
               <br />
               {legal.status}
               <br />
