@@ -48,7 +48,7 @@ export function ContactCinematic() {
 
         <form
           onSubmit={onSubmit}
-          className="mt-10 grid min-w-0 gap-4 overflow-hidden rounded-[1.5rem] border border-line bg-paper-soft p-5 shadow-card sm:p-8 md:grid-cols-2"
+          className="mt-8 grid min-w-0 gap-4 overflow-hidden rounded-[1.25rem] border border-line bg-paper-soft p-4 shadow-card sm:mt-10 sm:rounded-[1.5rem] sm:p-8 md:grid-cols-2"
         >
           <label className="block">
             <span className="mb-2 block text-[10px] uppercase tracking-[0.14em] text-muted">

@@ -23,7 +23,7 @@ export function BeachWorkspaceScene() {
           alt=""
           fill
           priority
-          className="object-cover object-[52%_38%]"
+          className="object-cover object-[48%_42%] sm:object-[52%_38%]"
           sizes="100vw"
         />
       </motion.div>

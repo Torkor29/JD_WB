@@ -8,7 +8,7 @@ export function AboutJulien() {
   return (
     <section id="histoire" className="section-pad overflow-hidden bg-white">
       <div className="container-site">
-        <div className="overflow-hidden rounded-[1.5rem] border border-line bg-paper-soft px-5 py-12 text-center shadow-soft sm:rounded-[2rem] sm:px-10 sm:py-16 md:px-14 md:py-20">
+        <div className="overflow-hidden rounded-[1.25rem] border border-line bg-paper-soft px-4 py-10 text-center shadow-soft sm:rounded-[2rem] sm:px-10 sm:py-16 md:px-14 md:py-20">
           <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-accent sm:text-xs">
             {siteConfig.name} · Bretagne
           </p>

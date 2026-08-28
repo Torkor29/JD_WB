@@ -17,12 +17,15 @@ export function CinematicHero() {
   }, [open]);
 
   return (
-    <section id="top" className="relative min-h-[100svh] overflow-hidden bg-white">
+    <section
+      id="top"
+      className="relative min-h-[100svh] overflow-hidden bg-white"
+    >
       <div className="absolute inset-0">
         <BeachWorkspaceScene />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0"
+          className="pointer-events-none absolute inset-0 hidden sm:block"
           style={{
             background: `
               linear-gradient(to right, #fff 0%, transparent 12%, transparent 88%, #fff 100%),
@@ -30,11 +33,21 @@ export function CinematicHero() {
             `,
           }}
         />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 sm:hidden"
+          style={{
+            background: `
+              linear-gradient(to right, #fff 0%, transparent 8%, transparent 92%, #fff 100%),
+              linear-gradient(to bottom, rgba(255,255,255,0.55) 0%, transparent 14%, transparent 48%, rgba(255,255,255,0.82) 78%, #fff 100%)
+            `,
+          }}
+        />
       </div>
 
-      <div className="absolute inset-x-0 top-0 z-30 flex justify-center pt-3 sm:pt-4">
+      <div className="absolute inset-x-0 top-0 z-30 flex justify-center pt-[max(0.75rem,env(safe-area-inset-top))] sm:pt-4">
         <nav
-          className="flex items-center gap-1 rounded-full border border-line bg-white/85 px-3 py-2 shadow-soft backdrop-blur-md sm:gap-4 sm:px-5 md:gap-8 md:px-7 md:py-2.5 lg:gap-12"
+          className="flex max-w-[calc(100%-1.25rem)] items-center gap-1 rounded-full border border-line bg-white/90 px-3 py-2 shadow-soft backdrop-blur-md sm:gap-4 sm:px-5 md:gap-8 md:px-7 md:py-2.5 lg:gap-12"
           aria-label="Navigation"
         >
           <a
@@ -62,7 +75,7 @@ export function CinematicHero() {
           </div>
           <button
             type="button"
-            className="ml-1 inline-flex items-center gap-1.5 rounded-full bg-ink px-3 py-1.5 text-[11px] font-medium text-white md:hidden"
+            className="ml-1 inline-flex min-h-9 items-center gap-1.5 rounded-full bg-ink px-3.5 py-1.5 text-[11px] font-medium text-white md:hidden"
             onClick={() => setOpen(true)}
             aria-expanded={open}
           >
@@ -72,14 +85,14 @@ export function CinematicHero() {
         </nav>
       </div>
 
-      <div className="relative z-20 mx-auto flex min-h-[100svh] w-full max-w-[1400px] flex-col justify-end px-5 pb-10 pt-24 sm:px-8 sm:pb-14 lg:px-12 lg:pb-16">
-        <div className="grid max-w-full items-end gap-6 lg:grid-cols-12 lg:gap-10">
+      <div className="relative z-20 mx-auto flex min-h-[100svh] w-full max-w-[1400px] flex-col justify-end px-4 pb-[max(2rem,env(safe-area-inset-bottom))] pt-24 sm:px-8 sm:pb-14 lg:px-12 lg:pb-16">
+        <div className="grid max-w-full items-end gap-5 sm:gap-6 lg:grid-cols-12 lg:gap-10">
           <div className="min-w-0 lg:col-span-7">
             <motion.p
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55 }}
-              className="mb-4 text-[11px] font-medium uppercase tracking-[0.22em] text-ink/60 sm:text-xs"
+              className="mb-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-ink/65 sm:mb-4 sm:text-xs"
             >
               Agence digitale · Bretagne
             </motion.p>
@@ -88,10 +101,10 @@ export function CinematicHero() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="font-display text-[clamp(2.75rem,8vw,5.75rem)] font-bold leading-[0.95] tracking-[-0.03em] text-ink"
+              className="font-display text-[clamp(2.5rem,12vw,5.75rem)] font-bold leading-[0.95] tracking-[-0.03em] text-ink"
               style={{
                 textShadow:
-                  "0 1px 0 rgba(255,255,255,0.65), 0 12px 40px rgba(255,255,255,0.35)",
+                  "0 1px 0 rgba(255,255,255,0.75), 0 10px 32px rgba(255,255,255,0.45)",
               }}
             >
               TiCode
@@ -101,7 +114,7 @@ export function CinematicHero() {
             </motion.h1>
           </div>
 
-          <div className="flex min-w-0 flex-col gap-5 lg:col-span-5 lg:pb-2">
+          <div className="flex min-w-0 flex-col gap-4 sm:gap-5 lg:col-span-5 lg:pb-2">
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -110,9 +123,9 @@ export function CinematicHero() {
             >
               <div
                 aria-hidden
-                className="pointer-events-none absolute -inset-4 -z-10 bg-[radial-gradient(ellipse_at_left,rgba(255,255,255,0.88)_0%,rgba(255,255,255,0.45)_55%,transparent_75%)]"
+                className="pointer-events-none absolute -inset-3 -z-10 bg-[radial-gradient(ellipse_at_left,rgba(255,255,255,0.92)_0%,rgba(255,255,255,0.55)_55%,transparent_78%)] sm:-inset-4"
               />
-              <p className="text-[15px] font-medium leading-relaxed text-ink/85 sm:text-base">
+              <p className="text-[14px] font-medium leading-relaxed text-ink/90 sm:text-base">
                 Sites, apps, paiements, prise de RDV et outils métiers —
                 construits pour votre activité. Depuis la côte, pour toute la
                 France.
@@ -124,7 +137,7 @@ export function CinematicHero() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="group inline-flex w-fit items-center gap-2 rounded-full bg-ink py-1.5 pl-5 pr-1.5 text-sm font-medium text-white transition-all hover:gap-3 sm:pl-6 sm:text-[15px]"
+              className="group inline-flex w-fit min-h-11 items-center gap-2 rounded-full bg-ink py-1.5 pl-5 pr-1.5 text-sm font-medium text-white transition-all hover:gap-3 sm:pl-6 sm:text-[15px]"
             >
               Démarrer un projet
               <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-accent transition-transform group-hover:scale-110 sm:h-10 sm:w-10">
@@ -154,7 +167,7 @@ export function CinematicHero() {
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
               transition={{ duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
-              className="absolute inset-x-3 bottom-3 rounded-2xl bg-white p-6 shadow-lift"
+              className="absolute inset-x-3 bottom-[max(0.75rem,env(safe-area-inset-bottom))] rounded-2xl bg-white p-6 shadow-lift"
             >
               <div className="mb-4 flex items-center justify-between">
                 <span className="font-display font-bold text-ink">TiCode</span>
@@ -162,16 +175,17 @@ export function CinematicHero() {
                   type="button"
                   onClick={() => setOpen(false)}
                   aria-label="Fermer"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-paper-soft"
                 >
                   <X size={18} className="text-ink" />
                 </button>
               </div>
-              <ul className="space-y-4">
+              <ul className="space-y-1">
                 {siteConfig.nav.map((item) => (
                   <li key={item.href}>
                     <a
                       href={item.href}
-                      className="block text-2xl text-ink"
+                      className="block rounded-xl px-2 py-3 font-display text-[1.65rem] leading-none tracking-tight text-ink"
                       onClick={() => setOpen(false)}
                     >
                       {item.label}
