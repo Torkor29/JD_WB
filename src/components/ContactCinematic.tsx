@@ -88,16 +88,18 @@ export function ContactCinematic() {
           <div className="flex flex-wrap items-center gap-4 md:col-span-2">
             <button
               type="submit"
-              className="group inline-flex items-center gap-2 rounded-full bg-ink py-2 pl-5 pr-1.5 text-sm font-medium text-white transition hover:gap-3"
+              className="group inline-flex items-center gap-2.5 rounded-xl bg-ink px-5 py-3.5 text-[14px] font-semibold tracking-tight text-white transition duration-300 hover:bg-accent sm:text-[15px]"
             >
               Envoyer mon projet
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-accent transition group-hover:scale-110">
-                <ArrowRight size={14} className="text-white" />
-              </span>
+              <ArrowRight
+                size={16}
+                className="transition-transform duration-300 group-hover:translate-x-0.5"
+                strokeWidth={2.25}
+              />
             </button>
             <a
               href={`mailto:${siteConfig.contactEmail}`}
-              className="text-sm text-accent underline-offset-4 hover:underline"
+              className="text-sm font-medium text-ink/55 underline decoration-ink/15 underline-offset-[5px] transition hover:text-ink"
             >
               {siteConfig.contactEmail}
             </a>

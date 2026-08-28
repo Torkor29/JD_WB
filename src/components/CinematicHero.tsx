@@ -23,23 +23,14 @@ export function CinematicHero() {
     >
       <div className="absolute inset-0">
         <BeachWorkspaceScene />
+        {/* Fondu blanc — asseoir le texte sans cadre flou */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 hidden sm:block"
+          className="pointer-events-none absolute inset-0"
           style={{
             background: `
-              linear-gradient(to right, #fff 0%, transparent 12%, transparent 88%, #fff 100%),
-              linear-gradient(to bottom, #fff 0%, transparent 10%, transparent 75%, #fff 100%)
-            `,
-          }}
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 sm:hidden"
-          style={{
-            background: `
-              linear-gradient(to right, #fff 0%, transparent 8%, transparent 92%, #fff 100%),
-              linear-gradient(to bottom, rgba(255,255,255,0.55) 0%, transparent 14%, transparent 48%, rgba(255,255,255,0.82) 78%, #fff 100%)
+              linear-gradient(to right, #fff 0%, transparent 10%, transparent 90%, #fff 100%),
+              linear-gradient(to bottom, rgba(255,255,255,0.35) 0%, transparent 12%, transparent 55%, rgba(255,255,255,0.88) 82%, #fff 100%)
             `,
           }}
         />
@@ -75,7 +66,7 @@ export function CinematicHero() {
           </div>
           <button
             type="button"
-            className="ml-1 inline-flex min-h-9 items-center gap-1.5 rounded-full bg-ink px-3.5 py-1.5 text-[11px] font-medium text-white md:hidden"
+            className="ml-1 inline-flex min-h-9 items-center gap-1.5 rounded-lg bg-ink px-3 py-1.5 text-[11px] font-medium text-white md:hidden"
             onClick={() => setOpen(true)}
             aria-expanded={open}
           >
@@ -85,65 +76,69 @@ export function CinematicHero() {
         </nav>
       </div>
 
-      <div className="relative z-20 mx-auto flex min-h-[100svh] w-full max-w-[1400px] flex-col justify-end px-4 pb-[max(2rem,env(safe-area-inset-bottom))] pt-24 sm:px-8 sm:pb-14 lg:px-12 lg:pb-16">
-        <div className="grid max-w-full items-end gap-5 sm:gap-6 lg:grid-cols-12 lg:gap-10">
-          <div className="min-w-0 lg:col-span-7">
+      <div className="relative z-20 mx-auto flex min-h-[100svh] w-full max-w-[1400px] flex-col justify-end px-5 pb-[max(2.5rem,env(safe-area-inset-bottom))] pt-24 sm:px-8 sm:pb-16 lg:px-12 lg:pb-20">
+        <div className="grid max-w-full items-end gap-8 lg:grid-cols-12 lg:gap-12">
+          {/* Marque */}
+          <div className="min-w-0 lg:col-span-6">
             <motion.p
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55 }}
-              className="mb-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-ink/65 sm:mb-4 sm:text-xs"
+              transition={{ duration: 0.5 }}
+              className="mb-3 text-[11px] font-medium uppercase tracking-[0.22em] text-ink/50"
             >
-              Agence digitale · Bretagne
+              Bretagne
             </motion.p>
 
             <motion.h1
-              initial={{ opacity: 0, y: 18 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="font-display text-[clamp(2.5rem,12vw,5.75rem)] font-bold leading-[0.95] tracking-[-0.03em] text-ink"
-              style={{
-                textShadow:
-                  "0 1px 0 rgba(255,255,255,0.75), 0 10px 32px rgba(255,255,255,0.45)",
-              }}
+              className="font-display text-[clamp(3rem,11vw,6rem)] font-bold leading-[0.92] tracking-[-0.035em] text-ink"
             >
               TiCode
-              <span className="align-super text-[0.32em] font-semibold text-accent">
-                *
-              </span>
+              <span className="text-accent">*</span>
             </motion.h1>
           </div>
 
-          <div className="flex min-w-0 flex-col gap-4 sm:gap-5 lg:col-span-5 lg:pb-2">
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
+          {/* Texte + CTA — pas de cadre, typo claire */}
+          <div className="flex min-w-0 flex-col gap-7 lg:col-span-6 lg:pb-1">
+            <motion.p
+              initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="relative max-w-md"
+              transition={{ duration: 0.65, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              className="max-w-[22rem] font-display text-[1.15rem] font-medium leading-[1.35] tracking-tight text-ink sm:max-w-md sm:text-[1.35rem] sm:leading-[1.3]"
             >
-              <div
-                aria-hidden
-                className="pointer-events-none absolute -inset-3 -z-10 bg-[radial-gradient(ellipse_at_left,rgba(255,255,255,0.92)_0%,rgba(255,255,255,0.55)_55%,transparent_78%)] sm:-inset-4"
-              />
-              <p className="text-[14px] font-medium leading-relaxed text-ink/90 sm:text-base">
-                Sites, apps, paiements, prise de RDV et outils métiers —
-                construits pour votre activité. Depuis la côte, pour toute la
-                France.
-              </p>
-            </motion.div>
-
-            <motion.a
-              href="#contact"
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="group inline-flex w-fit min-h-11 items-center gap-2 rounded-full bg-ink py-1.5 pl-5 pr-1.5 text-sm font-medium text-white transition-all hover:gap-3 sm:pl-6 sm:text-[15px]"
-            >
-              Démarrer un projet
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-accent transition-transform group-hover:scale-110 sm:h-10 sm:w-10">
-                <ArrowRight size={16} className="text-white" />
+              Sites, apps, paiements et prise de RDV —
+              <span className="font-serif text-[1.05em] font-normal italic text-ink/80">
+                {" "}
+                conçus pour votre métier.
               </span>
-            </motion.a>
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-wrap items-center gap-x-6 gap-y-3"
+            >
+              <a
+                href="#contact"
+                className="group inline-flex items-center gap-2.5 rounded-xl bg-ink px-5 py-3.5 text-[14px] font-semibold tracking-tight text-white transition duration-300 hover:bg-accent sm:px-6 sm:text-[15px]"
+              >
+                Démarrer un projet
+                <ArrowRight
+                  size={16}
+                  className="transition-transform duration-300 group-hover:translate-x-0.5"
+                  strokeWidth={2.25}
+                />
+              </a>
+              <a
+                href="#services"
+                className="text-[13px] font-medium tracking-tight text-ink/55 underline decoration-ink/15 underline-offset-[5px] transition hover:text-ink hover:decoration-ink/40 sm:text-[14px]"
+              >
+                Voir ce qu’on construit
+              </a>
+            </motion.div>
           </div>
         </div>
       </div>
@@ -175,7 +170,7 @@ export function CinematicHero() {
                   type="button"
                   onClick={() => setOpen(false)}
                   aria-label="Fermer"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-paper-soft"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-paper-soft"
                 >
                   <X size={18} className="text-ink" />
                 </button>
