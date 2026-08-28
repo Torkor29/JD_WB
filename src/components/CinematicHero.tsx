@@ -77,69 +77,62 @@ export function CinematicHero() {
       </div>
 
       <div className="relative z-20 mx-auto flex min-h-[100svh] w-full max-w-[1400px] flex-col justify-end px-5 pb-[max(2.5rem,env(safe-area-inset-bottom))] pt-24 sm:px-8 sm:pb-16 lg:px-12 lg:pb-20">
-        <div className="grid max-w-full items-end gap-8 lg:grid-cols-12 lg:gap-12">
-          {/* Marque */}
-          <div className="min-w-0 lg:col-span-6">
-            <motion.p
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="mb-3 text-[11px] font-medium uppercase tracking-[0.22em] text-ink/50"
-            >
-              Bretagne
-            </motion.p>
+        <div className="max-w-xl">
+          <motion.p
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mb-3 text-[11px] font-medium uppercase tracking-[0.22em] text-ink/45"
+          >
+            Bretagne
+          </motion.p>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="font-display text-[clamp(3rem,11vw,6rem)] font-bold leading-[0.92] tracking-[-0.035em] text-ink"
-            >
-              TiCode
-              <span className="text-accent">*</span>
-            </motion.h1>
-          </div>
+          <motion.h1
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="font-display text-[clamp(3rem,11vw,5.75rem)] font-bold leading-[0.92] tracking-[-0.035em] text-ink"
+          >
+            TiCode
+            <span className="text-accent">*</span>
+          </motion.h1>
 
-          {/* Texte + CTA — pas de cadre, typo claire */}
-          <div className="flex min-w-0 flex-col gap-7 lg:col-span-6 lg:pb-1">
-            <motion.p
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.65, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="max-w-[22rem] font-display text-[1.15rem] font-medium leading-[1.35] tracking-tight text-ink sm:max-w-md sm:text-[1.35rem] sm:leading-[1.3]"
-            >
-              Sites, apps, paiements et prise de RDV —
-              <span className="font-serif text-[1.05em] font-normal italic text-ink/80">
-                {" "}
-                conçus pour votre métier.
-              </span>
-            </motion.p>
+          <motion.p
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-5 max-w-md text-[1.05rem] font-normal leading-[1.45] text-ink/75 sm:mt-6 sm:text-[1.2rem] sm:leading-[1.4]"
+          >
+            Sites, apps, paiements et prise de RDV —{" "}
+            <em className="font-serif italic text-ink/90">
+              conçus pour votre métier.
+            </em>
+          </motion.p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.65, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-wrap items-center gap-x-6 gap-y-3"
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, delay: 0.24, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-7 flex flex-col items-start gap-4 sm:mt-8 sm:flex-row sm:items-center sm:gap-6"
+          >
+            <a
+              href="#contact"
+              className="group inline-flex items-center gap-2.5 rounded-xl bg-ink px-5 py-3.5 text-[14px] font-semibold tracking-tight text-white transition duration-300 hover:bg-accent sm:px-6 sm:text-[15px]"
             >
-              <a
-                href="#contact"
-                className="group inline-flex items-center gap-2.5 rounded-xl bg-ink px-5 py-3.5 text-[14px] font-semibold tracking-tight text-white transition duration-300 hover:bg-accent sm:px-6 sm:text-[15px]"
-              >
-                Démarrer un projet
-                <ArrowRight
-                  size={16}
-                  className="transition-transform duration-300 group-hover:translate-x-0.5"
-                  strokeWidth={2.25}
-                />
-              </a>
-              <a
-                href="#services"
-                className="text-[13px] font-medium tracking-tight text-ink/55 underline decoration-ink/15 underline-offset-[5px] transition hover:text-ink hover:decoration-ink/40 sm:text-[14px]"
-              >
-                Voir ce qu’on construit
-              </a>
-            </motion.div>
-          </div>
+              Démarrer un projet
+              <ArrowRight
+                size={16}
+                className="transition-transform duration-300 group-hover:translate-x-0.5"
+                strokeWidth={2.25}
+              />
+            </a>
+            <a
+              href="#services"
+              className="text-[13px] font-medium tracking-tight text-ink/50 underline decoration-ink/15 underline-offset-[6px] transition hover:text-ink hover:decoration-ink/40 sm:text-[14px]"
+            >
+              Voir ce qu’on construit
+            </a>
+          </motion.div>
         </div>
       </div>
 
