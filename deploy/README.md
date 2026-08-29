@@ -1,66 +1,52 @@
-# Déploiement VPS (sans build)
+# Déploiement VPS
 
-Le site est en HTML statique. **Ne fais plus `npm run build` sur le VPS.**
+Le site est du HTML statique déjà construit et versionné dans
+`deploy/juliendolou-static.tar.gz`. **Ne lance jamais `npm run build` sur le
+VPS.**
 
-> **Important :** le port **8080** est déjà pris (Comptap). TiCode tourne sur **8081**.
+> Le port **8080** est pris par Comptap. TiCode tourne sur **8081**.
 
-## Sur Termius — une commande à la fois
+## Mettre à jour — un seul copier-coller
 
 ```bash
-export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh"
+bash ~/juliendolou/deploy/update.sh
 ```
 
-```bash
-pm2 delete juliendolou || true
-```
+Le script récupère la branche, arrête le serveur, déballe l'archive, redémarre
+et vérifie que ça répond.
+
+Si le script n'existe pas encore sur le VPS (première fois), va le chercher
+d'abord :
 
 ```bash
-cd ~/juliendolou
+cd ~/juliendolou && git fetch origin cursor/julien-prisma-plage-7485 && git checkout cursor/julien-prisma-plage-7485 && git reset --hard origin/cursor/julien-prisma-plage-7485 && bash deploy/update.sh
 ```
 
-```bash
-git fetch origin
-```
+Pour déployer une autre branche, passe-la en argument :
 
 ```bash
-git checkout cursor/julien-prisma-plage-7485
-```
-
-```bash
-git pull origin cursor/julien-prisma-plage-7485
-```
-
-```bash
-rm -rf ~/juliendolou-www
-```
-
-```bash
-mkdir -p ~/juliendolou-www
-```
-
-```bash
-tar -xzf deploy/juliendolou-static.tar.gz -C ~/juliendolou-www
-```
-
-```bash
-pm2 start python3 --name juliendolou --cwd /home/ubuntu/juliendolou-www -- -m http.server 8081 --bind 0.0.0.0
-```
-
-```bash
-pm2 save
-```
-
-```bash
-curl -I http://127.0.0.1:8081/
+bash ~/juliendolou/deploy/update.sh ma-branche
 ```
 
 ## Lightsail
 
-Règle firewall :
+Règle firewall à avoir une fois pour toutes :
+
 - Custom TCP
 - Port **8081**
 - Source : Anywhere IPv4 (`0.0.0.0/0`)
 
-## Accès navigateur
+## Accès
 
-**http://13.36.82.63:8081**
+**http://13.36.82.63:8081** — recharge en forçant (Ctrl+Shift+R) après un
+déploiement, le HTML peut rester en cache.
+
+## En cas de souci
+
+`bash ~/juliendolou/deploy/update.sh` est rejouable autant de fois que
+nécessaire. Deux pièges déjà rencontrés :
+
+- **`Address already in use`** : un serveur orphelin garde le port. Le script
+  le tue déjà, mais si ça persiste, `sudo fuser -k 8081/tcp` puis relance.
+- **Le mauvais site s'affiche** : vérifie la branche affichée par le script.
+  Elle doit finir par `-7485`, pas `-748`.
