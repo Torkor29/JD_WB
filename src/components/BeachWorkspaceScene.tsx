@@ -116,7 +116,7 @@ export function BeachWorkspaceScene() {
             cross={29}
             delay={1}
             climb={-46}
-            flap={1.05}
+            flap={0.52}
             ink={0.72}
           />
           <Seagull
@@ -125,7 +125,7 @@ export function BeachWorkspaceScene() {
             cross={37}
             delay={10}
             climb={34}
-            flap={1.25}
+            flap={0.6}
             ink={0.6}
           />
           <Seagull
@@ -134,7 +134,7 @@ export function BeachWorkspaceScene() {
             cross={45}
             delay={21}
             climb={-22}
-            flap={0.95}
+            flap={0.46}
             ink={0.5}
           />
         </motion.div>
@@ -258,17 +258,17 @@ function Crest({
  * cadrage : le halo tombe donc pile sur la dalle sans aucun calcul, et seule
  * son opacité est animée.
  *
- * Pas de mode de fusion : il obligerait le navigateur à relire le fond sur
- * toute la surface du calque à chaque image. La teinte claire du halo est
- * cuite dans le fichier, le rendu est le même.
+ * Pas de mode de fusion : « screen » éclaircissait joliment mais obligeait le
+ * navigateur à relire le fond sur toute la surface du calque, au prix de 20
+ * images par seconde. La luminosité est donc cuite dans le sprite.
  */
 function ScreenGlow() {
   return (
     <motion.div
       className="pointer-events-none absolute inset-0"
       style={LIFT_FADE}
-      animate={{ opacity: [0.3, 1, 0.3] }}
-      transition={{ duration: 4.4, repeat: Infinity, ease: "easeInOut" }}
+      animate={{ opacity: [0.18, 0.9, 0.18] }}
+      transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut" }}
       aria-hidden
     >
       <Image
@@ -327,11 +327,15 @@ const FLAP = { up: 32, down: -18 };
 /**
  * Le coup d'aile vers le bas est vif, la remontée plus lente : c'est le rythme
  * d'un vol réel. Un aller-retour symétrique se lit comme un métronome.
+ *
+ * Le cycle doit rester court — une mouette bat à deux ou trois battements par
+ * seconde. À une seconde par cycle, l'aile s'attardait si longtemps en haut de
+ * course que le battement se lisait comme une alternance entre deux poses.
  */
 const FLAP_TIMING = (duration: number): Transition => ({
   duration,
   repeat: Infinity,
-  times: [0, 0.36, 1],
+  times: [0, 0.34, 1],
   ease: ["easeIn", "easeOut"],
 });
 

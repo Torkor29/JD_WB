@@ -34,7 +34,7 @@ OUT = ROOT / "public/beach"
 W, H = 1536, 1024
 HORIZON = 590
 ROCKS_FROM = 680  # premier rocher émergé
-SCREEN = (757, 597)  # dalle du laptop, relevée sur l'illustration
+SCREEN = (755, 603)  # dalle du laptop, relevée sur l'illustration
 
 # Trait de côte, du point où la falaise coupe l'horizon jusqu'au bas du cadre.
 COAST = [
@@ -140,12 +140,23 @@ def screen_glow() -> Image.Image:
     yy, xx = np.mgrid[0:H, 0:W]
     d = np.sqrt((xx - cx) ** 2 + (yy - cy) ** 2)
 
-    halo = np.clip(1 - d / 190.0, 0, 1) ** 2.1 * 0.5
-    core = np.clip(1 - d / 52.0, 0, 1) ** 1.5 * 0.85
-    alpha = np.clip(halo + core, 0, 1)
+    halo = np.clip(1 - d / 195.0, 0, 1) ** 1.9 * 0.34
+    core = np.clip(1 - d / 74.0, 0, 1) ** 1.25 * 0.95
 
-    rgb = np.empty((H, W, 3), dtype=float)
-    rgb[..., 0], rgb[..., 1], rgb[..., 2] = 176, 216, 255
+    # Deux teintes, parce que le calque est simplement superposé et non fusionné
+    # en « screen » — ce mode éclaircissait joliment mais obligeait le navigateur
+    # à relire le fond sur tout le calque, au prix de 20 images par seconde.
+    # Superposer ne peut éclaircir qu'en posant une couleur plus claire que le
+    # fond : le cœur est donc quasi blanc, pour que la dalle monte en luminosité,
+    # et la nappe reste bleue, pour jeter une lumière froide sur le sable et
+    # l'herbe alentour.
+    alpha = np.clip(halo + core, 0, 1)
+    with np.errstate(invalid="ignore"):
+        share = np.where(alpha > 0, core / np.maximum(alpha, 1e-6), 0)[..., None]
+    white = np.array([250, 253, 255], dtype=float)
+    blue = np.array([132, 194, 255], dtype=float)
+    rgb = white * share + blue * (1 - share)
+
     out = np.dstack([rgb, alpha * 255]).astype(np.uint8)
     return Image.fromarray(out, "RGBA").filter(ImageFilter.GaussianBlur(6))
 
