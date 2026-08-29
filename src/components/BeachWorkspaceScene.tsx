@@ -40,11 +40,11 @@ export function BeachWorkspaceScene() {
   const sx = useSpring(mx, { stiffness: 30, damping: 22, mass: 0.7 });
   const sy = useSpring(my, { stiffness: 30, damping: 22, mass: 0.7 });
 
-  const sceneX = useTransform(sx, [-0.5, 0.5], [-14, 14]);
-  const sceneY = useTransform(sy, [-0.5, 0.5], [-9, 9]);
+  const sceneX = useTransform(sx, [-0.5, 0.5], [-22, 22]);
+  const sceneY = useTransform(sy, [-0.5, 0.5], [-14, 14]);
   // Les mouettes sont plus près : elles réagissent nettement plus.
-  const birdX = useTransform(sx, [-0.5, 0.5], [-42, 42]);
-  const birdY = useTransform(sy, [-0.5, 0.5], [-24, 24]);
+  const birdX = useTransform(sx, [-0.5, 0.5], [-58, 58]);
+  const birdY = useTransform(sy, [-0.5, 0.5], [-32, 32]);
 
   useEffect(() => {
     if (reduce) return;
@@ -87,9 +87,33 @@ export function BeachWorkspaceScene() {
           className="pointer-events-none absolute inset-0"
           style={{ x: birdX, y: birdY }}
         >
-          <Seagull top="10%" width={46} cross={27} delay={1} climb={-30} flap={0.78} />
-          <Seagull top="17%" width={33} cross={34} delay={9} climb={22} flap={0.92} />
-          <Seagull top="7%" width={26} cross={41} delay={19} climb={-14} flap={1.05} />
+          <Seagull
+            top="13%"
+            width="clamp(34px, 5.6vw, 88px)"
+            cross={29}
+            delay={1}
+            climb={-46}
+            flap={1.05}
+            ink={0.72}
+          />
+          <Seagull
+            top="22%"
+            width="clamp(26px, 4.1vw, 64px)"
+            cross={37}
+            delay={10}
+            climb={34}
+            flap={1.25}
+            ink={0.6}
+          />
+          <Seagull
+            top="8%"
+            width="clamp(20px, 3.1vw, 48px)"
+            cross={45}
+            delay={21}
+            climb={-22}
+            flap={0.95}
+            ink={0.5}
+          />
         </motion.div>
       )}
     </div>
@@ -127,6 +151,15 @@ const FOAM = [
   { x: 1300, y: 962, rx: 96, ry: 26, dur: 7.5, delay: 4.4 },
   { x: 1150, y: 700, rx: 48, ry: 13, dur: 9.5, delay: 1.3 },
 ];
+
+/**
+ * Trains de houle. Chacun part de l'horizon et descend vers la côte en
+ * s'épaississant : c'est la perspective d'une vague qui arrive. Un décalage
+ * latéral n'était pas lisible — l'eau peinte est striée horizontalement, un
+ * reflet qui glisse de biais s'y confond. Une bande qui traverse la surface de
+ * haut en bas, elle, se lit tout de suite.
+ */
+const ROLLERS = [0, 1.5, 3, 4.5, 6, 7.5].map((delay) => ({ delay, dur: 9 }));
 
 /** Éclats de soleil sur l'eau : ils scintillent sur place. */
 const SPARKS = [
@@ -189,12 +222,50 @@ function Sea() {
         <filter id="hero-roll-blur" x="-30%" y="-200%" width="160%" height="500%">
           <feGaussianBlur stdDeviation="11" />
         </filter>
+        <linearGradient id="hero-roller" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0" />
+          <stop offset="38%" stopColor="#FFFFFF" stopOpacity="1" />
+          <stop offset="56%" stopColor="#EAFBFF" stopOpacity="0.55" />
+          <stop offset="74%" stopColor="#1E8FA8" stopOpacity="0.5" />
+          <stop offset="100%" stopColor="#1E8FA8" stopOpacity="0" />
+        </linearGradient>
+        <filter id="hero-roller-blur" x="-10%" y="-60%" width="120%" height="220%">
+          <feGaussianBlur stdDeviation="6" />
+        </filter>
         <filter id="hero-foam-blur" x="-70%" y="-200%" width="240%" height="500%">
           <feGaussianBlur stdDeviation="10" />
         </filter>
       </defs>
 
       <g mask="url(#hero-sea)">
+        {ROLLERS.map((r) => (
+          <motion.rect
+            key={r.delay}
+            x={SEA_FROM - 20}
+            width={ART_W - SEA_FROM + 40}
+            fill="url(#hero-roller)"
+            filter="url(#hero-roller-blur)"
+            initial={{ y: 592, height: 12, opacity: 0 }}
+            animate={{
+              y: [592, 1040],
+              height: [12, 96],
+              opacity: [0, 0.46, 0.46, 0],
+            }}
+            transition={{
+              duration: r.dur,
+              delay: r.delay,
+              repeat: Infinity,
+              ease: "easeIn",
+              opacity: {
+                duration: r.dur,
+                delay: r.delay,
+                repeat: Infinity,
+                times: [0, 0.14, 0.82, 1],
+              },
+            }}
+          />
+        ))}
+
         {SWELL.map((row) => (
           <SwellRow key={row.y} {...row} />
         ))}
@@ -358,10 +429,9 @@ function ScreenGlow() {
  * Le battement reste dans le registre haut, les ailes gardant toujours un V :
  * en passant par l'horizontale, l'oiseau ne se lirait plus que comme un tiret.
  */
-const WING_L = "M22 19 C 16.5 15, 9 11.6, 1.5 12.6 C 9 15.6, 16.5 18.4, 22 20.8 Z";
-const WING_R = "M22 19 C 27.5 15, 35 11.6, 42.5 12.6 C 35 15.6, 27.5 18.4, 22 20.8 Z";
+const WING_L = "M22 19 C 16 14.6, 9 11.2, 1.5 12.4 C 8 14.4, 15 17.5, 22 20.7 Z";
+const WING_R = "M22 19 C 28 14.6, 35 11.2, 42.5 12.4 C 36 14.4, 29 17.5, 22 20.7 Z";
 const SHOULDER = { transformBox: "view-box", transformOrigin: "22px 19px" } as const;
-const PLUMAGE = "rgba(47, 66, 95, 0.66)";
 
 /**
  * Amplitude du battement, en degrés. Une aile gauche pivotée dans le sens
@@ -370,7 +440,7 @@ const PLUMAGE = "rgba(47, 66, 95, 0.66)";
  * V franc au V à peine marqué et ne redescend jamais sous l'horizontale, où la
  * silhouette ne se lirait plus que comme un tiret.
  */
-const FLAP = { up: 30, down: -8 };
+const FLAP = { up: 33, down: -11 };
 
 function Seagull({
   top,
@@ -379,9 +449,11 @@ function Seagull({
   delay,
   climb,
   flap,
+  ink,
 }: {
   top: string;
-  width: number;
+  /** Largeur CSS : proportionnelle à l'écran, bornée aux deux extrêmes. */
+  width: string;
   /** Secondes pour traverser l'écran de bord à bord. */
   cross: number;
   delay: number;
@@ -389,7 +461,11 @@ function Seagull({
   climb: number;
   /** Durée d'un battement d'ailes, en secondes. */
   flap: number;
+  /** Opacité du plumage : les oiseaux lointains se noient dans la brume. */
+  ink: number;
 }) {
+  const plumage = `rgba(41, 58, 84, ${ink})`;
+
   return (
     <motion.div
       className="absolute"
@@ -416,22 +492,21 @@ function Seagull({
       >
         <svg
           viewBox="0 0 44 30"
-          width={width}
-          height={(width * 30) / 44}
+          className="block h-auto w-full"
           aria-hidden
         >
-          <ellipse cx="22" cy="19.4" rx="4.4" ry="1.7" fill={PLUMAGE} />
-          <circle cx="26.4" cy="18.4" r="1.5" fill={PLUMAGE} />
+          <ellipse cx="22" cy="19.4" rx="4.4" ry="1.7" fill={plumage} />
+          <circle cx="26.4" cy="18.4" r="1.5" fill={plumage} />
           <motion.path
             d={WING_L}
-            fill={PLUMAGE}
+            fill={plumage}
             style={SHOULDER}
             animate={{ rotate: [FLAP.up, FLAP.down, FLAP.up] }}
             transition={{ duration: flap, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.path
             d={WING_R}
-            fill={PLUMAGE}
+            fill={plumage}
             style={SHOULDER}
             animate={{ rotate: [-FLAP.up, -FLAP.down, -FLAP.up] }}
             transition={{ duration: flap, repeat: Infinity, ease: "easeInOut" }}
