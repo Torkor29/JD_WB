@@ -112,29 +112,29 @@ export function BeachWorkspaceScene() {
         >
           <Seagull
             top="13%"
-            width="clamp(34px, 5.6vw, 88px)"
+            width="clamp(40px, 6.4vw, 100px)"
             cross={29}
             delay={1}
             climb={-46}
-            flap={0.52}
+            flap={0.78}
             ink={0.72}
           />
           <Seagull
             top="22%"
-            width="clamp(26px, 4.1vw, 64px)"
+            width="clamp(31px, 4.8vw, 76px)"
             cross={37}
             delay={10}
             climb={34}
-            flap={0.6}
+            flap={0.9}
             ink={0.6}
           />
           <Seagull
             top="8%"
-            width="clamp(20px, 3.1vw, 48px)"
+            width="clamp(24px, 3.6vw, 58px)"
             cross={45}
             delay={21}
             climb={-22}
-            flap={0.46}
+            flap={0.7}
             ink={0.5}
           />
         </motion.div>
@@ -267,8 +267,8 @@ function ScreenGlow() {
     <motion.div
       className="pointer-events-none absolute inset-0"
       style={LIFT_FADE}
-      animate={{ opacity: [0.18, 0.9, 0.18] }}
-      transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut" }}
+      animate={{ opacity: [0.12, 0.95, 0.12] }}
+      transition={{ duration: 5.2, repeat: Infinity, ease: "easeInOut" }}
       aria-hidden
     >
       <Image
@@ -328,9 +328,10 @@ const FLAP = { up: 32, down: -18 };
  * Le coup d'aile vers le bas est vif, la remontée plus lente : c'est le rythme
  * d'un vol réel. Un aller-retour symétrique se lit comme un métronome.
  *
- * Le cycle doit rester court — une mouette bat à deux ou trois battements par
- * seconde. À une seconde par cycle, l'aile s'attardait si longtemps en haut de
- * course que le battement se lisait comme une alternance entre deux poses.
+ * Le cycle est calibré entre deux écueils : à une seconde, l'aile s'attarde
+ * assez longtemps en haut de course pour que le battement se lise comme une
+ * alternance entre deux poses ; à un demi-tour de seconde, le geste devient
+ * illisible sur une silhouette de quelques dizaines de pixels.
  */
 const FLAP_TIMING = (duration: number): Transition => ({
   duration,
