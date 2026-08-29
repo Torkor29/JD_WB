@@ -40,8 +40,8 @@ export function BeachWorkspaceScene() {
   const sx = useSpring(mx, { stiffness: 30, damping: 22, mass: 0.7 });
   const sy = useSpring(my, { stiffness: 30, damping: 22, mass: 0.7 });
 
-  const sceneX = useTransform(sx, [-0.5, 0.5], [-22, 22]);
-  const sceneY = useTransform(sy, [-0.5, 0.5], [-14, 14]);
+  const sceneX = useTransform(sx, [-0.5, 0.5], [-18, 18]);
+  const sceneY = useTransform(sy, [-0.5, 0.5], [-11, 11]);
   // Les mouettes sont plus près : elles réagissent nettement plus.
   const birdX = useTransform(sx, [-0.5, 0.5], [-58, 58]);
   const birdY = useTransform(sy, [-0.5, 0.5], [-32, 32]);
@@ -159,7 +159,7 @@ const FOAM = [
  * reflet qui glisse de biais s'y confond. Une bande qui traverse la surface de
  * haut en bas, elle, se lit tout de suite.
  */
-const ROLLERS = [0, 1.5, 3, 4.5, 6, 7.5].map((delay) => ({ delay, dur: 9 }));
+const ROLLERS = [0, 1.15, 2.3, 3.45, 4.6, 5.75].map((delay) => ({ delay, dur: 6.9 }));
 
 /** Éclats de soleil sur l'eau : ils scintillent sur place. */
 const SPARKS = [
@@ -230,7 +230,7 @@ function Sea() {
           <stop offset="100%" stopColor="#1E8FA8" stopOpacity="0" />
         </linearGradient>
         <filter id="hero-roller-blur" x="-10%" y="-60%" width="120%" height="220%">
-          <feGaussianBlur stdDeviation="6" />
+          <feGaussianBlur stdDeviation="4" />
         </filter>
         <filter id="hero-foam-blur" x="-70%" y="-200%" width="240%" height="500%">
           <feGaussianBlur stdDeviation="10" />
@@ -249,7 +249,7 @@ function Sea() {
             animate={{
               y: [592, 1040],
               height: [12, 96],
-              opacity: [0, 0.46, 0.46, 0],
+              opacity: [0, 0.62, 0.62, 0],
             }}
             transition={{
               duration: r.dur,
