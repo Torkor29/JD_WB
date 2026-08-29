@@ -31,14 +31,15 @@ DEBUG_DIR = Path("/tmp")
 SCREEN = (0.4925, 0.5828)
 SCREEN_RADIUS = 0.115  # en fraction de largeur
 
-# Le calque ciel démarre à droite des poteaux et de la maison, et s'arrête avant
-# le soleil : son halo doit rester aligné avec son reflet sur l'eau, qui ne bouge
-# pas. Les grands bancs de nuages tombent entre les deux.
-SKY_LEFT_START = 0.27
-SKY_LEFT_FULL = 0.40
+# Le calque ciel démarre à droite des poteaux, dont les fils montent jusqu'à
+# x ≈ 0.42 : tout élément de premier plan pris dans le calque dériverait avec
+# les nuages et se décrocherait du sol. Il s'arrête avant le soleil, dont le
+# halo doit rester aligné avec son reflet sur l'eau, qui ne bouge pas.
+SKY_LEFT_START = 0.44
+SKY_LEFT_FULL = 0.58
 SKY_RIGHT_START = 0.80
 SKY_RIGHT_END = 0.93
-SKY_TOP_FEATHER = 0.05
+SKY_TOP_FEATHER = 0.17  # long, sinon le haut du cadre montre une arête nette
 SKY_BOTTOM_BAND = 0.075  # fondu au-dessus de la ligne de crête
 LAND_MARGIN = 10
 SKY_MAX = 0.60  # garde-fou : le ciel ne descend jamais plus bas
@@ -72,7 +73,9 @@ def ramp(v: np.ndarray, lo: float, hi: float) -> np.ndarray:
 
 def save_webp(rgba: np.ndarray, path: Path) -> None:
     img = Image.fromarray(np.clip(rgba, 0, 255).astype(np.uint8), mode="RGBA")
-    img.save(path, quality=90, method=6, exact=True)
+    # alpha_quality=100 : les dégradés de bord doivent rester lisses, sinon le
+    # calque montre des arêtes en dérivant.
+    img.save(path, quality=90, alpha_quality=100, method=6, exact=True)
 
 
 def land_silhouette(arr: np.ndarray, lum: np.ndarray) -> np.ndarray:

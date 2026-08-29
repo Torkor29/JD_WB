@@ -23,14 +23,17 @@ export function CinematicHero() {
     >
       <div className="absolute inset-0">
         <BeachWorkspaceScene />
-        {/* Fondu blanc — asseoir le texte sans cadre flou */}
+        {/* Fondu blanc — asseoir le texte sans cadre flou. Volontairement
+            dissymétrique : il éclaircit le coin bas gauche, sous le titre, et
+            laisse la mer et le ciel de droite garder leurs couleurs. */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0"
           style={{
             background: `
-              linear-gradient(to right, #fff 0%, transparent 10%, transparent 90%, #fff 100%),
-              linear-gradient(to bottom, rgba(255,255,255,0.35) 0%, transparent 12%, transparent 55%, rgba(255,255,255,0.88) 82%, #fff 100%)
+              radial-gradient(120% 85% at 8% 100%, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.55) 38%, rgba(255,255,255,0) 68%),
+              linear-gradient(to right, #fff 0%, rgba(255,255,255,0) 7%, rgba(255,255,255,0) 94%, #fff 100%),
+              linear-gradient(to bottom, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 10%, rgba(255,255,255,0) 68%, rgba(255,255,255,0.72) 90%, #fff 100%)
             `,
           }}
         />
@@ -82,7 +85,7 @@ export function CinematicHero() {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="mb-3 text-[11px] font-medium uppercase tracking-[0.22em] text-ink/45"
+            className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-ink/60"
           >
             Bretagne
           </motion.p>
