@@ -11,35 +11,40 @@ import {
 import { useEffect } from "react";
 
 /**
- * Scène hero — l'illustration est décomposée en calques par
- * `scripts/split-hero-layers.py` :
- *   - hero-base        : l'illustration complète, immobile
- *   - hero-sky-drift   : la portion de ciel sans premier plan, qui dérive
- *                        lentement au-dessus du fond (les nuages bougent
- *                        vraiment, rien n'est redessiné)
- *   - hero-sea-mask    : masque de l'eau, qui confine les vaguelettes
- *   - hero-screen-glow : halo de l'écran du laptop
+ * Scène hero.
  *
- * Tous les calques partagent le même cadrage. L'ancrage est volontairement
- * centré : `object-position: 50% 50%` est le strict équivalent du
- * `preserveAspectRatio="xMidYMid slice"` d'un SVG, ce qui permet de dessiner
- * l'animation de l'eau directement dans les coordonnées de l'illustration.
+ * L'illustration reste un seul calque, jamais découpé : c'était la source des
+ * dédoublements de nuages. Le mouvement est ajouté par-dessus, en SVG, dans les
+ * coordonnées de l'illustration.
+ *
+ * Le cadrage est partagé par tous les calques : `object-position: 50% 50%` sur
+ * une image `object-cover` est le strict équivalent d'un
+ * `preserveAspectRatio="xMidYMid slice"` en SVG. Un point de l'illustration
+ * tombe donc au même endroit à l'écran dans l'image et dans les surcouches,
+ * quel que soit le format de la fenêtre.
  */
 const ANCHOR = "50% 50%";
 const ART_W = 1536;
 const ART_H = 1024;
 
+/** Léger agrandissement permanent : il absorbe le parallaxe sans découvrir de bord. */
+const OVERSCAN = 1.05;
+
+/** Écran du laptop, relevé sur l'illustration. */
+const SCREEN = { x: 757, y: 597 };
+
 export function BeachWorkspaceScene() {
   const reduce = useReducedMotion();
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
-  const sx = useSpring(mx, { stiffness: 32, damping: 24, mass: 0.6 });
-  const sy = useSpring(my, { stiffness: 32, damping: 24, mass: 0.6 });
+  const sx = useSpring(mx, { stiffness: 30, damping: 22, mass: 0.7 });
+  const sy = useSpring(my, { stiffness: 30, damping: 22, mass: 0.7 });
 
-  const skyX = useTransform(sx, [-0.5, 0.5], [-10, 10]);
-  const skyY = useTransform(sy, [-0.5, 0.5], [-5, 5]);
-  const birdX = useTransform(sx, [-0.5, 0.5], [-16, 16]);
-  const birdY = useTransform(sy, [-0.5, 0.5], [-9, 9]);
+  const sceneX = useTransform(sx, [-0.5, 0.5], [-14, 14]);
+  const sceneY = useTransform(sy, [-0.5, 0.5], [-9, 9]);
+  // Les mouettes sont plus près : elles réagissent nettement plus.
+  const birdX = useTransform(sx, [-0.5, 0.5], [-42, 42]);
+  const birdY = useTransform(sy, [-0.5, 0.5], [-24, 24]);
 
   useEffect(() => {
     if (reduce) return;
@@ -53,65 +58,38 @@ export function BeachWorkspaceScene() {
 
   return (
     <div className="hero-soft-fade absolute inset-0 overflow-hidden bg-[#EAF3FC]">
-      <Image
-        src="/beach/hero-base.webp"
-        alt=""
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover"
-        style={{ objectPosition: ANCHOR }}
-      />
-
-      {/* Ciel : dérive lente, superposée au pixel près sur le fond */}
-      {!reduce && (
-        <motion.div className="absolute inset-0" style={{ x: skyX, y: skyY }}>
-          <motion.div
-            className="absolute inset-0"
-            animate={{ x: ["-1.2%", "1.4%", "-1.2%"], y: ["0.2%", "-0.25%", "0.2%"] }}
-            transition={{ duration: 104, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <Image
-              src="/beach/hero-sky-drift.webp"
-              alt=""
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover"
-              style={{ objectPosition: ANCHOR }}
-            />
-          </motion.div>
-        </motion.div>
-      )}
-
-      {!reduce && <SeaShimmer />}
-
-      {/* Halo de l'écran */}
+      {/* Illustration et surcouches partagent la même translation : la mer
+          reste calée sur l'eau pendant le parallaxe. */}
       <motion.div
-        className="absolute inset-0 mix-blend-screen"
-        animate={reduce ? undefined : { opacity: [0.45, 0.85, 0.45] }}
-        transition={{ duration: 5.6, repeat: Infinity, ease: "easeInOut" }}
-        style={{ opacity: 0.6 }}
+        className="absolute inset-0"
+        style={
+          reduce
+            ? undefined
+            : { x: sceneX, y: sceneY, scale: OVERSCAN }
+        }
       >
         <Image
-          src="/beach/hero-screen-glow.webp"
-          alt=""
+          src="/beach/hero-scene-light.webp"
+          alt="Un développeur travaille sur son ordinateur portable au sommet d'une falaise bretonne, face à la mer"
           fill
+          priority
           sizes="100vw"
           className="object-cover"
           style={{ objectPosition: ANCHOR }}
         />
+
+        {!reduce && <Sea />}
+        {!reduce && <ScreenGlow />}
       </motion.div>
 
-      {/* Mouettes */}
       {!reduce && (
         <motion.div
           className="pointer-events-none absolute inset-0"
           style={{ x: birdX, y: birdY }}
         >
-          <Seagull top="12%" width={44} duration={26} delay={0.5} rise={-26} />
-          <Seagull top="19%" width={33} duration={33} delay={7} rise={18} />
-          <Seagull top="8%" width={26} duration={40} delay={16} rise={-13} />
+          <Seagull top="10%" width={46} cross={27} delay={1} climb={-30} flap={0.78} />
+          <Seagull top="17%" width={33} cross={34} delay={9} climb={22} flap={0.92} />
+          <Seagull top="7%" width={26} cross={41} delay={19} climb={-14} flap={1.05} />
         </motion.div>
       )}
     </div>
@@ -119,31 +97,52 @@ export function BeachWorkspaceScene() {
 }
 
 /**
- * Vaguelettes, en coordonnées de l'illustration (1536 × 1024) et confinées à
- * l'eau par le masque extrait. Elles remontent vers la côte, plus longues et
- * plus espacées à mesure qu'on se rapproche du premier plan.
+ * Houle. Chaque ligne est une bande de reflets répartis à intervalle régulier,
+ * translatée en continu d'exactement un intervalle : la boucle est donc
+ * invisible et le mouvement ne s'interrompt jamais.
+ *
+ * `y` descend de l'horizon vers le premier plan ; la perspective veut que les
+ * reflets s'allongent, s'épaississent, s'espacent et défilent plus vite.
  */
-const WAVES = [
-  { y: 620, len: 150, h: 3, dur: 15, delay: 0, opacity: 0.7 },
-  { y: 646, len: 200, h: 4, dur: 18, delay: 2.5, opacity: 0.75 },
-  { y: 676, len: 250, h: 5, dur: 16, delay: 7, opacity: 0.85 },
-  { y: 710, len: 220, h: 5, dur: 20, delay: 1, opacity: 0.8 },
-  { y: 750, len: 300, h: 6, dur: 17, delay: 5, opacity: 0.9 },
-  { y: 798, len: 270, h: 7, dur: 21, delay: 10, opacity: 0.8 },
-  { y: 854, len: 360, h: 8, dur: 19, delay: 2, opacity: 0.95 },
-  { y: 922, len: 320, h: 9, dur: 24, delay: 8, opacity: 0.85 },
-  { y: 996, len: 400, h: 10, dur: 22, delay: 13, opacity: 0.9 },
+const SWELL = [
+  { y: 606, len: 54, h: 2.0, gap: 132, dur: 26, opacity: 0.42, sway: 1.5 },
+  { y: 626, len: 72, h: 2.4, gap: 158, dur: 25, opacity: 0.5, sway: 1.8 },
+  { y: 650, len: 92, h: 2.8, gap: 186, dur: 24, opacity: 0.56, sway: 2.2 },
+  { y: 680, len: 116, h: 3.2, gap: 218, dur: 23, opacity: 0.6, sway: 2.6 },
+  { y: 716, len: 142, h: 3.8, gap: 252, dur: 22, opacity: 0.64, sway: 3.2 },
+  { y: 758, len: 172, h: 4.4, gap: 290, dur: 21, opacity: 0.66, sway: 3.8 },
+  { y: 806, len: 204, h: 5.2, gap: 330, dur: 20, opacity: 0.68, sway: 4.6 },
+  { y: 860, len: 240, h: 6.0, gap: 374, dur: 19, opacity: 0.7, sway: 5.4 },
+  { y: 920, len: 280, h: 7.0, gap: 422, dur: 18, opacity: 0.72, sway: 6.4 },
+  { y: 986, len: 324, h: 8.0, gap: 474, dur: 17, opacity: 0.72, sway: 7.4 },
 ];
 
-/** Rochers émergés, autour desquels l'écume se forme */
+/** L'eau commence à la falaise ; inutile de dessiner à gauche de ça. */
+const SEA_FROM = 1040;
+
+/** Rochers émergés, autour desquels l'écume respire. */
 const FOAM = [
-  { x: 1163, y: 738, rx: 70, ry: 18, dur: 7, delay: 0 },
-  { x: 1240, y: 856, rx: 82, ry: 22, dur: 9, delay: 2.5 },
-  { x: 1318, y: 950, rx: 92, ry: 24, dur: 8, delay: 5 },
-  { x: 1096, y: 1000, rx: 76, ry: 20, dur: 10, delay: 1.5 },
+  { x: 1222, y: 748, rx: 62, ry: 17, dur: 6.5, delay: 0 },
+  { x: 1188, y: 830, rx: 74, ry: 20, dur: 8.5, delay: 2.2 },
+  { x: 1300, y: 962, rx: 96, ry: 26, dur: 7.5, delay: 4.4 },
+  { x: 1150, y: 700, rx: 48, ry: 13, dur: 9.5, delay: 1.3 },
 ];
 
-function SeaShimmer() {
+/** Éclats de soleil sur l'eau : ils scintillent sur place. */
+const SPARKS = [
+  { x: 1348, y: 636, r: 15, dur: 3.4, delay: 0.2 },
+  { x: 1462, y: 662, r: 19, dur: 4.1, delay: 1.1 },
+  { x: 1268, y: 618, r: 12, dur: 3.0, delay: 2.0 },
+  { x: 1418, y: 704, r: 22, dur: 4.6, delay: 0.7 },
+  { x: 1512, y: 616, r: 14, dur: 3.7, delay: 2.6 },
+  { x: 1330, y: 744, r: 24, dur: 5.0, delay: 1.7 },
+  { x: 1494, y: 782, r: 27, dur: 4.4, delay: 3.1 },
+  { x: 1384, y: 856, r: 30, dur: 5.4, delay: 0.9 },
+  { x: 1470, y: 928, r: 33, dur: 4.9, delay: 2.4 },
+  { x: 1256, y: 676, r: 16, dur: 3.9, delay: 3.5 },
+];
+
+function Sea() {
   return (
     <svg
       className="pointer-events-none absolute inset-0 h-full w-full"
@@ -153,8 +152,10 @@ function SeaShimmer() {
     >
       <defs>
         <mask id="hero-sea" maskUnits="userSpaceOnUse" x="0" y="0" width={ART_W} height={ART_H}>
+          {/* Masque de luminance en niveaux de gris opaques : la bordure est
+              dégradée, les reflets s'y éteignent au lieu de s'y couper. */}
           <image
-            href="/beach/hero-sea-mask.webp"
+            href="/beach/hero-sea-mask.png"
             x="0"
             y="0"
             width={ART_W}
@@ -162,65 +163,75 @@ function SeaShimmer() {
             preserveAspectRatio="none"
           />
         </mask>
-        <linearGradient id="hero-wave" x1="0" y1="0" x2="1" y2="0">
+        <linearGradient id="hero-crest" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0" />
-          <stop offset="42%" stopColor="#FFFFFF" stopOpacity="1" />
-          <stop offset="62%" stopColor="#FFFFFF" stopOpacity="0.85" />
+          <stop offset="35%" stopColor="#FFFFFF" stopOpacity="1" />
+          <stop offset="65%" stopColor="#FFFFFF" stopOpacity="0.9" />
           <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
         </linearGradient>
-        <filter id="hero-wave-blur" x="-20%" y="-300%" width="140%" height="700%">
-          <feGaussianBlur stdDeviation="1.6" />
+        {/* L'eau de l'illustration est très claire et déjà striée de blanc :
+            une crête blanche seule s'y perd. Le creux turquoise juste dessous
+            donne le contraste qui rend le déplacement lisible. */}
+        <linearGradient id="hero-trough" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#1E8FA8" stopOpacity="0" />
+          <stop offset="40%" stopColor="#1E8FA8" stopOpacity="1" />
+          <stop offset="70%" stopColor="#2FA6BC" stopOpacity="0.85" />
+          <stop offset="100%" stopColor="#2FA6BC" stopOpacity="0" />
+        </linearGradient>
+        <radialGradient id="hero-spark">
+          <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
+          <stop offset="55%" stopColor="#FFF6DE" stopOpacity="0.45" />
+          <stop offset="100%" stopColor="#FFF6DE" stopOpacity="0" />
+        </radialGradient>
+        <filter id="hero-swell-blur" x="-10%" y="-400%" width="120%" height="900%">
+          <feGaussianBlur stdDeviation="1.4" />
         </filter>
-        <filter id="hero-foam-blur" x="-60%" y="-160%" width="220%" height="420%">
-          <feGaussianBlur stdDeviation="9" />
+        <filter id="hero-roll-blur" x="-30%" y="-200%" width="160%" height="500%">
+          <feGaussianBlur stdDeviation="11" />
+        </filter>
+        <filter id="hero-foam-blur" x="-70%" y="-200%" width="240%" height="500%">
+          <feGaussianBlur stdDeviation="10" />
         </filter>
       </defs>
 
       <g mask="url(#hero-sea)">
-        {/* Écume autour des rochers : le masque exclut la roche, la tache
-            n'apparaît donc que sur l'eau qui l'entoure. */}
-        {FOAM.map((f, i) => (
+        {SWELL.map((row) => (
+          <SwellRow key={row.y} {...row} />
+        ))}
+
+        {FOAM.map((f) => (
           <motion.ellipse
-            key={`f${i}`}
+            key={`${f.x}-${f.y}`}
             cx={f.x}
             cy={f.y}
             rx={f.rx}
             ry={f.ry}
             fill="#FFFFFF"
             filter="url(#hero-foam-blur)"
-            animate={{ opacity: [0.12, 0.5, 0.12], scale: [0.9, 1.08, 0.9] }}
+            animate={{ opacity: [0.14, 0.55, 0.14] }}
             transition={{
               duration: f.dur,
               delay: f.delay,
               repeat: Infinity,
               ease: "easeInOut",
             }}
-            style={{ originX: `${f.x}px`, originY: `${f.y}px` }}
           />
         ))}
 
-        {WAVES.map((w, i) => (
-          <motion.rect
-            key={i}
-            // `x` est animé comme une translation : l'attribut reste à 0 pour
-            // que les valeurs de l'animation soient des positions absolues.
-            x={0}
-            y={w.y}
-            width={w.len}
-            height={w.h}
-            rx={w.h / 2}
-            fill="url(#hero-wave)"
-            filter="url(#hero-wave-blur)"
-            animate={{
-              x: [ART_W + 40, 780 - w.len],
-              opacity: [0, w.opacity, w.opacity, 0],
-            }}
+        {SPARKS.map((s) => (
+          <motion.circle
+            key={`${s.x}-${s.y}`}
+            cx={s.x}
+            cy={s.y}
+            r={s.r}
+            fill="url(#hero-spark)"
+            animate={{ opacity: [0, 0.85, 0] }}
             transition={{
-              duration: w.dur,
-              delay: w.delay,
+              duration: s.dur,
+              delay: s.delay,
               repeat: Infinity,
-              ease: "linear",
-              times: [0, 0.16, 0.74, 1],
+              repeatDelay: 1.6,
+              ease: "easeInOut",
             }}
           />
         ))}
@@ -229,56 +240,204 @@ function SeaShimmer() {
   );
 }
 
-// Le battement reste dans le registre haut : les ailes gardent toujours un V,
-// comme une mouette qui plane. En passant par l'horizontale, la silhouette ne
-// se lirait plus que comme un tiret pendant quelques images.
-const WING_UP = "M2 22 C 11 5, 16 3, 20 12 C 24 3, 29 5, 38 22";
-const WING_MID = "M2 18 C 11 8, 16 6, 20 12 C 24 6, 29 8, 38 18";
-const WING_DOWN = "M2 14 C 11 11, 16 10, 20 12 C 24 10, 29 11, 38 14";
+function SwellRow({
+  y,
+  len,
+  h,
+  gap,
+  dur,
+  opacity,
+  sway,
+}: (typeof SWELL)[number]) {
+  // On couvre la largeur de l'eau plus un intervalle, pour que la bande soit
+  // encore pleine à l'instant où la translation revient à zéro.
+  const count = Math.ceil((ART_W - SEA_FROM + gap) / gap) + 1;
+
+  return (
+    <motion.g
+      animate={{ x: [0, -gap], y: [0, sway, 0, -sway, 0] }}
+      transition={{
+        x: { duration: dur, repeat: Infinity, ease: "linear" },
+        y: { duration: dur * 0.42, repeat: Infinity, ease: "easeInOut" },
+      }}
+    >
+      {Array.from({ length: count }, (_, i) => {
+        // Longueurs et positions dérangées de façon déterministe : sans ça, la
+        // ligne se lit comme un peigne régulier.
+        const jitter = ((i * 2654435761) % 1000) / 1000;
+        const x = SEA_FROM + i * gap + jitter * gap * 0.5;
+        const top = y + (jitter - 0.5) * h * 2;
+        const w = len * (0.65 + jitter * 0.6);
+        const a = opacity * (0.7 + jitter * 0.45);
+        return (
+          <g key={i}>
+            {/* Onde large et floue. L'eau peinte est déjà striée de blanc fin :
+                à cette échelle, un liseré de plus se confondrait avec elle.
+                C'est ce lent glissement de lumière sur une large bande qui se
+                lit comme un mouvement. */}
+            <rect
+              x={x - w * 0.25}
+              y={top - h * 2}
+              width={w * 1.5}
+              height={h * 6}
+              rx={h * 3}
+              fill="url(#hero-crest)"
+              opacity={a * 0.42}
+              filter="url(#hero-roll-blur)"
+            />
+            <rect
+              x={x - w * 0.15}
+              y={top + h * 4}
+              width={w * 1.3}
+              height={h * 5}
+              rx={h * 2.5}
+              fill="url(#hero-trough)"
+              opacity={a * 0.3}
+              filter="url(#hero-roll-blur)"
+            />
+            <rect
+              filter="url(#hero-swell-blur)"
+              x={x}
+              y={top}
+              width={w}
+              height={h}
+              rx={h / 2}
+              fill="url(#hero-crest)"
+              opacity={a}
+            />
+            <rect
+              filter="url(#hero-swell-blur)"
+              x={x + w * 0.08}
+              y={top + h * 1.15}
+              width={w * 0.86}
+              height={h * 0.9}
+              rx={h / 2}
+              fill="url(#hero-trough)"
+              opacity={a * 0.55}
+            />
+          </g>
+        );
+      })}
+    </motion.g>
+  );
+}
+
+/** Halo de l'écran du laptop, qui respire comme une page qui se rafraîchit. */
+function ScreenGlow() {
+  return (
+    <svg
+      className="pointer-events-none absolute inset-0 h-full w-full mix-blend-screen"
+      viewBox={`0 0 ${ART_W} ${ART_H}`}
+      preserveAspectRatio="xMidYMid slice"
+      aria-hidden
+    >
+      <defs>
+        <radialGradient id="hero-glow">
+          <stop offset="0%" stopColor="#BFE0FF" stopOpacity="0.85" />
+          <stop offset="45%" stopColor="#8EC8FF" stopOpacity="0.35" />
+          <stop offset="100%" stopColor="#8EC8FF" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <motion.circle
+        cx={SCREEN.x}
+        cy={SCREEN.y}
+        r={104}
+        fill="url(#hero-glow)"
+        animate={{ opacity: [0.35, 0.9, 0.35] }}
+        transition={{ duration: 4.6, repeat: Infinity, ease: "easeInOut" }}
+      />
+    </svg>
+  );
+}
+
+/**
+ * Mouette. Les ailes sont deux formes distinctes que l'on fait pivoter autour
+ * de l'épaule : c'est la seule façon d'obtenir un vrai battement. Animer
+ * l'attribut `d` d'un tracé ne fonctionne pas, la silhouette restait figée.
+ *
+ * Le battement reste dans le registre haut, les ailes gardant toujours un V :
+ * en passant par l'horizontale, l'oiseau ne se lirait plus que comme un tiret.
+ */
+const WING_L = "M22 19 C 16.5 15, 9 11.6, 1.5 12.6 C 9 15.6, 16.5 18.4, 22 20.8 Z";
+const WING_R = "M22 19 C 27.5 15, 35 11.6, 42.5 12.6 C 35 15.6, 27.5 18.4, 22 20.8 Z";
+const SHOULDER = { transformBox: "view-box", transformOrigin: "22px 19px" } as const;
+const PLUMAGE = "rgba(47, 66, 95, 0.66)";
+
+/**
+ * Amplitude du battement, en degrés. Une aile gauche pivotée dans le sens
+ * horaire se lève, une aile droite s'abaisse : les deux valeurs sont donc
+ * opposées, sans quoi les ailes battent en sens contraire. Le battement va du
+ * V franc au V à peine marqué et ne redescend jamais sous l'horizontale, où la
+ * silhouette ne se lirait plus que comme un tiret.
+ */
+const FLAP = { up: 30, down: -8 };
 
 function Seagull({
   top,
   width,
-  duration,
+  cross,
   delay,
-  rise,
+  climb,
+  flap,
 }: {
   top: string;
   width: number;
-  duration: number;
+  /** Secondes pour traverser l'écran de bord à bord. */
+  cross: number;
   delay: number;
-  rise: number;
+  /** Dénivelé du vol, en pixels. */
+  climb: number;
+  /** Durée d'un battement d'ailes, en secondes. */
+  flap: number;
 }) {
   return (
     <motion.div
       className="absolute"
       style={{ top, left: 0, width }}
-      initial={{ x: "-12vw", opacity: 0 }}
-      animate={{
-        x: ["-12vw", "112vw"],
-        y: [0, rise * 0.45, rise, rise * 0.7],
-        opacity: [0, 0.9, 0.9, 0],
-      }}
+      initial={{ x: "-14vw" }}
+      animate={{ x: ["-14vw", "114vw"] }}
       transition={{
-        duration,
+        duration: cross,
         delay,
         repeat: Infinity,
-        repeatDelay: 4,
+        repeatDelay: 3,
         ease: "linear",
-        opacity: { duration, delay, repeat: Infinity, repeatDelay: 4, times: [0, 0.1, 0.85, 1] },
       }}
     >
-      <svg viewBox="0 0 40 24" width={width} height={(width * 24) / 40} aria-hidden>
-        <motion.path
-          d={WING_MID}
-          fill="none"
-          stroke="rgba(44, 62, 88, 0.72)"
-          strokeWidth={Math.max(1.5, width / 18)}
-          strokeLinecap="round"
-          animate={{ d: [WING_UP, WING_MID, WING_DOWN, WING_MID, WING_UP] }}
-          transition={{ duration: 0.9, repeat: Infinity, ease: "easeInOut" }}
-        />
-      </svg>
+      <motion.div
+        animate={{ y: [0, climb * 0.55, climb, climb * 0.75] }}
+        transition={{
+          duration: cross,
+          delay,
+          repeat: Infinity,
+          repeatDelay: 3,
+          ease: "easeInOut",
+        }}
+      >
+        <svg
+          viewBox="0 0 44 30"
+          width={width}
+          height={(width * 30) / 44}
+          aria-hidden
+        >
+          <ellipse cx="22" cy="19.4" rx="4.4" ry="1.7" fill={PLUMAGE} />
+          <circle cx="26.4" cy="18.4" r="1.5" fill={PLUMAGE} />
+          <motion.path
+            d={WING_L}
+            fill={PLUMAGE}
+            style={SHOULDER}
+            animate={{ rotate: [FLAP.up, FLAP.down, FLAP.up] }}
+            transition={{ duration: flap, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.path
+            d={WING_R}
+            fill={PLUMAGE}
+            style={SHOULDER}
+            animate={{ rotate: [-FLAP.up, -FLAP.down, -FLAP.up] }}
+            transition={{ duration: flap, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </svg>
+      </motion.div>
     </motion.div>
   );
 }

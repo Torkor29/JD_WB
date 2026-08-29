@@ -33,7 +33,7 @@ export function CinematicHero() {
             background: `
               radial-gradient(120% 85% at 8% 100%, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.55) 38%, rgba(255,255,255,0) 68%),
               linear-gradient(to right, #fff 0%, rgba(255,255,255,0) 7%, rgba(255,255,255,0) 94%, #fff 100%),
-              linear-gradient(to bottom, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 10%, rgba(255,255,255,0) 68%, rgba(255,255,255,0.72) 90%, #fff 100%)
+              linear-gradient(to bottom, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 10%, rgba(255,255,255,0) 74%, rgba(255,255,255,0.42) 92%, rgba(255,255,255,0.9) 100%)
             `,
           }}
         />
