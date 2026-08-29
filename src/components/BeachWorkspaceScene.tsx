@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import type { Transition } from "framer-motion";
 import {
   motion,
   useMotionValue,
@@ -229,7 +230,24 @@ function Sea() {
           <stop offset="74%" stopColor="#1E8FA8" stopOpacity="0.5" />
           <stop offset="100%" stopColor="#1E8FA8" stopOpacity="0" />
         </linearGradient>
-        <filter id="hero-roller-blur" x="-10%" y="-60%" width="120%" height="220%">
+        {/* Une bande rectiligne se lisait comme un filtre qui glisse. Le bruit
+            la déforme en crête irrégulière, et comme le bruit est fixe dans le
+            repère du filtre, la crête se remodèle en avançant. */}
+        <filter id="hero-roller-blur" x="-15%" y="-150%" width="130%" height="400%">
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.004 0.021"
+            numOctaves="2"
+            seed="7"
+            result="churn"
+          />
+          <feDisplacementMap
+            in="SourceGraphic"
+            in2="churn"
+            scale="34"
+            xChannelSelector="R"
+            yChannelSelector="G"
+          />
           <feGaussianBlur stdDeviation="4" />
         </filter>
         <filter id="hero-foam-blur" x="-70%" y="-200%" width="240%" height="500%">
@@ -248,7 +266,7 @@ function Sea() {
             initial={{ y: 592, height: 12, opacity: 0 }}
             animate={{
               y: [592, 1040],
-              height: [12, 96],
+              height: [16, 124],
               opacity: [0, 0.62, 0.62, 0],
             }}
             transition={{
@@ -412,35 +430,66 @@ function ScreenGlow() {
       <motion.circle
         cx={SCREEN.x}
         cy={SCREEN.y}
-        r={104}
+        r={132}
         fill="url(#hero-glow)"
-        animate={{ opacity: [0.35, 0.9, 0.35] }}
+        animate={{ opacity: [0.2, 1, 0.2] }}
         transition={{ duration: 4.6, repeat: Infinity, ease: "easeInOut" }}
+      />
+      {/* Cœur serré sur la dalle : c'est lui qui fait lire « l'écran est
+          allumé », le halo large ne se voit que sur l'herbe autour. */}
+      <motion.ellipse
+        cx={SCREEN.x}
+        cy={SCREEN.y}
+        rx={44}
+        ry={40}
+        fill="url(#hero-glow)"
+        animate={{ opacity: [0.25, 0.95, 0.25] }}
+        transition={{ duration: 3.1, repeat: Infinity, ease: "easeInOut" }}
       />
     </svg>
   );
 }
 
 /**
- * Mouette. Les ailes sont deux formes distinctes que l'on fait pivoter autour
- * de l'épaule : c'est la seule façon d'obtenir un vrai battement. Animer
- * l'attribut `d` d'un tracé ne fonctionne pas, la silhouette restait figée.
+ * Mouette.
  *
- * Le battement reste dans le registre haut, les ailes gardant toujours un V :
- * en passant par l'horizontale, l'oiseau ne se lirait plus que comme un tiret.
+ * L'aile est un seul tracé que l'on fait pivoter autour de l'épaule. Animer
+ * l'attribut `d` ne fonctionne pas — la silhouette restait figée — et une aile
+ * articulée au poignet se lisait comme cassée dès que les deux segments
+ * n'étaient plus alignés.
+ *
+ * Tout tient donc dans la forme : large à l'emplanture, effilée jusqu'au bout,
+ * bord de fuite concave. C'est ce qui la fait lire comme une aile plutôt que
+ * comme un trait, y compris ailes basses. Repère 44 × 32, épaule en (22, 20).
  */
-const WING_L = "M22 19 C 16 14.6, 9 11.2, 1.5 12.4 C 8 14.4, 15 17.5, 22 20.7 Z";
-const WING_R = "M22 19 C 28 14.6, 35 11.2, 42.5 12.4 C 36 14.4, 29 17.5, 22 20.7 Z";
-const SHOULDER = { transformBox: "view-box", transformOrigin: "22px 19px" } as const;
+const WING = "M22 19.6 C 17.8 17.4, 11.5 14.6, 2.2 13.6 C 6.4 16.4, 13.5 19.4, 21.4 22.6 Z";
+const BODY = "M11.6 19.45 C 15 18.8, 20 17.9, 24.6 18.2 C 27.2 18.4, 28.3 19, 28.3 19.45 C 28.3 19.95, 27.1 20.6, 24.6 20.8 C 20 21.1, 15 20.2, 11.6 19.45 Z";
+
+const SHOULDER = { transformBox: "view-box", transformOrigin: "22px 20px" } as const;
+const MIRROR = {
+  transformBox: "view-box",
+  transformOrigin: "22px 20px",
+  scaleX: -1,
+} as const;
 
 /**
- * Amplitude du battement, en degrés. Une aile gauche pivotée dans le sens
- * horaire se lève, une aile droite s'abaisse : les deux valeurs sont donc
- * opposées, sans quoi les ailes battent en sens contraire. Le battement va du
- * V franc au V à peine marqué et ne redescend jamais sous l'horizontale, où la
- * silhouette ne se lirait plus que comme un tiret.
+ * Amplitude du battement, en degrés. Le bas du battement reste franchement
+ * au-dessus de l'horizontale : en l'approchant, la silhouette s'aplatissait le
+ * temps de quelques images et le battement se lisait comme un à-coup entre deux
+ * poses.
  */
-const FLAP = { up: 33, down: -11 };
+const FLAP = { up: 33, down: 6 };
+
+/**
+ * Le coup d'aile vers le bas est vif, la remontée plus lente : c'est le rythme
+ * d'un vol réel. Un aller-retour symétrique se lit comme un métronome.
+ */
+const FLAP_TIMING = (duration: number): Transition => ({
+  duration,
+  repeat: Infinity,
+  times: [0, 0.36, 1],
+  ease: ["easeIn", "easeOut"],
+});
 
 function Seagull({
   top,
@@ -465,6 +514,7 @@ function Seagull({
   ink: number;
 }) {
   const plumage = `rgba(41, 58, 84, ${ink})`;
+  const beat = FLAP_TIMING(flap);
 
   return (
     <motion.div
@@ -490,27 +540,27 @@ function Seagull({
           ease: "easeInOut",
         }}
       >
-        <svg
-          viewBox="0 0 44 30"
-          className="block h-auto w-full"
-          aria-hidden
-        >
-          <ellipse cx="22" cy="19.4" rx="4.4" ry="1.7" fill={plumage} />
-          <circle cx="26.4" cy="18.4" r="1.5" fill={plumage} />
-          <motion.path
-            d={WING_L}
-            fill={plumage}
-            style={SHOULDER}
-            animate={{ rotate: [FLAP.up, FLAP.down, FLAP.up] }}
-            transition={{ duration: flap, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.path
-            d={WING_R}
-            fill={plumage}
-            style={SHOULDER}
-            animate={{ rotate: [-FLAP.up, -FLAP.down, -FLAP.up] }}
-            transition={{ duration: flap, repeat: Infinity, ease: "easeInOut" }}
-          />
+        <svg viewBox="0 0 44 32" className="block h-auto w-full" aria-hidden>
+          {/* Le corps se soulève sur le coup d'aile descendant. Sans ce
+              sursaut, l'oiseau a l'air suspendu à un fil pendant que ses ailes
+              bougent. */}
+          <motion.g animate={{ y: [0.7, -0.5, 0.7] }} transition={beat}>
+            <path d={BODY} fill={plumage} />
+            <motion.path
+              d={WING}
+              fill={plumage}
+              style={SHOULDER}
+              animate={{ rotate: [FLAP.up, FLAP.down, FLAP.up] }}
+              transition={beat}
+            />
+            <motion.path
+              d={WING}
+              fill={plumage}
+              style={MIRROR}
+              animate={{ rotate: [FLAP.up, FLAP.down, FLAP.up] }}
+              transition={beat}
+            />
+          </motion.g>
         </svg>
       </motion.div>
     </motion.div>
