@@ -23,17 +23,22 @@ export function CinematicHero() {
     >
       <div className="absolute inset-0">
         <BeachWorkspaceScene />
-        {/* Fondu blanc — asseoir le texte sans cadre flou. Volontairement
-            dissymétrique : il éclaircit le coin bas gauche, sous le titre, et
-            laisse la mer et le ciel de droite garder leurs couleurs. */}
+        {/* Fondu blanc — il asseoit le texte et éteint les bords de
+            l'illustration dans la page. Volontairement dissymétrique : il
+            éclaircit le coin bas gauche, sous le titre, et laisse la mer et le
+            ciel de droite garder leurs couleurs.
+
+            C'est bien un dégradé posé par-dessus, pas un masque sur la scène :
+            un masque sur un sous-arbre animé se réapplique à chaque image et
+            coûtait un tiers des images par seconde. */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0"
           style={{
             background: `
               radial-gradient(120% 85% at 8% 100%, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.55) 38%, rgba(255,255,255,0) 68%),
-              linear-gradient(to right, #fff 0%, rgba(255,255,255,0) 7%, rgba(255,255,255,0) 94%, #fff 100%),
-              linear-gradient(to bottom, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 10%, rgba(255,255,255,0) 74%, rgba(255,255,255,0.42) 92%, rgba(255,255,255,0.9) 100%)
+              linear-gradient(to right, #fff 0%, rgba(255,255,255,0) 5%, rgba(255,255,255,0) 95%, #fff 100%),
+              linear-gradient(to bottom, #fff 0%, rgba(255,255,255,0.16) 4%, rgba(255,255,255,0) 12%, rgba(255,255,255,0) 74%, rgba(255,255,255,0.45) 92%, #fff 100%)
             `,
           }}
         />
