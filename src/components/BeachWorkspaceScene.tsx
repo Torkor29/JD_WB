@@ -111,8 +111,8 @@ export function BeachWorkspaceScene() {
           style={{ x: birdX, y: birdY, ...LIFT }}
         >
           <Seagull
-            top="13%"
-            width="clamp(40px, 6.4vw, 100px)"
+            top="10%"
+            width="clamp(30px, 4.6vw, 74px)"
             cross={29}
             delay={1}
             climb={-46}
@@ -120,8 +120,8 @@ export function BeachWorkspaceScene() {
             ink={0.72}
           />
           <Seagull
-            top="22%"
-            width="clamp(31px, 4.8vw, 76px)"
+            top="19%"
+            width="clamp(23px, 3.4vw, 55px)"
             cross={37}
             delay={10}
             climb={34}
@@ -129,8 +129,8 @@ export function BeachWorkspaceScene() {
             ink={0.6}
           />
           <Seagull
-            top="8%"
-            width="clamp(24px, 3.6vw, 58px)"
+            top="6%"
+            width="clamp(17px, 2.5vw, 41px)"
             cross={45}
             delay={21}
             climb={-22}
@@ -144,109 +144,80 @@ export function BeachWorkspaceScene() {
 }
 
 /**
- * Houle.
+ * Mer.
  *
- * Chaque crête est une image déjà floutée et déjà irrégulière, que l'on fait
- * seulement descendre en grossissant. Rien d'autre n'est animé que la
- * transformation et l'opacité, les deux seules propriétés que le navigateur
- * compose sans repeindre.
+ * Trois nappes se relaient, chacune dérivant lentement vers la côte en
+ * apparaissant puis en s'effaçant. Elles ne sont jamais toutes visibles en même
+ * temps, si bien qu'aucune forme identifiable ne traverse le cadre.
  *
- * La version précédente dessinait tout en SVG, avec un masque et des filtres
- * réévalués à chaque image : 20 images par seconde au lieu de 60.
+ * La version précédente faisait glisser une crête unique pleine largeur : ça se
+ * lisait comme une barre qui descend. L'irrégularité des crêtes, la
+ * perspective, les éclats du soleil, le flou et le bornage à l'eau sont
+ * maintenant semés dans les fichiers par `scripts/build-hero-assets.py`. Le
+ * navigateur n'a plus qu'une translation et une opacité à animer — les deux
+ * seules propriétés qu'il compose sans repeindre — et surtout plus aucun masque
+ * à réappliquer : un masque plein cadre coûtait un bon tiers des images par
+ * seconde, puisque toute nappe qui dérive le salit en entier.
  *
- * Les crêtes balaient toute la hauteur du cadre, sans chercher à viser
- * l'horizon : c'est le masque qui les fait apparaître pile sur l'eau, et lui
- * suit exactement le cadrage de l'illustration quel que soit le format de la
- * fenêtre.
+ * Les nappes font la taille de l'illustration et s'affichent avec le même
+ * cadrage : elles tombent donc pile sur l'eau.
  */
-const CREST_BAND = 9; // hauteur d'une crête, en % du cadre
-const CREST_FROM = 30; // départ, en % du cadre
-const CREST_TO = 106;
-
-/**
- * L'eau commence à 69,8 % du cadre — c'est la falaise, et la proportion est
- * fixe tant que la fenêtre est plus large que l'illustration. Les crêtes ne
- * couvrent donc que la droite du cadre : plus la surface animée est petite,
- * moins il y a de pixels à recomposer.
- */
-const CREST_LEFT = 62;
-
 const SWELL = [
-  { sprite: 1, dur: 7.4, delay: 0, peak: 0.62, flip: false },
-  { sprite: 2, dur: 8.6, delay: 1.6, peak: 0.5, flip: true },
-  { sprite: 3, dur: 7.9, delay: 3.2, peak: 0.58, flip: false },
-  { sprite: 1, dur: 8.2, delay: 4.8, peak: 0.48, flip: true },
+  { sprite: 1, dur: 13.5, delay: 0, peak: 0.9, drift: 1.5 },
+  { sprite: 2, dur: 15.5, delay: 4.5, peak: 0.78, drift: 1.9 },
+  { sprite: 3, dur: 14.5, delay: 9, peak: 0.84, drift: 1.7 },
 ];
 
 function Sea() {
   return (
-    <div
-      className="pointer-events-none absolute inset-0"
-      style={{
-        // Le masque suit le même cadrage que l'illustration : `cover` centré
-        // est l'exact équivalent de son `object-cover` / `object-position`.
-        WebkitMaskImage: "url(/beach/hero-sea-mask.png)",
-        maskImage: "url(/beach/hero-sea-mask.png)",
-        WebkitMaskSize: "cover",
-        maskSize: "cover",
-        WebkitMaskPosition: ANCHOR,
-        maskPosition: ANCHOR,
-        WebkitMaskRepeat: "no-repeat",
-        maskRepeat: "no-repeat",
-        // Le masque doit vivre sur son propre calque : sinon chaque crête qui
-        // avance oblige à le réappliquer sur toute la surface du parent.
-        ...LIFT,
-      }}
-      aria-hidden
-    >
-      {SWELL.map((w, i) => (
-        <Crest key={i} {...w} />
+    <div className="pointer-events-none absolute inset-0" aria-hidden>
+      {SWELL.map((w) => (
+        <Nappe key={w.sprite} {...w} />
       ))}
     </div>
   );
 }
 
-function Crest({
-  sprite,
-  dur,
-  delay,
-  peak,
-  flip,
-}: (typeof SWELL)[number]) {
-  const travel = ((CREST_TO - CREST_FROM) / CREST_BAND) * 100;
-
+function Nappe({ sprite, dur, delay, peak, drift }: (typeof SWELL)[number]) {
   return (
     <motion.div
-      className="absolute right-0"
-      style={{
-        left: `${CREST_LEFT}%`,
-        top: `${CREST_FROM}%`,
-        height: `${CREST_BAND}%`,
-        backgroundImage: `url(/beach/hero-swell-${sprite}.webp)`,
-        backgroundSize: "100% 100%",
-        // L'origine en haut évite que le grossissement déplace la crête.
-        transformOrigin: "50% 0%",
-        ...LIFT_FADE,
-      }}
-      initial={{ y: 0, scaleY: 0.5, scaleX: flip ? -1.1 : 1.1, opacity: 0 }}
+      className="absolute inset-0"
+      style={LIFT_FADE}
+      // La houle porte vers la côte : elle descend et rentre légèrement.
       animate={{
-        // La vague accélère en approchant : c'est la perspective.
-        y: [0, `${travel}%`],
-        scaleY: [0.5, 2.4],
+        y: ["-0.5%", `${drift}%`],
+        x: ["0%", "-0.35%"],
         opacity: [0, peak, peak, 0],
       }}
       transition={{
         duration: dur,
         delay,
         repeat: Infinity,
-        ease: "easeIn",
+        ease: "linear",
         opacity: {
           duration: dur,
           delay,
           repeat: Infinity,
-          times: [0, 0.22, 0.78, 1],
+          times: [0, 0.2, 0.72, 1],
+          ease: "easeInOut",
         },
       }}
+    >
+      <Calque src={`/beach/hero-swell-${sprite}.webp`} />
+    </motion.div>
+  );
+}
+
+/** Une surcouche au cadrage exact de l'illustration. */
+function Calque({ src }: { src: string }) {
+  return (
+    <Image
+      src={src}
+      alt=""
+      fill
+      sizes="100vw"
+      className="object-cover"
+      style={{ objectPosition: ANCHOR }}
     />
   );
 }
@@ -271,58 +242,53 @@ function ScreenGlow() {
       transition={{ duration: 5.2, repeat: Infinity, ease: "easeInOut" }}
       aria-hidden
     >
-      <Image
-        src="/beach/hero-screen-glow.webp"
-        alt=""
-        fill
-        sizes="100vw"
-        className="object-cover"
-        style={{ objectPosition: ANCHOR }}
-      />
+      <Calque src="/beach/hero-screen-glow.webp" />
     </motion.div>
   );
 }
 
 /**
- * Mouette.
+ * Mouette, d'après une photo de silhouettes de goélands en vol.
  *
- * Deux pièges ont été identifiés en dépliant le cycle image par image.
+ * Les proportions sont relevées sur la référence et reproduites : envergure
+ * seize fois l'épaisseur moyenne de l'aile, corps égal à 37 % de l'envergure.
+ * La version précédente avait des ailes quatre fois trop épaisses — des
+ * palettes, pas des ailes de mouette. L'aile est donc longue, mince, coudée au
+ * poignet, terminée en aiguille, et le corps un fuseau élancé avec une tête et
+ * un bec à l'avant, une queue pointue à l'arrière.
+ *
+ * Deux pièges, identifiés en dépliant le cycle image par image.
  *
  * Le miroir de l'aile droite doit être appliqué AVANT la rotation, donc sur un
  * groupe statique qui l'enveloppe. Porté par l'élément animé lui-même, il
  * s'appliquait après et inversait le sens du battement : l'oiseau avait une
  * aile en haut et l'autre en bas à chaque image.
  *
- * Et l'aile doit porter sa courbure dans son tracé. Une aile en fuseau droit
- * n'est plus qu'un trait horizontal en bas de course et deux oreilles en haut.
- * Celle-ci a le coude de la mouette — le bord d'attaque monte jusqu'au poignet
- * puis la pointe retombe : la silhouette reste celle d'un oiseau sur tout le
- * cycle. C'est cela, et non l'amplitude, qui manquait.
+ * Et l'aile doit porter sa courbure dans son tracé. Une aile droite n'est plus
+ * qu'un trait horizontal en bas de course et deux oreilles en haut.
  *
- * Tracé de l'aile droite, pointant vers la gauche depuis l'épaule.
- * Repère 48 × 30, épaule en (24, 15).
+ * Repère 84 × 36, épaule en (42, 29). La boîte est haute parce que le battement
+ * porte la pointe de l'aile bien au-dessus du corps, et qu'un `svg` recadre son
+ * contenu.
  */
 const WING =
-  "M24 15 C 20.2 12.2, 16.8 10.2, 12.8 9.6 C 9.2 9.1, 6.0 10.6, 2.6 13.4 " +
-  "C 5.6 13.6, 9.0 14.1, 11.8 15.1 C 15.8 16.5, 20.2 17.8, 23.4 18.4 Z";
+  "M42 26.4 C 33 22.8, 26 20.4, 19.5 19 C 12.5 17.6, 6.5 17.3, 1.8 17.8 " +
+  "C 7 19.8, 13 21.8, 20 23.6 C 28 26, 36 29, 42 31.4 Z";
 
-/**
- * Corps : fuseau court. Les ailes s'ouvrant de part et d'autre, on voit
- * l'oiseau de face — le corps ne doit presque pas dépasser. Plus long, il se
- * lisait comme un poisson volant.
- */
 const BODY =
-  "M20.8 15.05 C 22.4 14.5, 24.8 14.1, 26.8 14.35 C 28.2 14.55, 28.9 14.8, 28.9 15.08 " +
-  "C 28.9 15.4, 28.1 15.7, 26.8 15.85 C 24.8 16.1, 22.4 15.7, 20.8 15.05 Z";
+  "M27 31 C 31 29.6, 36 28.6, 43 28.2 C 48 27.9, 51.6 28, 53.6 28.4 " +
+  "C 55 28.7, 56.2 29, 58.6 29.4 C 56.2 29.8, 55 30.2, 53.6 30.5 " +
+  "C 51.6 31, 48 31.4, 43 31.6 C 37.5 31.8, 32 32, 29.6 32.8 " +
+  "C 30.4 32, 30.6 31.6, 30.2 31.3 C 29.6 31, 28.2 31, 27 31 Z";
 
-const SHOULDER = { transformBox: "view-box", transformOrigin: "24px 15px" } as const;
+const SHOULDER = { transformBox: "view-box", transformOrigin: "42px 29px" } as const;
 
 /**
- * Amplitude du battement, en degrés autour de l'horizontale. L'aile descend
- * franchement sous l'horizontale : sans cela le battement n'est qu'un V qui
- * s'ouvre et se referme.
+ * Amplitude du battement, en degrés. Le tracé porte déjà douze degrés de
+ * relevé : l'aile passe donc du V franc, en haut de course, à l'arc presque
+ * plat du vol plané, en bas.
  */
-const FLAP = { up: 32, down: -18 };
+const FLAP = { up: 27, down: -15 };
 
 /**
  * Le coup d'aile vers le bas est vif, la remontée plus lente : c'est le rythme
@@ -390,15 +356,15 @@ function Seagull({
           ease: "easeInOut",
         }}
       >
-        <svg viewBox="0 0 48 30" className="block h-auto w-full" aria-hidden>
+        <svg viewBox="0 0 84 36" className="block h-auto w-full" aria-hidden>
           {/* Le corps se soulève sur le coup d'aile descendant. Sans ce
               sursaut, l'oiseau a l'air suspendu à un fil pendant que ses ailes
               bougent. */}
-          <motion.g style={LIFT} animate={{ y: [0.8, -0.6, 0.8] }} transition={beat}>
+          <motion.g style={LIFT} animate={{ y: [0.9, -0.7, 0.9] }} transition={beat}>
             <path d={BODY} fill={plumage} />
             <Wing plumage={plumage} beat={beat} />
             {/* Miroir statique : il enveloppe l'aile au lieu de la porter. */}
-            <g transform="translate(48 0) scale(-1 1)">
+            <g transform="translate(84 0) scale(-1 1)">
               <Wing plumage={plumage} beat={beat} />
             </g>
           </motion.g>

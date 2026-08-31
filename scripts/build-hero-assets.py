@@ -11,13 +11,12 @@ Sorties, dans public/beach :
 
   hero-scene-light.webp : l'illustration, dix fois plus légère que le PNG
                           maître à qualité visuelle équivalente
-  hero-sea-mask.png     : l'eau, portée par le canal alpha. Il confine
-                          l'animation de la mer, qui sans lui baverait sur la
-                          falaise et les rochers émergés. Le trait de côte est
-                          relevé à la main (COAST) : plus fiable qu'une
-                          segmentation par couleur, l'eau étant très pâle sous
-                          le soleil.
-  hero-swell-*.webp     : crêtes de vagues, déjà floutées et irrégulières
+                          Le trait de côte est relevé à la main (COAST) : plus
+                          fiable qu'une segmentation par couleur, l'eau étant
+                          très pâle sous le soleil. Il n'est plus servi au
+                          navigateur, seulement utilisé ici pour borner.
+  hero-swell-*.webp     : nappes de crêtes courtes et d'éclats de soleil, à la
+                          perspective de l'eau, déjà bornées à l'eau
   hero-screen-glow.webp : halo de l'écran du laptop, au cadrage de
                           l'illustration pour tomber pile sur la dalle
 """
@@ -88,45 +87,116 @@ def sea_mask(src: Image.Image) -> Image.Image:
     return out
 
 
-SWELL_W, SWELL_H = 1200, 150
+def water(mask: Image.Image) -> np.ndarray:
+    """Le masque de l'eau, reculé de la marge de dérive.
+
+    Les nappes de houle dérivent de deux pour cent de la hauteur du cadre. Le
+    navigateur n'applique donc plus de masque par-dessus — un masque plein cadre
+    l'obligeait à le réappliquer sur tout l'écran dès qu'une nappe bougeait, au
+    prix d'un bon tiers des images par seconde. Le bornage est cuit ici, avec un
+    recul suffisant pour que la dérive ne pousse jamais une crête sur la falaise
+    ni sur un rocher.
+
+    La forme du masque est dans son canal alpha : une conversion en niveaux de
+    gris lirait le RGB, blanc partout.
+    """
+    m = Image.fromarray(np.asarray(mask)[:, :, 3])
+    m = m.filter(ImageFilter.MinFilter(49)).filter(ImageFilter.GaussianBlur(9))
+    return np.asarray(m).astype(float) / 255.0
 
 
-def swell(seed: int) -> Image.Image:
-    """Une crête de vague, blanche, doublée d'un creux turquoise.
+def swell_field(seed: int, mask: Image.Image) -> Image.Image:
+    """Nappe de crêtes courtes et brisées, à la perspective de l'eau.
 
-    La ligne de crête est une somme de sinusoïdes : une bande rectiligne se
-    lisait comme un filtre qui glisse. Le flou est appliqué ici, une fois, au
-    lieu d'être demandé au navigateur à chaque image.
+    La version précédente était une crête unique, pleine largeur, que l'on
+    faisait glisser vers le bas : ça se lisait comme une barre qui descend, pas
+    comme de la houle. Ici la nappe est semée de crêtes brèves, orientées et
+    dimensionnées selon leur distance — fines et serrées près de l'horizon,
+    larges et espacées au premier plan. Trois nappes se relaient à l'écran, si
+    bien qu'aucune forme identifiable ne traverse le cadre.
+
+    Le fichier fait la taille de l'illustration : affiché avec le même
+    `object-cover`, il tombe pile sur l'eau.
     """
     rng = np.random.default_rng(seed)
-    x = np.arange(SWELL_W)
-    y = np.zeros(SWELL_W)
-    for wavelength, amplitude in ((SWELL_W / 1.7, 11), (SWELL_W / 4.3, 6), (SWELL_W / 9.1, 3)):
-        y += amplitude * np.sin(2 * np.pi * x / wavelength + rng.uniform(0, 2 * np.pi))
-    crest = SWELL_H * 0.34 + y
+    m = water(mask)
 
-    yy = np.arange(SWELL_H)[:, None]
-    # Profils gaussiens de part et d'autre de la ligne de crête.
-    top = np.exp(-(((yy - crest[None, :]) / 11.0) ** 2))
-    bottom = np.exp(-(((yy - crest[None, :] - 34) / 20.0) ** 2))
+    core = np.zeros((H, W), dtype=float)
+    shade = np.zeros((H, W), dtype=float)
 
-    # Extinction sur les bords : sans elle, la crête se termine par une coupe
-    # franche au milieu de l'eau.
-    fade = np.clip(np.minimum(x, SWELL_W - 1 - x) / (SWELL_W * 0.16), 0, 1)
-    fade = fade[None, :] ** 1.5
+    top = HORIZON + 6
+    for _ in range(150):
+        # t vaut 0 à l'horizon, 1 au premier plan. L'exposant resserre le semis
+        # près de l'horizon, où l'œil voit beaucoup de crêtes à la fois.
+        t = rng.random() ** 1.7
+        y0 = top + t * (H - top)
+        length = 30 + 260 * t ** 1.45
+        thick = 0.9 + 4.2 * t ** 1.35
+        x0 = rng.uniform(940, W + 60)
 
-    white = np.array([255, 255, 255], dtype=float)
-    teal = np.array([30, 143, 168], dtype=float)
+        xa, xb = int(max(0, x0)), int(min(W, x0 + length))
+        if xb - xa < 8:
+            continue
+        u = np.linspace(0, 1, xb - xa)
+        # Une crête n'est jamais droite : deux ondulations lui suffisent.
+        centre = y0 + (1.5 + 5 * t) * np.sin(
+            2 * np.pi * u * rng.uniform(0.6, 1.8) + rng.uniform(0, 6.3)
+        )
+        # Extinction aux deux bouts, sinon la crête se coupe net dans l'eau.
+        taper = np.sin(np.pi * u) ** 0.65
 
-    a_top = top * fade
-    a_bottom = bottom * fade * 0.55
-    alpha = np.clip(a_top + a_bottom, 0, 1)
+        ya = int(max(0, centre.min() - 3 * thick))
+        yb = int(min(H, centre.max() + 7 * thick + 2))
+        if yb - ya < 3:
+            continue
+        rows = np.arange(ya, yb)[:, None]
+        core[ya:yb, xa:xb] += (
+            np.exp(-(((rows - centre[None, :]) / thick) ** 2)) * taper[None, :]
+        )
+        shade[ya:yb, xa:xb] += (
+            np.exp(-(((rows - centre[None, :] - 2.4 * thick) / (1.9 * thick)) ** 2))
+            * taper[None, :]
+            * 0.42
+        )
+
+    # Éclats du soleil, semés dans la même nappe. Un jeu de calques séparé,
+    # scintillant plus vite, coûtait quinze images par seconde à lui seul ; ici
+    # les éclats se renouvellent au rythme du relais des nappes.
+    top_g = HORIZON + 4
+    for _ in range(240):
+        t = rng.random() ** 1.5
+        y = top_g + t * (H - top_g)
+        x = rng.uniform(980, W)
+        # La traînée du soleil s'évase vers le premier plan.
+        if abs(x - (1290 + 90 * t)) > 150 + 260 * t:
+            continue
+        r = 0.8 + 3.2 * t
+        xa, xb = int(max(0, x - 3 * r)), int(min(W, x + 3 * r + 1))
+        ya, yb = int(max(0, y - 1.6 * r)), int(min(H, y + 1.6 * r + 1))
+        if xb - xa < 2 or yb - ya < 2:
+            continue
+        gx = (np.arange(xa, xb) - x) / (2.1 * r)
+        gy = (np.arange(ya, yb) - y) / (0.75 * r)
+        # Étirés horizontalement : un reflet sur l'eau est un trait, pas un point.
+        core[ya:yb, xa:xb] += (
+            np.exp(-(gy[:, None] ** 2 + gx[None, :] ** 2)) * rng.uniform(0.8, 1.6)
+        )
+
+    core = np.clip(core, 0, 1) * m
+    shade = np.clip(shade, 0, 1) * m
+
+    # Discret : trois nappes se superposent à l'écran, et l'illustration porte
+    # déjà sa propre texture d'eau. Trop appuyées, les crêtes se lisaient comme
+    # des traits peints par-dessus.
+    alpha = np.clip(core * 0.30 + shade * 0.34, 0, 1)
     with np.errstate(invalid="ignore"):
-        mix = np.where(alpha > 0, a_bottom / np.maximum(alpha, 1e-6), 0)
-    rgb = white[None, None, :] * (1 - mix[..., None]) + teal[None, None, :] * mix[..., None]
+        part = np.where(alpha > 0, shade * 0.34 / np.maximum(alpha, 1e-6), 0)[..., None]
+    white = np.array([255, 255, 255], dtype=float)
+    teal = np.array([38, 150, 174], dtype=float)
+    rgb = white * (1 - part) + teal * part
 
     out = np.dstack([rgb, alpha * 255]).astype(np.uint8)
-    return Image.fromarray(out, "RGBA").filter(ImageFilter.GaussianBlur(3))
+    return Image.fromarray(out, "RGBA").filter(ImageFilter.GaussianBlur(1.6))
 
 
 def screen_glow() -> Image.Image:
@@ -173,11 +243,12 @@ def main() -> None:
         im.save(path, **kw)
         written.append(path)
 
+    mask = sea_mask(src)
+
     write("hero-scene-light.webp", src, format="WEBP", quality=92, method=6)
-    write("hero-sea-mask.png", sea_mask(src), optimize=True)
     write("hero-screen-glow.webp", screen_glow(), format="WEBP", quality=88, method=6)
     for i, seed in enumerate((11, 29, 47), start=1):
-        write(f"hero-swell-{i}.webp", swell(seed), format="WEBP", quality=88, method=6)
+        write(f"hero-swell-{i}.webp", swell_field(seed, mask), format="WEBP", quality=86, method=6)
 
     for p in written:
         print(f"écrit {p.relative_to(ROOT)} ({p.stat().st_size // 1024} Ko)")
