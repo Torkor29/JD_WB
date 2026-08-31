@@ -55,13 +55,19 @@ else
   echo "  pm2 absent"
 fi
 
-titre "Certificats déjà émis"
-if [ -d /etc/letsencrypt/live ]; then
-  sudo -n ls -1 /etc/letsencrypt/live 2>/dev/null | sed 's/^/  /' \
-    || ls -1 /etc/letsencrypt/live 2>/dev/null | sed 's/^/  /' \
-    || echo "  (droits insuffisants, relance avec sudo)"
+titre "Docker (Caddy est probablement là-dedans)"
+if command -v docker >/dev/null 2>&1; then
+  echo "  Conteneurs :"
+  docker ps --format '    {{.Names}}\t{{.Image}}\t{{.Ports}}' 2>/dev/null || echo "    (docker ps a échoué, essaie avec sudo)"
+  echo "  Conteneur(s) sur le port 80 :"
+  docker ps --filter publish=80 --format '    {{.Names}}  {{.Image}}' 2>/dev/null || true
+  cid="$(docker ps -q --filter publish=80 2>/dev/null | head -1 || true)"
+  if [ -n "$cid" ]; then
+    echo "  Montages de $(docker inspect -f '{{.Name}}' "$cid" 2>/dev/null | sed 's#^/##') :"
+    docker inspect -f '{{range .Mounts}}    {{.Type}} {{.Source}} -> {{.Destination}}{{"\n"}}{{end}}' "$cid" 2>/dev/null || true
+  fi
 else
-  echo "  aucun"
+  echo "  docker absent"
 fi
 
 titre "Où pointent les domaines"
